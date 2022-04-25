@@ -1,27 +1,28 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
-import {PropertyService} from "../../services/property.service";
-import {Router} from "@angular/router";
-import {validationHandler} from "../../utils/validationHandler";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {PropertyService} from '../../services/property.service';
+import {Router} from '@angular/router';
+import {validationHandler} from '../../utils/validationHandler';
 
 @Component({
-  selector: 'app-property-form',
-  templateUrl: './property-form.component.html',
-  styleUrls: ['./property-form.component.css']
-})
+             selector   : 'app-property-form',
+             templateUrl: './property-form.component.html',
+             styleUrls  : ['./property-form.component.css'],
+           })
 export class PropertyFormComponent implements OnInit {
 
-  propertyForm = this.formBuilder.group({
-    "name": ['',],
-    "numberOfRooms": [0],
-    "price": [0],
-    "description": [''],
-    "imageUrl": ['']
-  });
+  propertyForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
               private router: Router) {
+    this.propertyForm = this.formBuilder.group({
+                                                 'name'         : [''],
+                                                 'numberOfRooms': [0],
+                                                 'price'        : [0],
+                                                 'description'  : [''],
+                                                 'imageUrl'     : [''],
+                                               });
   }
 
   ngOnInit() {

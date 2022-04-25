@@ -10,7 +10,7 @@ import {PropertyListItemModel} from "../../models/propertyListItem.model";
 })
 export class PropertyListComponent implements OnInit {
 
-  propertyListItemModels: Array<PropertyListItemModel>;
+  propertyListItemModels: Array<PropertyListItemModel> = [];
 
   constructor(private propertyService: PropertyService,
               private router: Router) {
