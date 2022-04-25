@@ -1,6 +1,6 @@
-package com.progmasters.moovsmart.domain;
+package hu.progmasters.moovsmart.domain;
 
-import com.progmasters.moovsmart.dto.PropertyForm;
+import hu.progmasters.moovsmart.dto.PropertyForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;

@@ -1,6 +1,6 @@
-package com.progmasters.moovsmart.dto;
+package hu.progmasters.moovsmart.dto;
 
-import com.progmasters.moovsmart.domain.Property;
+import hu.progmasters.moovsmart.domain.Property;
 
 public class PropertyListItem {
 

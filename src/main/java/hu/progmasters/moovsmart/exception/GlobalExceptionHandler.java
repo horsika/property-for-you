@@ -1,4 +1,4 @@
-package com.progmasters.moovsmart.exception;/*
+package hu.progmasters.moovsmart.exception;/*
  * Copyright © Progmasters (QTC Kft.), 2018.
  * All rights reserved. No part or the whole of this Teaching Material (TM) may be reproduced, copied, distributed,
  * publicly performed, disseminated to the public, adapted or transmitted in any form or by any means, including

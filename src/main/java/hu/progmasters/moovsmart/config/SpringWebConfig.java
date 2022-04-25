@@ -9,7 +9,7 @@
  * Any dispute or claim arising out of the breach of these provisions shall be governed by and construed in accordance with the laws of Hungary.
  */
 
-package com.progmasters.moovsmart.config;
+package hu.progmasters.moovsmart.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

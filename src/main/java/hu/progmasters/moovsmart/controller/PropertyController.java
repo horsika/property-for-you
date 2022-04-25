@@ -1,10 +1,10 @@
-package com.progmasters.moovsmart.controller;
+package hu.progmasters.moovsmart.controller;
 
-import com.progmasters.moovsmart.dto.PropertyDetails;
-import com.progmasters.moovsmart.dto.PropertyForm;
-import com.progmasters.moovsmart.dto.PropertyListItem;
-import com.progmasters.moovsmart.service.PropertyService;
-import com.progmasters.moovsmart.validation.PropertyFormValidator;
+import hu.progmasters.moovsmart.dto.PropertyDetails;
+import hu.progmasters.moovsmart.dto.PropertyForm;
+import hu.progmasters.moovsmart.dto.PropertyListItem;
+import hu.progmasters.moovsmart.service.PropertyService;
+import hu.progmasters.moovsmart.validation.PropertyFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
