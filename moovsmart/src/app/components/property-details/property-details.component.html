@@ -1,82 +1,44 @@
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div id="main" class="container align-content-center align-items-center position-absolute start-50 top-50 translate-middle">
-
+<div class="container-fluid">
   <!-- start:real estates detail -->
-  <div class="row" id="real-estates-detail">
-    <div class="col-8">
+  <div class="row justify-content-center" id="real-estates-detail">
+    <div class="col-5 p-0">
       <div class="panel panel-default">
         <div class="panel-body">
-          <div class="" id="author">
-            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-12">
+          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-12 px-1">
 
-            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6">
-            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6">
-          </div>
+          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
+          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
+          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
         </div>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3 p-0">
       <div class="panel">
         <div class="panel-body">
-          <ul id="myTab" class="nav nav-pills">
-            <li class="active"><a href="#photos" data-toggle="tab">Photos</a></li>
-            <li class=""><a href="#detail" data-toggle="tab">Detail</a></li>
-            <li class=""><a href="#contact" data-toggle="tab">Contact</a></li>
-          </ul>
-          <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active in" id="photos">
-              <br>
-              <div class="flexslider">
-                <img class="img-responsive" src="https://www.bootdey.com/image/900x400/FFB6C1/000000" draggable="false">
-              </div>
-            </div>
-            <div class="tab-pane fade" id="detail">
-              <p></p>
-              <h4>Short Detail</h4>
-              <p>Iki mung detail singkat wae soale seko jenenge wae wis short detail dadi yo ojo dowo-dowo.</p>
-              <table class="table table-th-block">
-                <tbody>
-                <tr><td class="active">Bedrooms:</td><td>5 beds</td></tr>
-                <tr><td class="active">Bathrooms:</td><td>2 baths</td></tr>
-                <tr><td class="active">Single Family:</td><td>2,957 sq ft</td></tr>
-                <tr><td class="active">Lot:</td><td>0.26 acres</td></tr>
-                <tr><td class="active">Year Built:</td><td>1998</td></tr>
-                <tr><td class="active">Last Sold:</td><td>Apr 1998 for $225,000</td></tr>
-                <tr><td class="active">Heating Type:</td><td><a href="#">Contact for details</a></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="tab-pane fade" id="contact">
-              <p></p>
-              <form role="form">
-                <div class="form-group">
-                  <label>Full name</label>
-                  <input type="text" class="form-control rounded" placeholder="Enter full name">
-                </div>
-                <div class="form-group">
-                  <label>Phone number</label>
-                  <input type="text" class="form-control rounded" placeholder="(000)0000000">
-                </div>
-                <div class="form-group">
-                  <label>Email address</label>
-                  <input type="email" class="form-control rounded" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox"> Buy this property
-                    </label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Message to agent</label>
-                  <textarea class="form-control rounded" style="height: 100px;"></textarea>
-                  <p class="help-block">Please be polite and professional</p>
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-danger" data-original-title="" title="">Send message</button>
-                </div>
-              </form>
+          <table class="table border border-0 border-bottom">
+            <tr class="col">
+              <td class="">
+                <img src="assets/pfy.png" draggable="false" alt="pfy logo" style="max-height: 5rem;" routerLink="">
+              </td>
+              <td>
+                <input id="property-save" name="property-save" class="btn btn-danger" type="button" value="💚Save"
+                       (click)="null">
+              </td>
+              <td style="text-align: end">
+                <input value="X" type="button" class="btn btn-secondary">
+              </td>
+            </tr>
+          </table>
+          <div class="property-details-inline">
+            <h2>$100,000</h2>
+            <ul class="px-4">
+              <li class="px-2">4 bd</li>
+              <li class="px-2">2 ba</li>
+              <li class="px-2">230 m<sup>2</sup></li>
+            </ul>
+            <p style="padding-top: 0.5rem; font-size: 1.25rem;">1056 Budapest, Irányi u. 3. III. em.</p>
+            <div style="display: flex; justify-content: center" class="border-0 border-bottom py-2">
+              <input type="button" class="btn btn-success text-light justify-content-center" value="Request a tour">
             </div>
           </div>
         </div>
