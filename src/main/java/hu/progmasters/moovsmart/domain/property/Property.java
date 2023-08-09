@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.domain.property;
 
+import hu.progmasters.moovsmart.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -76,4 +77,13 @@ public class Property {
     @Enumerated(EnumType.STRING)
     @Column(name = "listing_type")
     private ListingType listingType;
+
+    @ManyToOne
+    @JoinColumn(name = "saver_user_id")
+    private User saverUser;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_user_id")
+    private User ownerUser;
+
 }
