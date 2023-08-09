@@ -1,0 +1,12 @@
+#pfy-logo {
+  height: 3rem;
+  cursor: pointer;
+}
+
+.nav-link {
+  padding-right: 2rem !important;
+}
+
+.nav-link:hover {
+  font-weight: bolder;
+}
