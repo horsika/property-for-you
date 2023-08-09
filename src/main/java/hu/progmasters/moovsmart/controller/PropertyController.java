@@ -1,13 +1,14 @@
 package hu.progmasters.moovsmart.controller;
 
-import hu.progmasters.moovsmart.dto.PropertyDetails;
-import hu.progmasters.moovsmart.dto.PropertyForm;
-import hu.progmasters.moovsmart.dto.PropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
+import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
 import hu.progmasters.moovsmart.validation.PropertyFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +34,10 @@ public class PropertyController {
     }
 
     @GetMapping
+    @Secured("ROLE_USER")
     public ResponseEntity<List<PropertyListItem>> getAllProperties() {
         return new ResponseEntity<>(propertyService.getProperties(), HttpStatus.OK);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDetails> getPropertyDetails(@PathVariable("id") Long id) {
         return new ResponseEntity<>(propertyService.getPropertyDetails(id), HttpStatus.OK);

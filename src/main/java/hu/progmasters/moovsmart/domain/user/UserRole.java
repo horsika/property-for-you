@@ -1,6 +1,8 @@
 package hu.progmasters.moovsmart.domain.user;
 
-public enum UserRole {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UserRole{
 
     ROlE_USER("User"),
     ROLE_ADMIN("Admin");

@@ -1,4 +1,4 @@
-package hu.progmasters.moovsmart.dto;
+package hu.progmasters.moovsmart.dto.outgoing;
 
 import hu.progmasters.moovsmart.domain.property.Property;
 

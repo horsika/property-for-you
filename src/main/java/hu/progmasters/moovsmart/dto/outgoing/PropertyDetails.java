@@ -1,26 +1,35 @@
-package hu.progmasters.moovsmart.dto;
+package hu.progmasters.moovsmart.dto.outgoing;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import hu.progmasters.moovsmart.domain.property.Property;
 
-public class PropertyForm {
+public class PropertyDetails {
 
-    @NotNull(message = "Property name cannot be empty!")
-    @Size(min = 1, max = 200, message = "Property name must be between 1 and 200 characters!")
+    private long id;
     private String name;
-
-    @Min(value = 1, message = "Number of rooms must be between 1 and 12!")
-    @Max(value = 12, message = "Number of rooms must be between 1 and 12!")
     private int numberOfRooms;
-
     private int price;
     private String description;
     private String imageUrl;
 
-    PropertyForm() {
+    public PropertyDetails() {
+    }
 
+    public PropertyDetails(Property property) {
+//        this.id = property.getId();
+//        this.name = property.getName();
+//        this.numberOfRooms = property.getNumberOfRooms();
+//        this.price = property.getPrice();
+//        this.description = property.getDescription();
+//        this.imageUrl = property.getImageUrl();
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

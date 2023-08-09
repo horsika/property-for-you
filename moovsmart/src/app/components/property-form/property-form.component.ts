@@ -5,10 +5,10 @@ import {Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
 
 @Component({
-             selector   : 'app-property-form',
-             templateUrl: './property-form.component.html',
-             styleUrls  : ['./property-form.component.css'],
-           })
+  selector: 'app-property-form',
+  templateUrl: './property-form.component.html',
+  styleUrls: ['./property-form.component.css'],
+})
 export class PropertyFormComponent implements OnInit {
 
   propertyForm: FormGroup;
@@ -17,12 +17,12 @@ export class PropertyFormComponent implements OnInit {
               private propertyService: PropertyService,
               private router: Router) {
     this.propertyForm = this.formBuilder.group({
-                                                 'name'         : [''],
-                                                 'numberOfRooms': [0],
-                                                 'price'        : [0],
-                                                 'description'  : [''],
-                                                 'imageUrl'     : [''],
-                                               });
+      'name': [''],
+      'numberOfRooms': [0],
+      'price': [0],
+      'description': [''],
+      'imageUrl': [''],
+    });
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 package hu.progmasters.moovsmart.validation;
 
-import hu.progmasters.moovsmart.dto.PropertyForm;
+import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,5 +28,6 @@ public class PropertyFormValidator implements Validator {
         if (property.getName() == null || property.getName().equals("")) {
             errors.rejectValue("name", "property.name.empty");
         }
+        //TODO validate all
     }
 }
