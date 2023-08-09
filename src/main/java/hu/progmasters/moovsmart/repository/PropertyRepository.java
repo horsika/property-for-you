@@ -1,6 +1,6 @@
 package hu.progmasters.moovsmart.repository;
 
-import hu.progmasters.moovsmart.domain.Property;
+import hu.progmasters.moovsmart.domain.property.Property;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

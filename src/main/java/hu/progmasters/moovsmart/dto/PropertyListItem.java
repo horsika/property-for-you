@@ -1,6 +1,6 @@
 package hu.progmasters.moovsmart.dto;
 
-import hu.progmasters.moovsmart.domain.Property;
+import hu.progmasters.moovsmart.domain.property.Property;
 
 public class PropertyListItem {
 
@@ -14,11 +14,11 @@ public class PropertyListItem {
     }
 
     public PropertyListItem(Property property) {
-        this.id = property.getId();
-        this.name = property.getName();
-        this.numberOfRooms = property.getNumberOfRooms();
-        this.price = property.getPrice();
-        this.imageUrl = property.getImageUrl();
+//        this.id = property.getId();
+//        this.name = property.getName();
+//        this.numberOfRooms = property.getNumberOfRooms();
+//        this.price = property.getPrice();
+//        this.imageUrl = property.getImageUrl();
     }
 
     public long getId() {

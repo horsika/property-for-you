@@ -1,6 +1,6 @@
 package hu.progmasters.moovsmart.service;
 
-import hu.progmasters.moovsmart.domain.Property;
+import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.dto.PropertyDetails;
 import hu.progmasters.moovsmart.dto.PropertyForm;
 import hu.progmasters.moovsmart.dto.PropertyListItem;
@@ -29,11 +29,12 @@ public class PropertyService {
     }
 
     public PropertyDetails getPropertyDetails(Long id) {
-        Property property = propertyRepository.getOne(id);
-        return new PropertyDetails(property);
+//        Property property = propertyRepository.getOne(id);
+//        return new PropertyDetails(property);
+        return null;
     }
 
     public void createProperty(PropertyForm propertyForm) {
-        propertyRepository.save(new Property(propertyForm));
+//        propertyRepository.save(new Property(propertyForm));
     }
 }
