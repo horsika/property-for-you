@@ -13,4 +13,5 @@ public enum PropertyType {
     PropertyType(String displayName) {
         this.displayName = displayName;
     }
+
 }

@@ -17,6 +17,30 @@
   overflow: hidden;
 }
 
+/* Apply custom styles to the scrollbar */
+.scrollable-cards {
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #888888 #f0f0f0;
+}
+
+.card-body {
+  line-height: 2;
+}
+
+/* Track style */
+.scrollable-cards::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+/* Thumb style */
+.scrollable-cards::-webkit-scrollbar-thumb {
+  background-color: #888888;
+  border-radius: 5px;
+}
+
+
 @media (max-width: 767px) {
   .col-md-6 {
     flex: 0 0 100%;

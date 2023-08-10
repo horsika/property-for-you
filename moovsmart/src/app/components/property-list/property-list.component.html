@@ -11,7 +11,7 @@
     <button class="btn btn-outline-secondary mx-2">Filter 2</button>
     <button class="btn btn-outline-secondary mx-2">Filter 3</button>
     <button class="btn btn-outline-secondary mx-2">Filter 4</button>
-    <input type="text" list="cars" />
+    <input type="text" list="cars"/>
     <datalist id="cars">
       <option>Volvo</option>
       <option>Saab</option>
@@ -39,35 +39,53 @@
 
       <!-- Search results and sorting options section -->
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="mr-2">100 results</span>
+        <span class="mr-2">{{properties.length}} results</span>
+
         <div>
-          <button class="btn btn-outline-secondary mr-2">Sort</button>
-          <div class="dropdown d-inline">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortingDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Newest
+          <div class="dropdown-center">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Sort by: {{selectedSortingOption}}
             </button>
-            <div class="dropdown-menu" aria-labelledby="sortingDropdown">
-              <a class="dropdown-item" href="#">Newest</a>
-              <a class="dropdown-item" href="#">Price (High to Low)</a>
-              <a class="dropdown-item" href="#">Price (Low to High)</a>
-              <a class="dropdown-item" href="#">SquareFeet</a>
-              <a class="dropdown-item" href="#">Bedrooms</a>
-            </div>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" (click)="sortByActivatedAtDescending($event,properties)">Newest</a></li>
+              <li><a class="dropdown-item" href="#" (click)="sortByPriceDescending($event,properties)">Price (High to Low)</a></li>
+              <li><a class="dropdown-item" href="#" (click)="sortByPriceAscending($event,properties)">Price (Low to High)</a></li>
+              <li><a class="dropdown-item" href="#" (click)="sortByFloorAreaDescending($event,properties)">Sqft(High to Low)</a></li>
+              <li><a class="dropdown-item" href="#" (click)="sortByFloorAreaAscending($event,properties)">Sqft (Low to High)</a></li>
+              <li><a class="dropdown-item" href="#">Bedrooms</a></li>
+            </ul>
           </div>
         </div>
       </div>
+
     </div>
     <!-- Small cards section with scrollbar -->
     <div class="row g-4  scrollable-cards">
       <div *ngFor="let property of properties" class="col-12 col-md-6">
         <div class="card small-card">
           <img src="{{property.images[0]}}" class="card-img-top" alt="image">
+<!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->
+<!--          <app-carousel class="carousel" [images]="property.images"></app-carousel>-->
+
           <div class="card-body">
-            <h3>{{property.name}}</h3>
-            <div>{{property.floorArea}} SqFt | {{property.numberOfBedrooms}} Bedroom</div>
+            <h4> $ {{property.price  | number:'1.0-0'}}
+              <small> - $ {{ (property.price / property.floorArea) | number:'1.0-0' }} per sqft</small>
+            </h4>
+            <div> - {{property.activatedAt}}</div>
+
+            <div>
+              {{property.numberOfBedrooms}} bdr |
+              {{property.numberOfBathrooms}} ba |
+              {{property.floorArea | number:'1.0-0'}} sqft - {{property.propertyType}}
+              </div>
+            <h6>{{property.name}}</h6>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
+

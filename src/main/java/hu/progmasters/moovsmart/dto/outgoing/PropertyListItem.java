@@ -1,8 +1,10 @@
 package hu.progmasters.moovsmart.dto.outgoing;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.moovsmart.domain.property.Property;
-import hu.progmasters.moovsmart.domain.property.PropertyType;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PropertyListItem {
@@ -10,11 +12,22 @@ public class PropertyListItem {
     private long propertyId;
     private String name;
     private int numberOfBedrooms;
+
     private double floorArea;
 
     private String propertyType;
 
     private List<String> images;
+
+    private double numberOfBathrooms;
+    private boolean airConditioning;
+    private String heatingType;
+    private double price;
+
+    private String address;
+
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime activatedAt;
 
     public PropertyListItem() {
     }
@@ -24,8 +37,16 @@ public class PropertyListItem {
         this.name = property.getName();
         this.numberOfBedrooms = property.getNumberOfBedrooms();
         this.floorArea = property.getFloorArea();
+        this.propertyType = property.getPropertyType().name();
         this.images = property.getImages();
+        this.numberOfBathrooms = property.getNumberOfBathrooms();
+        this.airConditioning = property.isAirConditioning();
+        this.heatingType = property.getHeatingType().name();
+        this.price = property.getPriceHistory().get(0);
+        this.activatedAt = property.getActivatedAt();
+//        this.address = property.getAddress().toString();
     }
+
 
     public long getPropertyId() {
         return propertyId;
@@ -65,5 +86,61 @@ public class PropertyListItem {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public String getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
+    }
+
+    public double getNumberOfBathrooms() {
+        return numberOfBathrooms;
+    }
+
+    public void setNumberOfBathrooms(double numberOfBathrooms) {
+        this.numberOfBathrooms = numberOfBathrooms;
+    }
+
+    public boolean isAirConditioning() {
+        return airConditioning;
+    }
+
+    public void setAirConditioning(boolean airConditioning) {
+        this.airConditioning = airConditioning;
+    }
+
+    public String getHeatingType() {
+        return heatingType;
+    }
+
+    public void setHeatingType(String heatingType) {
+        this.heatingType = heatingType;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDateTime getActivatedAt() {
+        return activatedAt;
+    }
+
+    public void setActivatedAt(LocalDateTime activatedAt) {
+        this.activatedAt = activatedAt;
     }
 }

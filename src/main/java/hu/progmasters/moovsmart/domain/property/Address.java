@@ -34,4 +34,5 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private Property property;
+
 }

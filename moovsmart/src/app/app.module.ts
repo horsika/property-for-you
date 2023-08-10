@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {PropertyFormComponent} from './components/property-form/property-form.component';
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {PropertyListComponent} from './components/property-list/property-list.co
     NavbarComponent,
     PropertyFormComponent,
     PropertyDetailsComponent,
-    PropertyListComponent
+    PropertyListComponent,
+    CarouselComponent
   ],
   imports: [
     HttpClientModule,

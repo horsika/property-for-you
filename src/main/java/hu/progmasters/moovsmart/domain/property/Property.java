@@ -9,6 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -85,5 +86,12 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "owner_user_id")
     private User ownerUser;
+
+    @Column
+    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column
+    private LocalDateTime activatedAt = LocalDateTime.now();
+    @Column
+    private LocalDateTime archivedAt = LocalDateTime.now();
 
 }
