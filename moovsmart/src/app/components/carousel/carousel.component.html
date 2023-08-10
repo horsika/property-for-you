@@ -1,0 +1,18 @@
+<div class="carousel slide" data-ride="carousel">
+  <a class="carousel-control-prev" href="#" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only"></span>
+  </a>
+  <a class="carousel-control-next" href="#" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only"></span>
+  </a>
+
+  <div class="carousel-inner">
+    <!-- Loop through images to create carousel items -->
+    <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === 0">
+      <img src="{{ image }}" class="d-block w-50" alt="Carousel Image">
+    </div>
+  </div>
+
+</div>
