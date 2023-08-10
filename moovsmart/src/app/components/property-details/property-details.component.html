@@ -1,44 +1,114 @@
-<div class="container-fluid">
-  <!-- start:real estates detail -->
-  <div class="row justify-content-center" id="real-estates-detail">
-    <div class="col-5 p-0">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-12 px-1">
+<!--<div class="container-fluid">-->
+<!--  &lt;!&ndash; start:real estates detail &ndash;&gt;-->
+<!--  <div class="row justify-content-center" id="real-estates-detail">-->
+<!--    <div class="col-5 p-0">-->
+<!--      <div class="panel panel-default">-->
+<!--        <div class="panel-body">-->
+<!--          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-12 px-1">-->
 
-          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
-          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
-          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
-        </div>
-      </div>
-    </div>
-    <div class="col-3 p-0">
-      <div class="panel">
-        <div class="panel-body">
-          <table class="table border border-0 border-bottom">
-            <tr class="col">
-              <td class="">
-                <img src="assets/pfy.png" draggable="false" alt="pfy logo" style="max-height: 5rem;" routerLink="">
-              </td>
-              <td>
-                <input id="property-save" name="property-save" class="btn btn-danger" type="button" value="💚Save"
-                       (click)="null">
-              </td>
-              <td style="text-align: end">
-                <input value="X" type="button" class="btn btn-secondary">
-              </td>
-            </tr>
-          </table>
-          <div class="property-details-inline">
-            <h2>$100,000</h2>
-            <ul class="px-4">
-              <li class="px-2">4 bd</li>
-              <li class="px-2">2 ba</li>
-              <li class="px-2">230 m<sup>2</sup></li>
-            </ul>
-            <p style="padding-top: 0.5rem; font-size: 1.25rem;">1056 Budapest, Irányi u. 3. III. em.</p>
-            <div style="display: flex; justify-content: center" class="border-0 border-bottom py-2">
-              <input type="button" class="btn btn-success text-light justify-content-center" value="Request a tour">
+<!--          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">-->
+<!--          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">-->
+<!--          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="col-3 p-0">-->
+<!--      <div class="panel">-->
+<!--        <div class="panel-body">-->
+<!--          <table class="table border border-0 border-bottom">-->
+<!--            <tr class="col">-->
+<!--              <td class="">-->
+<!--                <img src="assets/pfy.png" draggable="false" alt="pfy logo" style="max-height: 5rem;">-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <input id="property-save" name="property-save" class="btn btn-danger" type="button" value="💚Save"-->
+<!--                       (click)="null">-->
+<!--              </td>-->
+<!--              <td style="text-align: end">-->
+<!--                <input value="X" type="button" class="btn btn-secondary">-->
+<!--              </td>-->
+<!--            </tr>-->
+<!--          </table>-->
+<!--          <div class="property-details-inline">-->
+<!--            <h2>$100,000</h2>-->
+<!--            <ul class="px-4">-->
+<!--              <li class="px-2">4 bd</li>-->
+<!--              <li class="px-2">2 ba</li>-->
+<!--              <li class="px-2">230 m<sup>2</sup></li>-->
+<!--            </ul>-->
+<!--            <p style="padding-top: 0.5rem; font-size: 1.25rem;">1056 Budapest, Irányi u. 3. III. em.</p>-->
+<!--            <div style="display: flex; justify-content: center" class="border-0 border-bottom py-2">-->
+<!--              <input type="button" class="btn btn-success text-light justify-content-center" value="Request a tour">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="container-fluid">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch details modal
+  </button>
+</div>
+
+<div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-7 p-0">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-12 px-1">
+
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
+            </div>
+
+            <div class="col-5 p-0">
+              <div class="position-relative">
+                <table class="table border border-0 border-bottom">
+                  <tr class="col">
+                    <td class="">
+                      <img src="assets/pfy.png" draggable="false" alt="pfy logo" style="max-height: 5rem;">
+                    </td>
+                    <td>
+                      <input id="property-save" name="property-save" class="btn btn-danger" type="button" value="💚Save"
+                             (click)="null">
+                    </td>
+                    <td style="text-align: end">
+                      <button type="button" class="btn-close mx-auto" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
+                    </td>
+                  </tr>
+                </table>
+                <div class="property-details-inline">
+                  <h2>$100,000</h2>
+                  <ul class="px-4">
+                    <li class="px-2">4 bd</li>
+                    <li class="px-2">2 ba</li>
+                    <li class="px-2">230 m<sup>2</sup></li>
+                  </ul>
+                  <p style="padding-top: 0.5rem; font-size: 1.25rem;">1056 Budapest, Irányi u. 3. III. em.</p>
+                  <div style="display: flex; justify-content: center" class="border-0 border-bottom py-2">
+                    <input type="button" class="btn btn-success text-light justify-content-center"
+                           value="Request a tour">
+                  </div>
+                </div>
+              </div>
+              <div class="position-absolute">
+                  <p>Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It's not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real.”
+
+                    As Cicero would put it, “Um, not so fast.”
+
+                    The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.
+
+                    Richard McClintock, a Latin scholar from Hampden-Sydney College, is credited with discovering the source behind the ubiquitous filler text. In seeing a sample of lorem ipsum, his interest was piqued by consectetur—a genuine, albeit rare, Latin word. Consulting a Latin dictionary led McClintock to a passage from De Finibus Bonorum et Malorum (“On the Extremes of Good and Evil”), a first-century B.C. text from the Roman philosopher Cicero.
+
+                    In particular, the garbled words of lorem ipsum bear an unmistakable resemblance to sections 1.10.32–33 of Cicero's work, with the most notable passage excerpted below:</p>
+              </div>
             </div>
           </div>
         </div>

@@ -10,4 +10,8 @@ public enum ListingStatus {
     ListingStatus(String displayName) {
         this.displayName = displayName;
     }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }
