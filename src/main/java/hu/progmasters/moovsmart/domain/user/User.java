@@ -1,18 +1,23 @@
 package hu.progmasters.moovsmart.domain.user;
 
 import hu.progmasters.moovsmart.domain.property.Property;
-import hu.progmasters.moovsmart.dto.incoming.UserForm;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 @Entity
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +34,8 @@ public class User {
     private String profilePicture;
 
     @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "account_role")
-    private List<UserRole> roles;
+    private UserRole role;
 
     @OneToMany(mappedBy = "saverUser")
     private List<Property> savedProperties;
@@ -39,13 +43,39 @@ public class User {
     @OneToMany(mappedBy = "ownerUser")
     private List<Property> ownedProperties;
 
-    public User(UserForm userForm) {
-        this.email = userForm.getEmail();
-        this.firstName = userForm.getFirstName();
-        this.lastName = userForm.getLastName();
-        this.profilePicture = userForm.getProfilePicture();
-        this.roles = List.of(UserRole.ROlE_USER);
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @Override
+    public String getPassword() {
+        return this.passwordHash;
+    }
 
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

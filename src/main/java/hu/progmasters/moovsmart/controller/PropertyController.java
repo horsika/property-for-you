@@ -34,7 +34,6 @@ public class PropertyController {
     }
 
     @GetMapping
-    @Secured("ROLE_USER")
     public ResponseEntity<List<PropertyListItem>> getAllProperties() {
         return new ResponseEntity<>(propertyService.getProperties(), HttpStatus.OK);
     }
