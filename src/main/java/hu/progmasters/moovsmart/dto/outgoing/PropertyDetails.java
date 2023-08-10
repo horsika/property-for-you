@@ -1,25 +1,28 @@
-package hu.progmasters.moovsmart.dto;
+package hu.progmasters.moovsmart.dto.outgoing;
 
 import hu.progmasters.moovsmart.domain.property.Property;
 
-public class PropertyListItem {
+public class PropertyDetails {
 
     private long id;
     private String name;
     private int numberOfRooms;
     private int price;
+    private String description;
     private String imageUrl;
 
-    public PropertyListItem() {
+    public PropertyDetails() {
     }
 
-    public PropertyListItem(Property property) {
+    public PropertyDetails(Property property) {
 //        this.id = property.getId();
 //        this.name = property.getName();
 //        this.numberOfRooms = property.getNumberOfRooms();
 //        this.price = property.getPrice();
+//        this.description = property.getDescription();
 //        this.imageUrl = property.getImageUrl();
     }
+
 
     public long getId() {
         return id;
@@ -51,6 +54,14 @@ public class PropertyListItem {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImageUrl() {

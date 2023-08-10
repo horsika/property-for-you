@@ -1,9 +1,9 @@
 package hu.progmasters.moovsmart.service;
 
 import hu.progmasters.moovsmart.domain.property.Property;
-import hu.progmasters.moovsmart.dto.PropertyDetails;
-import hu.progmasters.moovsmart.dto.PropertyForm;
-import hu.progmasters.moovsmart.dto.PropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyForm;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

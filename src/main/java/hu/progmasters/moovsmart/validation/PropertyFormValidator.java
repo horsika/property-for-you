@@ -1,6 +1,6 @@
 package hu.progmasters.moovsmart.validation;
 
-import hu.progmasters.moovsmart.dto.PropertyForm;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyForm;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
