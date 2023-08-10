@@ -10,7 +10,7 @@ import {PropertyListItemModel} from "../../models/propertyListItem.model";
 })
 export class PropertyListComponent implements OnInit {
 
-  propertyListItemModels: Array<PropertyListItemModel> = [];
+  properties: Array<PropertyListItemModel> = [];
 
   constructor(private propertyService: PropertyService,
               private router: Router) {
@@ -18,7 +18,7 @@ export class PropertyListComponent implements OnInit {
 
   ngOnInit() {
     this.propertyService.getPropertyList().subscribe(
-      propertyListItems => this.propertyListItemModels = propertyListItems
+      propertyListItems => this.properties = propertyListItems
     );
   }
 
