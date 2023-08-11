@@ -53,3 +53,12 @@
     width: 100%;
   }
 }
+
+/* Custom padding for form-check elements */
+.custom-form-check {
+  padding: 1rem 2rem; /* Adjust the values as needed */
+}
+
+.custom-apply-button {
+  width: 100%;
+}

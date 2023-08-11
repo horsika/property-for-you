@@ -10,11 +10,14 @@ import {PropertyListItemModel} from "../../models/propertyListItem.model";
 })
 export class PropertyListComponent implements OnInit {
 
+  originalProperties: Array<PropertyListItemModel> = [];
   properties: Array<PropertyListItemModel> = [];
   selectedSortingOption = 'Newest';
+  selectedFilterOption = 'For sale';
 
   // For dropdown menu to collapse after option has been chosen
   @ViewChild('dropdownBtn') dropdownButton!: ElementRef;
+
 
   constructor(private propertyService: PropertyService,
               private router: Router) {
@@ -23,7 +26,7 @@ export class PropertyListComponent implements OnInit {
   ngOnInit() {
     this.propertyService.getPropertyList().subscribe(
       propertyListItems => {
-        this.properties = propertyListItems.map(property =>({
+        this.originalProperties = propertyListItems.map(property => ({
           ...property,
           activatedAt: new Date(property.activatedAt),
           formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
@@ -34,6 +37,7 @@ export class PropertyListComponent implements OnInit {
             minute: '2-digit'
           })
         }));
+        this.properties = this.originalProperties;
       }
     );
   }
@@ -80,6 +84,24 @@ export class PropertyListComponent implements OnInit {
     event.stopPropagation();
     this.properties = properties.slice().sort((a, b) => b.numberOfBedrooms - a.numberOfBedrooms);
     this.selectedSortingOption = 'Bedrooms';
+  }
+
+
+  setFilterOption(filterOption: string): void {
+    this.selectedFilterOption = filterOption;
+  }
+
+  applyFilter(): void {
+    const filteredListingType = this.selectedFilterOption === 'For sale' ? 'SELL' : 'RENT';
+    this.properties = this.filterProperties(filteredListingType);
+  }
+
+  filterProperties(listingType: string): PropertyListItemModel[] {
+    return this.originalProperties.filter(property => property.listingType === listingType);
+  }
+
+  preventDropdownCollapse(event: Event): void {
+    event.stopPropagation();
   }
 
 

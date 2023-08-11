@@ -29,6 +29,8 @@ public class PropertyListItem {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime activatedAt;
 
+    private String listingType;
+
     public PropertyListItem() {
     }
 
@@ -44,6 +46,7 @@ public class PropertyListItem {
         this.heatingType = property.getHeatingType().name();
         this.price = property.getPriceHistory().get(0);
         this.activatedAt = property.getActivatedAt();
+        this.listingType = property.getListingType().name();
 //        this.address = property.getAddress().toString();
     }
 
@@ -142,5 +145,13 @@ public class PropertyListItem {
 
     public void setActivatedAt(LocalDateTime activatedAt) {
         this.activatedAt = activatedAt;
+    }
+
+    public String getListingType() {
+        return listingType;
+    }
+
+    public void setListingType(String listingType) {
+        this.listingType = listingType;
     }
 }
