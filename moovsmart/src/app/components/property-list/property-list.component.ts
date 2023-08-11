@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {Router} from "@angular/router";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
@@ -11,6 +11,10 @@ import {PropertyListItemModel} from "../../models/propertyListItem.model";
 export class PropertyListComponent implements OnInit {
 
   properties: Array<PropertyListItemModel> = [];
+  selectedSortingOption = 'Newest';
+
+  // For dropdown menu to collapse after option has been chosen
+  @ViewChild('dropdownBtn') dropdownButton!: ElementRef;
 
   constructor(private propertyService: PropertyService,
               private router: Router) {
@@ -38,7 +42,9 @@ export class PropertyListComponent implements OnInit {
     this.router.navigate(['property-details', id]);
   }
 
-  selectedSortingOption = 'Newest';
+  closeDropdown() {
+    this.dropdownButton.nativeElement.click();
+  }
 
   sortByActivatedAtDescending(event: Event, properties: PropertyListItemModel[]): void {
     event.stopPropagation();
