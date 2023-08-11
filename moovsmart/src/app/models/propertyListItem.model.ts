@@ -10,6 +10,7 @@ export interface PropertyListItemModel {
   heatingType: string;
   price: number;
   activatedAt: Date;
+  formattedActivatedAt: string;
   // address: string;
 
 }

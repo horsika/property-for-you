@@ -18,7 +18,19 @@ export class PropertyListComponent implements OnInit {
 
   ngOnInit() {
     this.propertyService.getPropertyList().subscribe(
-      propertyListItems => this.properties = propertyListItems
+      propertyListItems => {
+        this.properties = propertyListItems.map(property =>({
+          ...property,
+          activatedAt: new Date(property.activatedAt),
+          formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+        }));
+      }
     );
   }
 
@@ -30,11 +42,11 @@ export class PropertyListComponent implements OnInit {
 
   sortByActivatedAtDescending(event: Event, properties: PropertyListItemModel[]): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => b.activatedAt.getDate() - a.activatedAt.getDate());
+    this.properties = properties.slice().sort((a, b) => b.activatedAt.getTime() - a.activatedAt.getTime());
     this.selectedSortingOption = 'Newest';
   }
 
-  sortByFloorAreaDescending(event:Event, properties: PropertyListItemModel[]): void {
+  sortByFloorAreaDescending(event: Event, properties: PropertyListItemModel[]): void {
     event.stopPropagation();
     this.properties = properties.slice().sort((a, b) => b.floorArea - a.floorArea);
     this.selectedSortingOption = 'SquareFeet (High to Low)';
@@ -56,6 +68,12 @@ export class PropertyListComponent implements OnInit {
     event.stopPropagation();
     this.properties = properties.slice().sort((a, b) => a.price - b.price);
     this.selectedSortingOption = 'Price (Low to High)';
+  }
+
+  sortByBedroomsDescending(event: Event, properties: PropertyListItemModel[]): void {
+    event.stopPropagation();
+    this.properties = properties.slice().sort((a, b) => b.numberOfBedrooms - a.numberOfBedrooms);
+    this.selectedSortingOption = 'Bedrooms';
   }
 
 
