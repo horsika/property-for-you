@@ -59,6 +59,12 @@
   padding: 1rem 2rem; /* Adjust the values as needed */
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
 .custom-apply-button {
-  width: 100%;
+  width: 90%;
+  text-align: center;
 }

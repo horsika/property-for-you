@@ -10,31 +10,69 @@
 
     <div class="dropdown-container">
       <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-        {{selectedFilterOption}}
+        {{selectedFilterOptionListingType}}
       </button>
       <div class="dropdown-menu">
         <div class="form-check custom-form-check">
           <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                 (click)="setFilterOption('For sale'); applyFilter(); preventDropdownCollapse($event)">
+                 (click)="setFilterOptionListingType('For sale'); applyFilterListingType(); preventDropdownCollapse($event)">
           <label class="form-check-label" for="flexRadioDefault1">
             For sale
           </label>
         </div>
         <div class="form-check custom-form-check">
           <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                 (click)="setFilterOption('For rent'); applyFilter(); preventDropdownCollapse($event)">
+                 (click)="setFilterOptionListingType('For rent'); applyFilterListingType(); preventDropdownCollapse($event)">
           <label class="form-check-label" for="flexRadioDefault2">
             For rent
           </label>
         </div>
-        <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply</button>
+        <div class="button-container">
+          <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply</button>
+        </div>
       </div>
     </div>
 
 
     <button class="btn btn-outline-secondary mx-2">Price</button>
     <button class="btn btn-outline-secondary mx-2">Beds & Baths</button>
-    <button class="btn btn-outline-secondary mx-2">Home Type</button>
+
+    <div class="dropdown-container">
+      <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
+        Home type
+      </button>
+      <div class="dropdown-menu">
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault"
+                 [checked]="deselectAllChecked"
+                 (click)="toggleSelectAll()">
+          <label class="form-check-label" for="flexRadioDefault">
+            {{ deselectAllChecked ? 'Deselect All' : 'Select All' }}
+          </label>
+        </div>
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1" [checked]="housesChecked"
+                 (change)="housesChecked = !housesChecked">
+          <label class="form-check-label" for="flexCheckChecked1">
+            Houses
+          </label>
+        </div>
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" [checked]="multiFamilyChecked"
+                 (change)="multiFamilyChecked = !multiFamilyChecked">
+          <label class="form-check-label" for="flexCheckChecked2">
+            Multy-family
+          </label>
+        </div>
+        <div class="button-container">
+          <button class="btn btn-primary mt-2 custom-apply-button" type="submit"
+                  (click)="applyFilterPropertyType()">Apply
+          </button>
+        </div>
+      </div>
+    </div>
+
+
     <input type="text" list="cars"/>
     <datalist id="cars">Cars
       <option>Volvo</option>

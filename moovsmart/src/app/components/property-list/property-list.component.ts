@@ -13,7 +13,8 @@ export class PropertyListComponent implements OnInit {
   originalProperties: Array<PropertyListItemModel> = [];
   properties: Array<PropertyListItemModel> = [];
   selectedSortingOption = 'Newest';
-  selectedFilterOption = 'For sale';
+  selectedFilterOptionListingType = 'For sale';
+  selectedFilterOptionPropertyType = 'Houses';
 
   // For dropdown menu to collapse after option has been chosen
   @ViewChild('dropdownBtn') dropdownButton!: ElementRef;
@@ -46,6 +47,7 @@ export class PropertyListComponent implements OnInit {
     this.router.navigate(['property-details', id]);
   }
 
+  //Sorting--------------------------------------------
   closeDropdown() {
     this.dropdownButton.nativeElement.click();
   }
@@ -86,22 +88,52 @@ export class PropertyListComponent implements OnInit {
     this.selectedSortingOption = 'Bedrooms';
   }
 
-
-  setFilterOption(filterOption: string): void {
-    this.selectedFilterOption = filterOption;
+  //Filtering----------------------------------------
+  setFilterOptionListingType(filterOption: string): void {
+    this.selectedFilterOptionListingType = filterOption;
   }
 
-  applyFilter(): void {
-    const filteredListingType = this.selectedFilterOption === 'For sale' ? 'SELL' : 'RENT';
-    this.properties = this.filterProperties(filteredListingType);
+  applyFilterListingType(): void {
+    const filteredListingType = this.selectedFilterOptionListingType === 'For sale' ? 'SELL' : 'RENT';
+    this.properties = this.filterPropertiesListingType(filteredListingType);
   }
 
-  filterProperties(listingType: string): PropertyListItemModel[] {
+  filterPropertiesListingType(listingType: string): PropertyListItemModel[] {
     return this.originalProperties.filter(property => property.listingType === listingType);
   }
 
   preventDropdownCollapse(event: Event): void {
     event.stopPropagation();
+  }
+
+  deselectAllChecked: boolean = true;
+  housesChecked: boolean = true;
+  multiFamilyChecked: boolean = true;
+
+
+  toggleSelectAll() {
+    if (this.deselectAllChecked) {
+      this.housesChecked = false;
+      this.multiFamilyChecked = false;
+    } else {
+      this.housesChecked = true;
+      this.multiFamilyChecked = true;
+    }
+    this.deselectAllChecked = !this.deselectAllChecked;
+  }
+
+  setFilterOptionPropertyType(filterOption: string): void {
+    this.selectedFilterOptionPropertyType = filterOption;
+  }
+
+  //TODO filtering function is not ready, just copied from above
+  applyFilterPropertyType(): void {
+    const filteredPropertyType = this.selectedFilterOptionPropertyType === 'Houses' ? 'HOUSE' : 'MULTY_FAMILY';
+    this.properties = this.filterPropertiesPropertyType(filteredPropertyType);
+  }
+
+  filterPropertiesPropertyType(propertyType: string): PropertyListItemModel[] {
+    return this.originalProperties.filter(property => property.propertyType === propertyType);
   }
 
 
