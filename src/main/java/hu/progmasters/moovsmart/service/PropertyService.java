@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class PropertyService {
 
-    private PropertyRepository propertyRepository;
+    private final PropertyRepository propertyRepository;
 
     @Autowired
     public PropertyService(PropertyRepository propertyRepository) {

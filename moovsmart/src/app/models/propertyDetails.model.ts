@@ -7,4 +7,8 @@ export interface PropertyDetailsModel {
   floorArea: number;
   airConditioning: boolean;
   images: string[];
+  address: string;
+  description: string;
+  heatingType: string;
+  propertyType: string;
 }

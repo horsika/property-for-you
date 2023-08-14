@@ -44,6 +44,5 @@ public class Address {
                 houseNumber + " " +
                 floor + " " +
                 door;
-
     }
 }

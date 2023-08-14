@@ -60,11 +60,9 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-7 p-0">
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-12 px-1">
+              <img [src]="property.images[0]" class="col-12 px-1" alt="feature-image">
 
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="col-6 p-1">
+              <img *ngFor="let image of property.images" [src]="image" class="col-6 p-1">
             </div>
 
             <div class="col-5 p-0">
@@ -85,29 +83,23 @@
                   </tr>
                 </table>
                 <div class="property-details-inline">
-                  <h2>$100,000</h2>
+                  <h2>${{property.priceHistory[0]}}</h2>
                   <ul class="px-4">
-                    <li class="px-2">4 bd</li>
-                    <li class="px-2">2 ba</li>
-                    <li class="px-2">230 m<sup>2</sup></li>
+                    <li class="px-2">{{property.numberOfBedrooms}} bd</li>
+                    <li class="px-2">{{property.numberOfBathrooms}} ba</li>
+                    <li class="px-2">{{property.floorArea}} m<sup>2</sup></li>
                   </ul>
-                  <p style="padding-top: 0.5rem; font-size: 1.25rem;">1056 Budapest, Irányi u. 3. III. em.</p>
+                  <p style="padding-top: 0.5rem; font-size: 1.25rem;">{{property.address}}</p>
                   <div style="display: flex; justify-content: center" class="border-0 border-bottom py-2">
                     <input type="button" class="btn btn-success text-light justify-content-center"
                            value="Request a tour">
                   </div>
                 </div>
               </div>
-              <div class="position-absolute">
-                  <p>Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It's not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real.”
-
-                    As Cicero would put it, “Um, not so fast.”
-
-                    The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.
-
-                    Richard McClintock, a Latin scholar from Hampden-Sydney College, is credited with discovering the source behind the ubiquitous filler text. In seeing a sample of lorem ipsum, his interest was piqued by consectetur—a genuine, albeit rare, Latin word. Consulting a Latin dictionary led McClintock to a passage from De Finibus Bonorum et Malorum (“On the Extremes of Good and Evil”), a first-century B.C. text from the Roman philosopher Cicero.
-
-                    In particular, the garbled words of lorem ipsum bear an unmistakable resemblance to sections 1.10.32–33 of Cicero's work, with the most notable passage excerpted below:</p>
+              <div id="property-details-overview" class="">
+                <ul class="list-group">
+                  <li class="list-group-item"><i class="fa-solid fa-house"></i> {{property.propertyType}}</li>
+                </ul>
               </div>
             </div>
           </div>
