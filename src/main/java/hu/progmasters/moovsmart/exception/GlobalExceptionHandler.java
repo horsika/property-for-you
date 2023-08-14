@@ -10,12 +10,15 @@ package hu.progmasters.moovsmart.exception;/*
  */
 
 import com.fasterxml.jackson.core.JsonParseException;
+import hu.progmasters.moovsmart.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -85,6 +88,21 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, status);
     }
+
+    @ExceptionHandler(AuthenticationServiceException.class)
+    public ResponseEntity<ApiError> userAlreadyExsistsHandler(AuthenticationServiceException e) {
+        logger.error("Someone tried to sign up with the same email twice! " + e);
+        ApiError body = new ApiError("USER_ALREADY_EXISTS_ERROR", "This email is already in use!", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> loginBadCredentialsError(BadCredentialsException e) {
+        ApiError body= new ApiError("BAD_CREDENTIALS_ERROR", "Email or password incorrect", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
+
 
 }
 

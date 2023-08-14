@@ -10,7 +10,7 @@ import org.springframework.validation.Validator;
 @Component
 public class PropertyFormValidator implements Validator {
 
-    private PropertyRepository propertyRepository;
+    private final PropertyRepository propertyRepository;
 
     @Autowired
     public PropertyFormValidator(PropertyRepository propertyRepository) {

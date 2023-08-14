@@ -6,8 +6,7 @@ import {validationHandler} from "../../utils/validationHandler";
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent {
 

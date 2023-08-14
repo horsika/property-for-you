@@ -7,6 +7,7 @@ import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class AuthenticationService {
                 .profilePicture(registerRequest.getProfilePicture())
                 .role(UserRole.ROlE_USER)
                 .build();
+        if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
+            throw new AuthenticationServiceException("User with given email aleady exists!");
+        }
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
