@@ -39,7 +39,7 @@
 
     <div class="dropdown-container">
       <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-        Home type
+        Home type {{ isFilterApplied ? ' (' + filteredProperties.length + ')' : '' }}
       </button>
       <div class="dropdown-menu">
         <div class="form-check custom-form-check">
@@ -51,35 +51,62 @@
           </label>
         </div>
         <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1" [checked]="housesChecked"
-                 (change)="housesChecked = !housesChecked">
-          <label class="form-check-label" for="flexCheckChecked1">
-            Houses
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked0" [checked]="houseChecked"
+                 (click)="togglePropertyType('HOUSE')">
+          <label class="form-check-label" for="flexCheckChecked0">
+            House
           </label>
         </div>
         <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" [checked]="multiFamilyChecked"
-                 (change)="multiFamilyChecked = !multiFamilyChecked">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1" [checked]="multiFamilyChecked"
+                 (click)="togglePropertyType('MULTI_FAMILY')">
+          <label class="form-check-label" for="flexCheckChecked1">
+            Multi-family
+          </label>
+        </div>
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" [checked]="apartmentChecked"
+                 (click)="togglePropertyType('APARTMENT')">
           <label class="form-check-label" for="flexCheckChecked2">
-            Multy-family
+            Apartment
+          </label>
+        </div>
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" [checked]="condoChecked"
+                 (click)="togglePropertyType('CONDO')">
+          <label class="form-check-label" for="flexCheckChecked3">
+            Condo
+          </label>
+        </div>
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" [checked]="rowHouseChecked"
+                 (click)="togglePropertyType('ROW_HOUSE')">
+          <label class="form-check-label" for="flexCheckChecked4">
+            Row house
+          </label>
+        </div>
+        <div class="form-check custom-form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5" [checked]="summerHouseChecked"
+                 (click)="togglePropertyType('SUMMER_HOUSE')">
+          <label class="form-check-label" for="flexCheckChecked5">
+            Summer house
           </label>
         </div>
         <div class="button-container">
-          <button class="btn btn-primary mt-2 custom-apply-button" type="submit"
-                  (click)="applyFilterPropertyType()">Apply
+          <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply
           </button>
         </div>
       </div>
     </div>
 
 
-    <input type="text" list="cars"/>
-    <datalist id="cars">Cars
-      <option>Volvo</option>
-      <option>Saab</option>
-      <option>Mercedes</option>
-      <option>Audi</option>
-    </datalist>
+<!--    <input type="text" list="cars"/>-->
+<!--    <datalist id="cars">Cars-->
+<!--      <option>Volvo</option>-->
+<!--      <option>Saab</option>-->
+<!--      <option>Mercedes</option>-->
+<!--      <option>Audi</option>-->
+<!--    </datalist>-->
   </div>
 </div>
 
@@ -101,7 +128,7 @@
 
       <!-- Search results and sorting options section -->
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="mr-2">{{properties.length}} results</span>
+        <span class="mr-2">{{filteredProperties.length > 0 ? filteredProperties.length : properties.length }} results</span>
 
         <div>
           <div class="dropdown-center">
@@ -129,8 +156,8 @@
 
     </div>
     <!-- Small cards section with scrollbar -->
-    <div class="row g-4  scrollable-cards">
-      <div *ngFor="let property of properties" class="col-12 col-md-6">
+    <div class="row g-4  scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
+      <div *ngFor="let property of filteredProperties.length > 0 ? filteredProperties : properties" class="col-12 col-md-6">
         <div class="card small-card">
           <img src="{{property.images[0]}}" class="card-img-top" alt="image">
           <!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->

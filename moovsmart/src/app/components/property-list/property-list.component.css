@@ -68,3 +68,8 @@
   width: 90%;
   text-align: center;
 }
+
+.disabled-cards{
+  pointer-events: none;
+  opacity: 0.5;
+}

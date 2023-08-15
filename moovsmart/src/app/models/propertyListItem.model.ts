@@ -12,6 +12,5 @@ export interface PropertyListItemModel {
   activatedAt: Date;
   formattedActivatedAt: string;
   listingType: string;
-  // address: string;
 
 }
