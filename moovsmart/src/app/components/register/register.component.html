@@ -1,39 +1,62 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">
-  Launch demo modal
-</button>
-
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+          <h5 class="modal-title" id="registerTitle1" data-bs-target="#registerModal" data-bs-toggle="modal">
+            Register</h5>
+          <h5 class="modal-title" id="loginTitle1" data-bs-target="#loginModal" data-bs-toggle="modal">Login</h5>
       </div>
       <div class="modal-body">
         <form [formGroup]="user">
           <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+            <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email">
           </div>
           <div class="form-group">
             <label for="pass">Password</label>
-            <input type="password" class="form-control" id="pass" placeholder="Password">
+            <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password">
           </div>
           <div class="form-group">
             <label for="firstname">First Name</label>
-            <input type="password" class="form-control" id="firstname" placeholder="First Name">
+            <input type="text" class="form-control" id="firstname" placeholder="First Name" formControlName="firstName">
           </div>
           <div class="form-group">
             <label for="lastname">Last Name</label>
-            <input type="password" class="form-control" id="lastname" placeholder="Last Name">
+            <input type="text" class="form-control" id="lastname" placeholder="Last Name" formControlName="lastName">
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="onSubmit()">Register</button>
+        <button type="button" class="btn btn-primary" (click)="onRegister()">Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerTitle2" data-bs-target="#registerModal" data-bs-toggle="modal">Register</h5>
+        <h5 class="modal-title" id="loginTitle2" data-bs-target="#loginModal" data-bs-toggle="modal">Login</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="auth">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="loginEmail" placeholder="Email" formControlName="loginEmail">
+          </div>
+          <div class="form-group">
+            <label for="pass">Password</label>
+            <input type="password" class="form-control" id="loginPass" placeholder="Password"
+                   formControlName="loginPassword">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="onLogin()">Login</button>
       </div>
     </div>
   </div>

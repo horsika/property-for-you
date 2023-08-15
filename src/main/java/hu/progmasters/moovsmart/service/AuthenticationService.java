@@ -35,7 +35,7 @@ public class AuthenticationService {
                 .role(UserRole.ROlE_USER)
                 .build();
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
-            throw new AuthenticationServiceException("User with given email aleady exists!");
+            throw new AuthenticationServiceException("User with given email already exists!");
         }
         userRepository.save(user);
 
@@ -49,12 +49,12 @@ public class AuthenticationService {
     public AuthResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.getLoginEmail(),
+                        request.getLoginPassword()
                 )
         );
 
-        var user = userRepository.findUserByEmail(request.getEmail()).orElseThrow();
+        var user = userRepository.findUserByEmail(request.getLoginEmail()).orElseThrow();
 
         var jwtToken = jwtService.generateToken(user);
 
