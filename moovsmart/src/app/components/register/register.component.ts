@@ -26,12 +26,6 @@ export class RegisterComponent {
       'lastName': ['', Validators.required]
       // TODO profilePicture upload??
     });
-
-    this.auth = this.formBuilder.group({
-      'loginEmail': ['', Validators.required],
-      'loginPassword': ['', Validators.required]
-    });
-
   }
 
 
@@ -41,23 +35,19 @@ export class RegisterComponent {
       (response: AuthResponseModel) => {
         const token = response.token;
         localStorage.setItem('token', token);
-        this.router.navigate(["property-list"])
+
       },
-      error => validationHandler(error, this.user)
-    );
+      error => {
+        validationHandler(error, this.user)
+      },
+      () => {
+        this.router.navigate(["property-list"])
+      }
+    )
   }
 
-  onLogin() {
-    const data = this.auth.value;
-    console.log(this.auth.value);
-    this.userService.loginUser(data).subscribe(
-      (response: AuthResponseModel) => {
-        const token = response.token;
-        localStorage.setItem('token', token);
-        this.router.navigate(["property-list"])
-      },
-      error => validationHandler(error, this.user)
-    )
+  goToLogin() {
+    this.router.navigate(["login"])
   }
 
 }
