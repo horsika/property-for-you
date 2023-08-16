@@ -13,11 +13,11 @@ export class PropertyListComponent implements OnInit {
   originalProperties: Array<PropertyListItemModel> = [];
   properties: Array<PropertyListItemModel> = [];
   selectedSortingOption = 'Newest';
-  selectedFilterOptionListingType = 'For sale';
+  selectedFilterOptionListingType: string = 'For sale';
   filteredProperties: PropertyListItemModel[] = [];
   deselectAllChecked: boolean = true;
   houseChecked: boolean = true;
-  multiFamilyChecked: boolean = true;
+  multiFamilyHouseChecked: boolean = true;
   apartmentChecked: boolean = true;
   condoChecked: boolean = true;
   rowHouseChecked: boolean = true;
@@ -104,16 +104,17 @@ export class PropertyListComponent implements OnInit {
   }
 
   applyFilterListingType(): void {
-    const filteredListingType = this.selectedFilterOptionListingType === 'For sale' ? 'SELL' : 'RENT';
-    this.properties = this.filterPropertiesListingType(filteredListingType);
+    this.properties = this.filterPropertiesListingType(this.selectedFilterOptionListingType);
   }
 
-  filterPropertiesListingType(listingType: string): PropertyListItemModel[] {
-    return this.originalProperties.filter(property => property.listingType === listingType);
+  filterPropertiesListingType(listingTypeDisplayName: string): PropertyListItemModel[] {
+    return this.originalProperties.filter(property => property.listingTypeDisplayName === listingTypeDisplayName);
   }
 
   preventDropdownCollapse(event: Event): void {
-    event.stopPropagation();
+    if (!(event.target instanceof HTMLButtonElement && event.target.classList.contains('custom-apply-button'))) {
+      event.stopPropagation();
+    }
   }
 
   //Filter by PropertyType----------------------------------------
@@ -121,14 +122,14 @@ export class PropertyListComponent implements OnInit {
   toggleSelectAll() {
     if (this.deselectAllChecked) {
       this.houseChecked = false;
-      this.multiFamilyChecked = false;
+      this.multiFamilyHouseChecked = false;
       this.apartmentChecked = false;
       this.condoChecked = false;
       this.rowHouseChecked = false;
       this.summerHouseChecked = false;
     } else {
       this.houseChecked = true;
-      this.multiFamilyChecked = true;
+      this.multiFamilyHouseChecked = true;
       this.apartmentChecked = true;
       this.condoChecked = true;
       this.rowHouseChecked = true;
@@ -140,26 +141,26 @@ export class PropertyListComponent implements OnInit {
   }
 
   togglePropertyType(propertyType: string): void {
-    if (propertyType === 'HOUSE') {
+    if (propertyType === 'House') {
       this.houseChecked = !this.houseChecked;
     }
-    if (propertyType === 'MULTI_FAMILY') {
-      this.multiFamilyChecked = !this.multiFamilyChecked;
+    if (propertyType === 'Multi-family house') {
+      this.multiFamilyHouseChecked = !this.multiFamilyHouseChecked;
     }
-    if (propertyType === 'APARTMENT') {
+    if (propertyType === 'Apartment') {
       this.apartmentChecked = !this.apartmentChecked;
     }
-    if (propertyType === 'CONDO') {
+    if (propertyType === 'Condo') {
       this.condoChecked = !this.condoChecked;
     }
-    if (propertyType === 'ROW_HOUSE') {
+    if (propertyType === 'Row house') {
       this.rowHouseChecked = !this.rowHouseChecked;
     }
-    if (propertyType === 'SUMMER_HOUSE') {
+    if (propertyType === 'Summer house') {
       this.summerHouseChecked = !this.summerHouseChecked;
     }
     this.applyFilterPropertyType();
-    this.anyCheckboxChecked = this.houseChecked || this.multiFamilyChecked ||
+    this.anyCheckboxChecked = this.houseChecked || this.multiFamilyHouseChecked ||
       this.apartmentChecked || this.condoChecked || this.rowHouseChecked || this.summerHouseChecked;
   }
 
@@ -167,22 +168,22 @@ export class PropertyListComponent implements OnInit {
     const selectedPropertyTypes: string[] = [];
 
     if (this.houseChecked) {
-      selectedPropertyTypes.push('HOUSE');
+      selectedPropertyTypes.push('House');
     }
-    if (this.multiFamilyChecked) {
-      selectedPropertyTypes.push('MULTI_FAMILY');
+    if (this.multiFamilyHouseChecked) {
+      selectedPropertyTypes.push('Multi-family house');
     }
     if (this.apartmentChecked) {
-      selectedPropertyTypes.push('APARTMENT');
+      selectedPropertyTypes.push('Apartment');
     }
     if (this.condoChecked) {
-      selectedPropertyTypes.push('CONDO');
+      selectedPropertyTypes.push('Condo');
     }
     if (this.rowHouseChecked) {
-      selectedPropertyTypes.push('ROW_HOUSE');
+      selectedPropertyTypes.push('Row house');
     }
     if (this.summerHouseChecked) {
-      selectedPropertyTypes.push('SUMMER_HOUSE');
+      selectedPropertyTypes.push('Summer house');
     }
     if (selectedPropertyTypes.length === 0) {
       this.filteredProperties = this.originalProperties;
@@ -194,7 +195,7 @@ export class PropertyListComponent implements OnInit {
   }
 
   filterPropertiesPropertyType(selectedPropertyTypes: string[]): PropertyListItemModel[] {
-    return this.originalProperties.filter(property => selectedPropertyTypes.includes(property.propertyType))
+    return this.originalProperties.filter(property => selectedPropertyTypes.includes(property.propertyTypeDisplayName))
   }
 
 

@@ -15,7 +15,7 @@ public class PropertyListItem {
 
     private double floorArea;
 
-    private String propertyType;
+    private String propertyTypeDisplayName;
 
     private List<String> images;
 
@@ -27,7 +27,7 @@ public class PropertyListItem {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime activatedAt;
 
-    private String listingType;
+    private String listingTypeDisplayName;
 
     public PropertyListItem() {
     }
@@ -37,14 +37,14 @@ public class PropertyListItem {
         this.name = property.getName();
         this.numberOfBedrooms = property.getNumberOfBedrooms();
         this.floorArea = property.getFloorArea();
-        this.propertyType = property.getPropertyType().name();
+        this.propertyTypeDisplayName = property.getPropertyType().getDisplayName();
         this.images = property.getImages();
         this.numberOfBathrooms = property.getNumberOfBathrooms();
         this.airConditioning = property.isAirConditioning();
         this.heatingType = property.getHeatingType().name();
         this.price = property.getPriceHistory().get(0);
         this.activatedAt = property.getActivatedAt();
-        this.listingType = property.getListingType().name();
+        this.listingTypeDisplayName = property.getListingType().getDisplayName();
     }
 
 
@@ -80,20 +80,20 @@ public class PropertyListItem {
         this.floorArea = floorArea;
     }
 
+    public String getPropertyTypeDisplayName() {
+        return propertyTypeDisplayName;
+    }
+
+    public void setPropertyTypeDisplayName(String propertyTypeDisplayName) {
+        this.propertyTypeDisplayName = propertyTypeDisplayName;
+    }
+
     public List<String> getImages() {
         return images;
     }
 
     public void setImages(List<String> images) {
         this.images = images;
-    }
-
-    public String getPropertyType() {
-        return propertyType;
-    }
-
-    public void setPropertyType(String propertyType) {
-        this.propertyType = propertyType;
     }
 
     public double getNumberOfBathrooms() {
@@ -136,11 +136,11 @@ public class PropertyListItem {
         this.activatedAt = activatedAt;
     }
 
-    public String getListingType() {
-        return listingType;
+    public String getListingTypeDisplayName() {
+        return listingTypeDisplayName;
     }
 
-    public void setListingType(String listingType) {
-        this.listingType = listingType;
+    public void setListingTypeDisplayName(String listingTypeDisplayName) {
+        this.listingTypeDisplayName = listingTypeDisplayName;
     }
 }

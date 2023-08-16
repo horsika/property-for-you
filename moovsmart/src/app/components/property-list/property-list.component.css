@@ -46,9 +46,11 @@
     flex: 0 0 100%;
     max-width: 100%;
   }
+
   .scrollable-cards {
     max-height: none;
   }
+
   .small-card {
     width: 100%;
   }
@@ -69,7 +71,23 @@
   text-align: center;
 }
 
-.disabled-cards{
+.disabled-cards {
   pointer-events: none;
   opacity: 0.5;
+}
+
+.price {
+  font-size: 1.3rem;
+}
+
+.per-sqft {
+  font-size: 0.8rem;
+  float: right;
+}
+.activated-at{
+  font-size: 14px;
+}
+.details-list{
+  font-size: 14px;
+  color: lightgrey;
 }

@@ -3,7 +3,7 @@ export interface PropertyListItemModel {
   name: string;
   numberOfBedrooms: number;
   floorArea: number;
-  propertyType: string;
+  propertyTypeDisplayName: string;
   images: string[];
   numberOfBathrooms: number;
   airConditioning: boolean;
@@ -11,6 +11,6 @@ export interface PropertyListItemModel {
   price: number;
   activatedAt: Date;
   formattedActivatedAt: string;
-  listingType: string;
+  listingTypeDisplayName: string;
 
 }
