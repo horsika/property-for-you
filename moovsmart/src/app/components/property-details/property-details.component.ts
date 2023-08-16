@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import {ActivatedRoute} from "@angular/router";
+import * as L from "leaflet";
 
 @Component({
   selector: 'app-property-details',
   templateUrl: './property-details.component.html',
   styleUrls: ['./property-details.component.css']
 })
-export class PropertyDetailsComponent implements OnInit {
+export class PropertyDetailsComponent implements OnInit, AfterViewInit {
 
   propertyId: number;
   property: PropertyDetailsModel = {
@@ -25,6 +26,28 @@ export class PropertyDetailsComponent implements OnInit {
     heatingType: '-',
     propertyType: '-',
   };
+
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+
+  private map: any;
+
+  private initMap(): void {
+    this.map = L.map('map', {
+      center: [ 39.8282, -98.5795 ],
+      zoom: 3
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+
+    tiles.addTo(this.map);
+  }
+
 
   constructor(private propertyService: PropertyService,
               private route: ActivatedRoute,) {
@@ -52,6 +75,8 @@ export class PropertyDetailsComponent implements OnInit {
           this.property.address = this.property.address.replace('null', '');
         }
       }
-    })
+    });
+
+    document.getElementById("button").click();
   }
 }
