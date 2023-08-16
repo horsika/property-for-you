@@ -27,7 +27,6 @@ export class PropertyListComponent implements OnInit {
   isFilterPropertyTypeApplied: boolean = false;
   isFilterListingTypeApplied: boolean = false;
   commonFilteredProperties: Array<PropertyListItemModel> = [];
-  intermediateFilteredProperties: Array<PropertyListItemModel> = [];
 
 
   // For dropdown menu to collapse after option has been chosen
@@ -67,39 +66,39 @@ export class PropertyListComponent implements OnInit {
     this.dropdownButton.nativeElement.click();
   }
 
-  sortByActivatedAtDescending(event: Event, properties: PropertyListItemModel[]): void {
+  sortByActivatedAtDescending(event: Event): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => b.activatedAt.getTime() - a.activatedAt.getTime());
+    this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.activatedAt.getTime() - a.activatedAt.getTime());
     this.selectedSortingOption = 'Newest';
   }
 
-  sortByFloorAreaDescending(event: Event, properties: PropertyListItemModel[]): void {
+  sortByFloorAreaDescending(event: Event): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => b.floorArea - a.floorArea);
-    this.selectedSortingOption = 'SquareFeet (High to Low)';
+    this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.floorArea - a.floorArea);
+    this.selectedSortingOption = 'SquareFeet (Large to Small)';
   }
 
-  sortByFloorAreaAscending(event: Event, properties: PropertyListItemModel[]): void {
+  sortByFloorAreaAscending(event: Event): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => a.floorArea - b.floorArea);
-    this.selectedSortingOption = 'SquareFeet (Low to High)';
+    this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => a.floorArea - b.floorArea);
+    this.selectedSortingOption = 'SquareFeet (Small to Large)';
   }
 
-  sortByPriceDescending(event: Event, properties: PropertyListItemModel[]): void {
+  sortByPriceDescending(event: Event): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => b.price - a.price);
+    this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.price - a.price);
     this.selectedSortingOption = 'Price (High to Low)';
   }
 
-  sortByPriceAscending(event: Event, properties: PropertyListItemModel[]): void {
+  sortByPriceAscending(event: Event): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => a.price - b.price);
+    this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => a.price - b.price);
     this.selectedSortingOption = 'Price (Low to High)';
   }
 
-  sortByBedroomsDescending(event: Event, properties: PropertyListItemModel[]): void {
+  sortByBedroomsDescending(event: Event): void {
     event.stopPropagation();
-    this.properties = properties.slice().sort((a, b) => b.numberOfBedrooms - a.numberOfBedrooms);
+    this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.numberOfBedrooms - a.numberOfBedrooms);
     this.selectedSortingOption = 'Bedrooms';
   }
 
@@ -211,6 +210,7 @@ export class PropertyListComponent implements OnInit {
     if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
         .filter(property => this.selectedPropertyTypes.includes(property.propertyTypeDisplayName));
+      console.log(this.commonFilteredProperties);
     } else if (this.isFilterListingTypeApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType);
     } else if (this.isFilterPropertyTypeApplied) {

@@ -138,17 +138,17 @@
             </button>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#"
-                     (click)="sortByActivatedAtDescending($event,properties); closeDropdown()">Newest</a></li>
-              <li><a class="dropdown-item" href="#" (click)="sortByPriceDescending($event,properties); closeDropdown()">Price
+                     (click)="sortByActivatedAtDescending($event); closeDropdown()">Newest</a></li>
+              <li><a class="dropdown-item" href="#" (click)="sortByPriceDescending($event); closeDropdown()">Price
                 (High to Low)</a></li>
-              <li><a class="dropdown-item" href="#" (click)="sortByPriceAscending($event,properties); closeDropdown()">Price
+              <li><a class="dropdown-item" href="#" (click)="sortByPriceAscending($event); closeDropdown()">Price
                 (Low to High)</a></li>
               <li><a class="dropdown-item" href="#"
-                     (click)="sortByFloorAreaDescending($event,properties); closeDropdown()">Sqft(High to Low)</a></li>
+                     (click)="sortByFloorAreaDescending($event); closeDropdown()">Sqft(Large to Small)</a></li>
               <li><a class="dropdown-item" href="#"
-                     (click)="sortByFloorAreaAscending($event,properties); closeDropdown()">Sqft (Low to High)</a></li>
+                     (click)="sortByFloorAreaAscending($event); closeDropdown()">Sqft (Small to Large)</a></li>
               <li><a class="dropdown-item" href="#"
-                     (click)="sortByBedroomsDescending($event,properties); closeDropdown()">Bedrooms</a></li>
+                     (click)="sortByBedroomsDescending($event); closeDropdown()">Bedrooms</a></li>
             </ul>
           </div>
         </div>
