@@ -39,7 +39,7 @@
 
     <div class="dropdown-container">
       <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-        Home type {{ isFilterApplied ? ' (' + filteredProperties.length + ')' : '' }}
+        Home type {{ isFilterPropertyTypeApplied ? ' (' + selectedPropertyTypes.length + ')' : '' }}
       </button>
       <div class="dropdown-menu" (click)="preventDropdownCollapse($event)">
         <div class="form-check custom-form-check">
@@ -128,7 +128,7 @@
 
       <!-- Search results and sorting options section -->
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="mr-2">{{filteredProperties.length > 0 ? filteredProperties.length : properties.length }} results</span>
+        <span class="mr-2">{{commonFilteredProperties.length}} results</span>
 
         <div>
           <div class="dropdown-center">
@@ -157,7 +157,7 @@
     </div>
     <!-- Small cards section with scrollbar -->
     <div class="row g-4  scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
-      <div *ngFor="let property of filteredProperties.length > 0 ? filteredProperties : properties" class="col-12 col-md-6">
+      <div *ngFor="let property of commonFilteredProperties" class="col-12 col-md-6">
         <div class="card small-card">
           <img src="{{property.images[0]}}" class="card-img-top" alt="image">
           <!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->

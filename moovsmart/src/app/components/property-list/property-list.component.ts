@@ -23,7 +23,11 @@ export class PropertyListComponent implements OnInit {
   rowHouseChecked: boolean = true;
   summerHouseChecked: boolean = true;
   anyCheckboxChecked: boolean = false;
-  isFilterApplied: boolean = false;
+  selectedPropertyTypes: string[] = [];
+  isFilterPropertyTypeApplied: boolean = false;
+  isFilterListingTypeApplied: boolean = false;
+  commonFilteredProperties: Array<PropertyListItemModel> = [];
+  intermediateFilteredProperties: Array<PropertyListItemModel> = [];
 
 
   // For dropdown menu to collapse after option has been chosen
@@ -49,6 +53,7 @@ export class PropertyListComponent implements OnInit {
           })
         }));
         this.properties = this.originalProperties;
+        this.commonFilteredProperties = this.originalProperties;
       }
     );
   }
@@ -105,6 +110,8 @@ export class PropertyListComponent implements OnInit {
 
   applyFilterListingType(): void {
     this.properties = this.filterPropertiesListingType(this.selectedFilterOptionListingType);
+    this.isFilterListingTypeApplied = true;
+    this.applyCombinedFilters();
   }
 
   filterPropertiesListingType(listingTypeDisplayName: string): PropertyListItemModel[] {
@@ -165,38 +172,53 @@ export class PropertyListComponent implements OnInit {
   }
 
   applyFilterPropertyType(): void {
-    const selectedPropertyTypes: string[] = [];
+    this.selectedPropertyTypes = [];
 
     if (this.houseChecked) {
-      selectedPropertyTypes.push('House');
+      this.selectedPropertyTypes.push('House');
     }
     if (this.multiFamilyHouseChecked) {
-      selectedPropertyTypes.push('Multi-family house');
+      this.selectedPropertyTypes.push('Multi-family house');
     }
     if (this.apartmentChecked) {
-      selectedPropertyTypes.push('Apartment');
+      this.selectedPropertyTypes.push('Apartment');
     }
     if (this.condoChecked) {
-      selectedPropertyTypes.push('Condo');
+      this.selectedPropertyTypes.push('Condo');
     }
     if (this.rowHouseChecked) {
-      selectedPropertyTypes.push('Row house');
+      this.selectedPropertyTypes.push('Row house');
     }
     if (this.summerHouseChecked) {
-      selectedPropertyTypes.push('Summer house');
+      this.selectedPropertyTypes.push('Summer house');
     }
-    if (selectedPropertyTypes.length === 0) {
+    if (this.selectedPropertyTypes.length === 0) {
       this.filteredProperties = this.originalProperties;
-      this.isFilterApplied = false;
+      this.isFilterPropertyTypeApplied = false;
     } else {
-      this.filteredProperties = this.filterPropertiesPropertyType(selectedPropertyTypes);
-      this.isFilterApplied = true;
+      this.filteredProperties = this.filterPropertiesPropertyType(this.selectedPropertyTypes);
+      this.isFilterPropertyTypeApplied = true;
     }
+    this.applyCombinedFilters();
   }
 
   filterPropertiesPropertyType(selectedPropertyTypes: string[]): PropertyListItemModel[] {
     return this.originalProperties.filter(property => selectedPropertyTypes.includes(property.propertyTypeDisplayName))
   }
 
+  //Combined filters--------------------------------------------------------------------
+  applyCombinedFilters(): void {
+    if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied) {
+      this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
+        .filter(property => this.selectedPropertyTypes.includes(property.propertyTypeDisplayName));
+    } else if (this.isFilterListingTypeApplied) {
+      this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType);
+    } else if (this.isFilterPropertyTypeApplied) {
+      this.commonFilteredProperties = this.filterPropertiesPropertyType(this.selectedPropertyTypes);
+    } else {
+      this.commonFilteredProperties = this.originalProperties;
+    }
+
+  }
 
 }
