@@ -2,6 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {Router} from "@angular/router";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
+import { MapComponent } from "../../components/map/map.component";
+
 
 @Component({
   selector: 'app-property-list',
@@ -210,7 +212,6 @@ export class PropertyListComponent implements OnInit {
     if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
         .filter(property => this.selectedPropertyTypes.includes(property.propertyTypeDisplayName));
-      console.log(this.commonFilteredProperties);
     } else if (this.isFilterListingTypeApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType);
     } else if (this.isFilterPropertyTypeApplied) {

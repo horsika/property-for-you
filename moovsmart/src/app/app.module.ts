@@ -10,6 +10,7 @@ import {PropertyFormComponent} from './components/property-form/property-form.co
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -18,14 +19,15 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     PropertyFormComponent,
     PropertyDetailsComponent,
     PropertyListComponent,
-    CarouselComponent
+    CarouselComponent,
+    MapComponent
   ],
   imports: [
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
