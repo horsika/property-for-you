@@ -11,7 +11,6 @@ import {PropertyDetailsComponent} from './components/property-details/property-d
 import {PropertyListComponent} from './components/property-list/property-list.component';
 import { RegisterComponent } from './components/register/register.component';
 import {AuthInterceptor} from "./utils/auth.interceptor";
-import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +19,7 @@ import { LoginComponent } from './components/login/login.component';
     PropertyFormComponent,
     PropertyDetailsComponent,
     PropertyListComponent,
-    RegisterComponent,
-    LoginComponent
+    RegisterComponent
   ],
   imports: [
     HttpClientModule,

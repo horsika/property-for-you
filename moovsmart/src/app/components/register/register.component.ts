@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -10,11 +10,13 @@ import {AuthResponseModel} from "../../models/auth-response.model";
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent{
 
   user: FormGroup;
-
   auth: FormGroup;
+  toggle: boolean;
+  badCredentials: string | null = null;
+
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
@@ -26,8 +28,14 @@ export class RegisterComponent {
       'lastName': ['', Validators.required]
       // TODO profilePicture upload??
     });
-  }
 
+    this.auth = this.formBuilder.group({
+      'loginEmail': ['', Validators.required],
+      'loginPassword': ['', Validators.required]
+    });
+
+    this.toggle = true;
+  }
 
   onRegister() {
     const data = this.user.value;
@@ -46,8 +54,28 @@ export class RegisterComponent {
     )
   }
 
+  onLogin() {
+    const data = this.auth.value;
+    this.userService.loginUser(data).subscribe(
+      (response: AuthResponseModel) => {
+        const token = response.token;
+        localStorage.setItem('token', token);
+      },
+      error => {
+        this.badCredentials = 'Email or password are incorrect';
+      },
+      () => {
+        this.router.navigate(["property-list"])
+      }
+    )
+  }
+
   goToLogin() {
-    this.router.navigate(["login"])
+    this.toggle = false;
+  }
+
+  goToRegister() {
+    this.toggle = true;
   }
 
 }

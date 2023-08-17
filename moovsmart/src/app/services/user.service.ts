@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {RegisterRequestModel} from "../models/register-request.model";
 import {AuthRequestModel} from "../models/auth-request-model";
 import {AuthResponseModel} from "../models/auth-response.model";
@@ -20,4 +20,14 @@ export class UserService {
   loginUser(data: AuthRequestModel) {
     return this.http.post<AuthResponseModel>(BASE_URL + '/authentication', data)
   }
+
+  async isGetSuccessful(): Promise<boolean> {
+    try {
+      const response = await this.http.get<HttpResponse<any>>(BASE_URL + '/am-i-logged-in').toPromise();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+  // TODO fix this method. it should return false only if server sends 403 or 401
 }

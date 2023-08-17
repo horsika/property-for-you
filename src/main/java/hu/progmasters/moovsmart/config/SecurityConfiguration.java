@@ -29,7 +29,10 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/**"))
+                .requestMatchers(new AntPathRequestMatcher("/api/auth/register"),
+                        new AntPathRequestMatcher("api/auth/authenticate"),
+                        new AntPathRequestMatcher("api/properties"),
+                        new AntPathRequestMatcher("api/auth/am-i-logged-in"))
                 .permitAll()
                 .anyRequest()
                 .authenticated()

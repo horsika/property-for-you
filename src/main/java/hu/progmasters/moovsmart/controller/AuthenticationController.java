@@ -29,4 +29,9 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthenticationRequest request) {
         return new ResponseEntity<>(authenticationService.authenticate(request), HttpStatus.OK);
     }
+
+    @GetMapping("/am-i-logged-in")
+    public ResponseEntity<Void> determineLoggedIn() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
