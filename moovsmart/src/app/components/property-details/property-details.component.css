@@ -18,22 +18,3 @@
   height: 15rem;
   width: 20.45rem;
 }
-
-.map-container {
-  height: 250px;
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0px;
-}
-
-.map-frame {
-  border: 2px solid black;
-  height: 100%;
-}
-
-#map {
-  height: 100%;
-}

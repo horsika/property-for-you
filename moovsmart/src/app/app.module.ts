@@ -10,6 +10,7 @@ import {PropertyFormComponent} from './components/property-form/property-form.co
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { DetailsMapComponent } from './components/details-map/details-map.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FooterComponent } from './components/footer/footer.component';
     PropertyFormComponent,
     PropertyDetailsComponent,
     PropertyListComponent,
-    FooterComponent
+    FooterComponent,
+    DetailsMapComponent
   ],
   imports: [
     HttpClientModule,
