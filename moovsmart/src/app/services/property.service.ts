@@ -3,13 +3,14 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PropertyListItemModel} from "../models/propertyListItem.model";
 import {PropertyFormDataModel} from "../models/propertyFormData.model";
+import {PropertyDetailsModel} from "../models/propertyDetails.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertyService {
 
-  baseUrl = "http://localhost:8080/api/properties";
+  baseUrl = "http://localhost:8080/api/properties/";
 
   constructor(private httpClient: HttpClient) {
   }
@@ -22,6 +23,8 @@ export class PropertyService {
     return this.httpClient.get<Array<PropertyListItemModel>>(this.baseUrl);
   }
 
-
+  getPropertyById(id: number) {
+    return this.httpClient.get<PropertyDetailsModel>(this.baseUrl + id);
+  }
 
 }

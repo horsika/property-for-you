@@ -35,4 +35,14 @@ public class Address {
     @OneToOne(mappedBy = "address")
     private Property property;
 
+    @Override
+    public String toString() {
+        return postalCode + " " +
+                city + " " +
+                budapestDistrict + " " +
+                streetName + " " +
+                houseNumber + " " +
+                floor + " " +
+                door;
+    }
 }

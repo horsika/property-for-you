@@ -9,10 +9,11 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {PropertyFormComponent} from './components/property-form/property-form.component';
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
-import { CarouselComponent } from './components/carousel/carousel.component';
-import { MapComponent } from './components/map/map.component';
-import { RegisterComponent } from './components/register/register.component';
+import {CarouselComponent} from './components/carousel/carousel.component';
+import {MapComponent} from './components/map/map.component';
+import {RegisterComponent} from './components/register/register.component';
 import {AuthInterceptor} from "./utils/auth.interceptor";
+import {FooterComponent} from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import {AuthInterceptor} from "./utils/auth.interceptor";
     NavbarComponent,
     PropertyFormComponent,
     PropertyDetailsComponent,
+    PropertyListComponent,
+    FooterComponent,
     PropertyListComponent,
     CarouselComponent,
     MapComponent,
@@ -31,7 +34,7 @@ import {AuthInterceptor} from "./utils/auth.interceptor";
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [
     {

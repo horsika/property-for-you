@@ -1,74 +1,44 @@
 package hu.progmasters.moovsmart.dto.outgoing;
 
 import hu.progmasters.moovsmart.domain.property.Property;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+@Data
+@NoArgsConstructor
 public class PropertyDetails {
 
     private long id;
     private String name;
-    private int numberOfRooms;
-    private int price;
+    private Integer numberOfBedrooms;
+    private double numberOfBathrooms;
+    private List<Double> priceHistory;
+    private double floorArea;
+    private boolean airConditioning;
+    private List<String> images;
     private String description;
-    private String imageUrl;
-
-    public PropertyDetails() {
-    }
+    private String propertyType;
+    private String heatingType;
+    private String listingStatus;
+    private String listingType;
+    private String address;
 
     public PropertyDetails(Property property) {
-//        this.id = property.getId();
-//        this.name = property.getName();
-//        this.numberOfRooms = property.getNumberOfRooms();
-//        this.price = property.getPrice();
-//        this.description = property.getDescription();
-//        this.imageUrl = property.getImageUrl();
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getNumberOfRooms() {
-        return numberOfRooms;
-    }
-
-    public void setNumberOfRooms(int numberOfRooms) {
-        this.numberOfRooms = numberOfRooms;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this.id = property.getPropertyId();
+        this.name = property.getName();
+        this.numberOfBedrooms = property.getNumberOfBedrooms();
+        this.numberOfBathrooms = property.getNumberOfBathrooms();
+        this.priceHistory = property.getPriceHistory();
+        this.floorArea = property.getFloorArea();
+        this.airConditioning = property.isAirConditioning();
+        this.images = property.getImages();
+        this.description = property.getDescription();
+        this.propertyType = property.getPropertyType().getDisplayName();
+        this.heatingType = property.getHeatingType().getDisplayName();
+        this.listingStatus = property.getListingStatus().getDisplayName();
+        this.listingType = property.getListingType().getDisplayName();
+        this.address = property.getAddress().toString();
     }
 }
