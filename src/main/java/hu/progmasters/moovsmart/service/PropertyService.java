@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class PropertyService {
         return null;
     }
 
-    public void createProperty(PropertyForm propertyForm) {
+    public void createProperty(@Valid PropertyForm propertyForm) {
 //        propertyRepository.save(new Property(propertyForm));
     }
 }

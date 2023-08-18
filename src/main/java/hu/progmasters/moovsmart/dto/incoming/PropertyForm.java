@@ -1,4 +1,4 @@
-package hu.progmasters.moovsmart.dto.outgoing;
+package hu.progmasters.moovsmart.dto.incoming;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

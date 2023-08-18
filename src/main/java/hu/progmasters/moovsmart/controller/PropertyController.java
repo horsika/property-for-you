@@ -3,15 +3,11 @@ package hu.progmasters.moovsmart.controller;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyForm;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
 import hu.progmasters.moovsmart.validation.PropertyFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
