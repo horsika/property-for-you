@@ -3,6 +3,9 @@ package hu.progmasters.moovsmart.controller;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyForm;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
 import hu.progmasters.moovsmart.validation.PropertyFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,7 @@ public class PropertyController {
     public ResponseEntity<List<PropertyListItem>> getAllProperties() {
         return new ResponseEntity<>(propertyService.getProperties(), HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDetails> getPropertyDetails(@PathVariable("id") Long id) {
         return new ResponseEntity<>(propertyService.getPropertyDetails(id), HttpStatus.OK);

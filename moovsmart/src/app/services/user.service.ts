@@ -24,10 +24,10 @@ export class UserService {
   async isGetSuccessful(): Promise<boolean> {
     try {
       const response = await this.http.get<HttpResponse<any>>(BASE_URL + '/am-i-logged-in').toPromise();
-      return true;
+      return !(response.status === 401 || response.status === 403);
+
     } catch (error) {
-      return false;
+      return true;
     }
   }
-  // TODO fix this method. it should return false only if server sends 403 or 401
 }

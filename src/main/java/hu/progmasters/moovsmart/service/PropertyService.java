@@ -24,7 +24,7 @@ public class PropertyService {
     }
 
     public List<PropertyListItem> getProperties() {
-        List<Property> properties = propertyRepository.findAll();
+        List<Property> properties = propertyRepository.findAllByOrderByActivatedAtDesc();
         return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
     }
 

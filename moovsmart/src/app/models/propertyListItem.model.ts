@@ -1,7 +1,16 @@
 export interface PropertyListItemModel {
-  id: number;
+  propertyId: number;
   name: string;
-  numberOfRooms: number;
+  numberOfBedrooms: number;
+  floorArea: number;
+  propertyTypeDisplayName: string;
+  images: string[];
+  numberOfBathrooms: number;
+  airConditioning: boolean;
+  heatingType: string;
   price: number;
-  imageUrl: string;
+  activatedAt: Date;
+  formattedActivatedAt: string;
+  listingTypeDisplayName: string;
+
 }
