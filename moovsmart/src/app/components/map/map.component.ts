@@ -9,9 +9,12 @@ import 'leaflet-control-geocoder';
 })
 export class MapComponent implements AfterViewInit {
 
+  private map: any;
 
   ngAfterViewInit() {
-    const apiKey = '';
+    this.initMap();
+
+    /*const apiKey = '';
     const map = L.map('map', {
       center: [47.5, 19.04], // Budapest coordinates
       zoom: 10,
@@ -38,7 +41,9 @@ export class MapComponent implements AfterViewInit {
 
     L.control.zoom({
       position: 'topright', // You can adjust the position
-    }).addTo(map);
+    }).addTo(map);*/
+
+    // -------------------------------------------------------------------
 
     // const geocodingControl = L.Control.geocoder({
     //   defaultMarkGeocode: false,
@@ -52,5 +57,37 @@ export class MapComponent implements AfterViewInit {
     //   map.setView(center, 13);
     //   L.marker(center).addTo(map);
     // });
+  }
+
+  private initMap(): void {
+    this.map = L.map('map', {
+      center: [47.5, 19.04], // Budapest coordinates
+      zoom: 10,
+      zoomControl: false, // Disable the default zoom control
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+
+    tiles.addTo(this.map);
+
+    const budapestMarker = L.marker([47.4979, 19.0402], {
+      icon: L.icon({
+        iconUrl: 'assets/leaflet/marker-icon.png',
+        shadowUrl: 'assets/leaflet/marker-shadow.png',
+        iconSize: [25, 41], // size of the icon
+        iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+        shadowSize: [41, 41], // size of the shadow
+        shadowAnchor: [12, 41], // the same for the shadow
+      })
+    }).addTo(this.map);
+    budapestMarker.bindPopup('Budapest').openPopup();
+
+    L.control.zoom({
+      position: 'topright', // You can adjust the position
+    }).addTo(this.map);
   }
 }
