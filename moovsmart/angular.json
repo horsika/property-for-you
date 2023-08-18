@@ -27,7 +27,8 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.rtl.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "./node_modules/leaflet/dist/leaflet.css",
               "src/styles.css",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/leaflet-control-geocoder/dist/Control.Geocoder.css",
@@ -37,6 +38,8 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/leaflet/dist/leaflet.js",
               "node_modules/leaflet-control-geocoder/dist/Control.Geocoder.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {

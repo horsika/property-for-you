@@ -1,4 +1,12 @@
-.property-details-inline ul, li, h2 {
+.property-details-inline ul {
+  display: inline;
+}
+
+.property-details-inline li {
+  display: inline;
+}
+
+.property-details-inline h2 {
   display: inline;
 }
 

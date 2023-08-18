@@ -9,6 +9,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {PropertyFormComponent} from './components/property-form/property-form.component';
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { DetailsMapComponent } from './components/details-map/details-map.component';
 import {CarouselComponent} from './components/carousel/carousel.component';
 import {MapComponent} from './components/map/map.component';
 import {RegisterComponent} from './components/register/register.component';
@@ -23,6 +25,8 @@ import {FooterComponent} from './components/footer/footer.component';
     PropertyDetailsComponent,
     PropertyListComponent,
     FooterComponent,
+    DetailsMapComponent
+    FooterComponent,
     PropertyListComponent,
     CarouselComponent,
     MapComponent,
@@ -33,8 +37,7 @@ import {FooterComponent} from './components/footer/footer.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,
-    AppRoutingModule,
-    FormsModule
+    AppRoutingModule
   ],
   providers: [
     {
