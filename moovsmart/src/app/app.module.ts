@@ -15,7 +15,6 @@ import {CarouselComponent} from './components/carousel/carousel.component';
 import {MapComponent} from './components/map/map.component';
 import {RegisterComponent} from './components/register/register.component';
 import {AuthInterceptor} from "./utils/auth.interceptor";
-import {FooterComponent} from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +24,9 @@ import {FooterComponent} from './components/footer/footer.component';
     PropertyDetailsComponent,
     PropertyListComponent,
     FooterComponent,
-    DetailsMapComponent
-    FooterComponent,
-    PropertyListComponent,
+    DetailsMapComponent,
     CarouselComponent,
     MapComponent,
-    PropertyListComponent,
     RegisterComponent
   ],
   imports: [
