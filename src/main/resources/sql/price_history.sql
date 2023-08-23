@@ -1,0 +1,14 @@
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (2, 230000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (2, 150000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (3, 100000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (4, 80000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (5, 400000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (6, 350000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (7, 140000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (8, 200000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (9, 180000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (10, 100000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (11, 150000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (12, 300000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (13, 430000);
+INSERT INTO moovsmart.price_history (property_property_id, price_history) VALUES (14, 300000);
