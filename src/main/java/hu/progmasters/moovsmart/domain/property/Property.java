@@ -92,6 +92,6 @@ public class Property {
     @Column
     private LocalDateTime activatedAt = LocalDateTime.now();
     @Column
-    private LocalDateTime archivedAt = LocalDateTime.now();
+    private LocalDateTime archivedAt;
 
 }

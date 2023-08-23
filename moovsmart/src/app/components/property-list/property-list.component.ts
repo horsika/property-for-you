@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {Router} from "@angular/router";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
-import { MapComponent } from "../../components/map/map.component";
+
 
 
 @Component({
