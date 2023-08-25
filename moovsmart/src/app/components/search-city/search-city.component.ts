@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {SearchService} from "../../services/search.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-city',
@@ -11,33 +12,38 @@ export class SearchCityComponent implements OnInit {
 
   searchForm: FormGroup;
   searchResults: string[] = [];
-  selectedCity: string = '';
 
   constructor(private formBuilder: FormBuilder,
-              public searchService: SearchService) {
+              public searchService: SearchService,
+              private router: Router,
+              private route: ActivatedRoute,) {
     this.searchForm = this.formBuilder.group({
       query: ['']
     })
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const initialCity = params['city'];
+      if (initialCity) {
+        this.searchForm.get('query').setValue(initialCity);
+        this.searchService.setSelectedCity(initialCity);
+      }
+    })
+
     this.searchForm.get('query').valueChanges.subscribe(query => {
       this.searchResults = this.searchService.filterCities(query);
-      console.log('Search result: ', this.searchResults);
     })
 
   }
-  setSelectedCity(city: string) {
-    this.selectedCity = city;
-  }
 
-  getSelectedCity(): string {
-    return this.selectedCity;
-  }
   onListItemClick(result: string) {
     this.searchService.listItemClicked.emit(result);
-    this.setSelectedCity(result);
+    this.searchService.setSelectedCity(result);
     this.searchResults = [];
+    this.router.navigate(['/property-list'], {queryParams: {city: result}})
+
   }
+
 
 }

@@ -7,7 +7,7 @@ import {RegisterComponent} from "./components/register/register.component";
 import {SearchCityComponent} from "./components/search-city/search-city.component";
 
 const routes: Routes = [
-  {path: "", component: PropertyListComponent},
+  {path: "", component: SearchCityComponent},
   {path: "property-list", component: PropertyListComponent},
   {path: "property-form", component: PropertyFormComponent},
   {path: "property-details/:id", component: PropertyDetailsComponent},

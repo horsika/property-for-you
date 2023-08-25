@@ -2,7 +2,7 @@
   <form [formGroup]="searchForm" class="search-form">
     <div class="search-wrapper">
       <input type="text" formControlName="query" class="search-input" placeholder="Which city?"
-      [value]="getSelectedCity()">
+      [value]="searchService.getSelectedCity()">
       <span class="search-icon">🔍</span>
     </div>
   </form>

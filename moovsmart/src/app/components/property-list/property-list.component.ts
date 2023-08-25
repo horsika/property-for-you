@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {Router} from "@angular/router";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
-
+import {SearchService} from "../../services/search.service";
 
 
 @Component({
@@ -29,6 +29,8 @@ export class PropertyListComponent implements OnInit {
   isFilterPropertyTypeApplied: boolean = false;
   isFilterListingTypeApplied: boolean = false;
   commonFilteredProperties: Array<PropertyListItemModel> = [];
+  selectedCity: string = '';
+  isFilterCityApplied: boolean = false;
 
 
   // For dropdown menu to collapse after option has been chosen
@@ -36,13 +38,19 @@ export class PropertyListComponent implements OnInit {
 
 
   constructor(private propertyService: PropertyService,
+              private searchService: SearchService,
               private router: Router) {
   }
 
   ngOnInit() {
+    this.selectedCity = this.searchService.getSelectedCity();
+    this.isFilterCityApplied = true;
+
     this.propertyService.getPropertyList().subscribe(
       propertyListItems => {
-        this.originalProperties = propertyListItems.map(property => ({
+        this.originalProperties = propertyListItems
+          .filter(property => property.city === this.selectedCity)
+          .map(property => ({
           ...property,
           activatedAt: new Date(property.activatedAt),
           formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
@@ -53,6 +61,7 @@ export class PropertyListComponent implements OnInit {
             minute: '2-digit'
           })
         }));
+
         this.properties = this.originalProperties;
         this.commonFilteredProperties = this.originalProperties;
       }
@@ -69,36 +78,42 @@ export class PropertyListComponent implements OnInit {
   }
 
   sortByActivatedAtDescending(event: Event): void {
-    event.stopPropagation();
+    event.preventDefault(); // Prevent page reload
+    event.stopPropagation(); // Prevent change in parent elements in DOM
     this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.activatedAt.getTime() - a.activatedAt.getTime());
     this.selectedSortingOption = 'Newest';
   }
 
   sortByFloorAreaDescending(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.floorArea - a.floorArea);
     this.selectedSortingOption = 'SquareFeet (Large to Small)';
   }
 
   sortByFloorAreaAscending(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => a.floorArea - b.floorArea);
     this.selectedSortingOption = 'SquareFeet (Small to Large)';
   }
 
   sortByPriceDescending(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.price - a.price);
     this.selectedSortingOption = 'Price (High to Low)';
   }
 
   sortByPriceAscending(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => a.price - b.price);
     this.selectedSortingOption = 'Price (Low to High)';
   }
 
   sortByBedroomsDescending(event: Event): void {
+    event.preventDefault();
     event.stopPropagation();
     this.commonFilteredProperties = this.commonFilteredProperties.slice().sort((a, b) => b.numberOfBedrooms - a.numberOfBedrooms);
     this.selectedSortingOption = 'Bedrooms';
@@ -209,9 +224,20 @@ export class PropertyListComponent implements OnInit {
 
   //Combined filters--------------------------------------------------------------------
   applyCombinedFilters(): void {
-    if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied) {
+    if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied && this.isFilterCityApplied) {
+      this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
+        .filter(property =>
+          this.selectedPropertyTypes.includes(property.propertyTypeDisplayName) &&
+          property.city === this.selectedCity);
+    } else if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
         .filter(property => this.selectedPropertyTypes.includes(property.propertyTypeDisplayName));
+    } else if (this.isFilterListingTypeApplied && this.isFilterCityApplied) {
+      this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
+        .filter(property => property.city === this.selectedCity);
+    } else if (this.isFilterPropertyTypeApplied && this.isFilterCityApplied) {
+      this.commonFilteredProperties = this.filterPropertiesPropertyType(this.selectedPropertyTypes)
+        .filter(property => property.city === this.selectedCity);
     } else if (this.isFilterListingTypeApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType);
     } else if (this.isFilterPropertyTypeApplied) {
@@ -222,9 +248,5 @@ export class PropertyListComponent implements OnInit {
 
   }
 
-  //Filter by city--------------------------------------------------------------------
-  filterPropertiesCity(city: string): PropertyListItemModel[] {
-    return this.originalProperties.filter(property => property.city === city);
-  }
 
 }
