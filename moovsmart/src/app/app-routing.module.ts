@@ -4,13 +4,15 @@ import {PropertyListComponent} from "./components/property-list/property-list.co
 import {PropertyFormComponent} from "./components/property-form/property-form.component";
 import {PropertyDetailsComponent} from "./components/property-details/property-details.component";
 import {RegisterComponent} from "./components/register/register.component";
+import {SearchCityComponent} from "./components/search-city/search-city.component";
 
 const routes: Routes = [
   {path: "", component: PropertyListComponent},
   {path: "property-list", component: PropertyListComponent},
   {path: "property-form", component: PropertyFormComponent},
   {path: "property-details/:id", component: PropertyDetailsComponent},
-  {path: "register", component: RegisterComponent}
+  {path: "register", component: RegisterComponent},
+  {path: "search-city", component: SearchCityComponent}
 ];
 
 @NgModule({
