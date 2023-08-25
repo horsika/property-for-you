@@ -1,0 +1,17 @@
+<div class="search-container">
+  <form [formGroup]="searchForm" class="search-form">
+    <div class="search-wrapper">
+      <input type="text" formControlName="query" class="search-input" placeholder="Which city?"
+      [value]="getSelectedCity()">
+      <span class="search-icon">🔍</span>
+    </div>
+  </form>
+
+  <div class="search-results" *ngIf="searchResults.length > 0">
+    <ul class="search-results-list">
+      <li *ngFor="let result of searchResults" (click)="onListItemClick(result)">
+        {{ result }}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -29,6 +29,11 @@ public class PropertyListItem {
 
     private String listingTypeDisplayName;
 
+    private String city;
+    private double longitude;
+
+    private double latitude;
+
     public PropertyListItem() {
     }
 
@@ -45,6 +50,9 @@ public class PropertyListItem {
         this.price = property.getPriceHistory().get(0);
         this.activatedAt = property.getActivatedAt();
         this.listingTypeDisplayName = property.getListingType().getDisplayName();
+        this.city = property.getAddress().getCity();
+        this.latitude = property.getLatitude();
+        this.longitude = property.getLongitude();
     }
 
 
@@ -142,5 +150,29 @@ public class PropertyListItem {
 
     public void setListingTypeDisplayName(String listingTypeDisplayName) {
         this.listingTypeDisplayName = listingTypeDisplayName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

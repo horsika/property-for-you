@@ -222,4 +222,9 @@ export class PropertyListComponent implements OnInit {
 
   }
 
+  //Filter by city--------------------------------------------------------------------
+  filterPropertiesCity(city: string): PropertyListItemModel[] {
+    return this.originalProperties.filter(property => property.city === city);
+  }
+
 }

@@ -1,0 +1,49 @@
+.search-container{
+  position: relative;
+  display: inline-block;
+}
+
+.search-form {
+  position: relative;
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-input {
+  padding-right: 30px; /* Make room for the search icon */
+  height: 40px;
+  border-radius: 8px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust this value to control the distance from the right */
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Search results */
+.search-results {
+  position: absolute;
+  top: calc(100%); /* Adjust this value for spacing */
+  left: 0;
+  width: 100%;
+  background-color: white; /* Add a background color to make results readable */
+  border: 1px solid #ccc; /* Add a border for separation */
+  z-index: 3; /* Ensure the results appear above other elements */
+  opacity: 1;
+}
+
+.search-results-list {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 3;
+  opacity: 1;
+}

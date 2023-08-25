@@ -57,8 +57,23 @@
 }
 
 /* Custom padding for form-check elements */
+.btn{
+  height: 40px;
+}
+
+.dropdown-menu{
+  justify-content: center;
+  text-align: left;
+}
+
 .custom-form-check {
-  padding: 1rem 2rem; /* Adjust the values as needed */
+  display: flex;
+  padding: 1rem 1rem;
+  align-items: center;
+}
+
+.custom-form-check .form-check-input{
+  margin-right: 10px;
 }
 
 .button-container {
@@ -71,11 +86,14 @@
   text-align: center;
 }
 
+
 .disabled-cards {
   pointer-events: none;
   opacity: 0.5;
 }
 
+
+/* Property details format on small cards*/
 .price {
   font-size: 1.3rem;
 }
@@ -91,3 +109,4 @@
   font-size: 14px;
   color: lightgrey;
 }
+
