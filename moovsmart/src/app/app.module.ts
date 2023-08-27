@@ -16,6 +16,7 @@ import {MapComponent} from './components/map/map.component';
 import {RegisterComponent} from './components/register/register.component';
 import {AuthInterceptor} from "./utils/auth.interceptor";
 import { SearchCityComponent } from './components/search-city/search-city.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SearchCityComponent } from './components/search-city/search-city.compon
     CarouselComponent,
     MapComponent,
     RegisterComponent,
-    SearchCityComponent
+    SearchCityComponent,
+    HomepageComponent
   ],
   imports: [
     HttpClientModule,

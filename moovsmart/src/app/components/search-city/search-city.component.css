@@ -36,7 +36,7 @@
   background-color: white; /* Add a background color to make results readable */
   border: 1px solid #ccc; /* Add a border for separation */
   z-index: 3; /* Ensure the results appear above other elements */
-  opacity: 1;
+  opacity: 1; /* This is needed finally to ensure the results appear above other elements */
 }
 
 .search-results-list {
@@ -45,5 +45,5 @@
   padding: 0;
   margin: 0;
   z-index: 3;
-  opacity: 1;
+  opacity: 1;  /* This is needed finally to ensure the results appear above other elements */
 }
