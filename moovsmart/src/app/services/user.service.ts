@@ -3,8 +3,9 @@ import {HttpClient, HttpResponse} from "@angular/common/http";
 import {RegisterRequestModel} from "../models/register-request.model";
 import {AuthRequestModel} from "../models/auth-request-model";
 import {AuthResponseModel} from "../models/auth-response.model";
+import {environment} from "../../environments/environment";
 
-const BASE_URL = 'http://localhost:8080/api/auth';
+const BASE_URL = environment.BASE_URL + '/api/auth';
 
 @Injectable({
   providedIn: 'root'
