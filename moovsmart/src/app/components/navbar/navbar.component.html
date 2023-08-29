@@ -30,7 +30,8 @@
           <a class="nav-link" href="#">Right</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link bg-black border border-success border-2 rounded-pill" routerLink="/register">Login / Sign Up</a>
+          <a class="nav-link bg-black border border-success border-2 rounded-pill" routerLink="/register" *ngIf="!loggedIn">Login / Sign Up</a>
+          <a class="nav-link bg-black border border-success border-2 rounded-pill" routerLink="/my-page" *ngIf="loggedIn">My Page</a>
         </li>
       </ul>
     </div>

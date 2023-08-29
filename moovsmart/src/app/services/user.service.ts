@@ -4,6 +4,7 @@ import {RegisterRequestModel} from "../models/register-request.model";
 import {AuthRequestModel} from "../models/auth-request-model";
 import {AuthResponseModel} from "../models/auth-response.model";
 import {environment} from "../../environments/environment";
+import {Subject} from "rxjs";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -12,6 +13,8 @@ const BASE_URL = environment.BASE_URL + '/api/auth';
 })
 export class UserService {
 
+  tokenIsPresent = new Subject<boolean>();
+
   constructor(private http: HttpClient) { }
 
   registerUser(data: RegisterRequestModel) {
@@ -19,16 +22,11 @@ export class UserService {
   }
 
   loginUser(data: AuthRequestModel) {
-    return this.http.post<AuthResponseModel>(BASE_URL + '/authentication', data)
+    return this.http.post<AuthResponseModel>(BASE_URL + '/authentication', data);
   }
 
-  async isGetSuccessful(): Promise<boolean> {
-    try {
-      const response = await this.http.get<HttpResponse<any>>(BASE_URL + '/am-i-logged-in').toPromise();
-      return !(response.status === 401 || response.status === 403);
-
-    } catch (error) {
-      return true;
-    }
+  removeToken() {
+    localStorage.removeItem('token');
+    this.tokenIsPresent.next(false);
   }
 }

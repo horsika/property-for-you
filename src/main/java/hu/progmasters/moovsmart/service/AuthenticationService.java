@@ -2,6 +2,7 @@ package hu.progmasters.moovsmart.service;
 
 import hu.progmasters.moovsmart.domain.user.UserRole;
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
+import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.repository.UserRepository;
@@ -24,7 +25,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
 
         var user = User.builder()
                 .firstName(registerRequest.getFirstName())
@@ -38,12 +39,6 @@ public class AuthenticationService {
             throw new AuthenticationServiceException("User with given email already exists!");
         }
         userRepository.save(user);
-
-        var jwtToken = jwtService.generateToken(user);
-
-        return AuthResponse.builder()
-                .token(jwtToken)
-                .build();
     }
 
     public AuthResponse authenticate(AuthenticationRequest request) {
@@ -62,5 +57,14 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+
+    public void changeEmail(EmailChangeForm emailChangeForm, String token) {
+        if(userRepository.findUserByEmail(emailChangeForm.getEmail()).isEmpty()
+        && userRepository.findUserByEmail(jwtService.extractEmail(token)).isPresent()){
+           User user =  userRepository.findUserByEmail(jwtService.extractEmail(token)).orElseThrow();
+           user.setEmail(emailChangeForm.getEmail());
+           userRepository.save(user);
+        }
     }
 }
