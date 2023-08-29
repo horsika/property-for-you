@@ -11,4 +11,6 @@ export interface PropertyDetailsModel {
   description: string;
   heatingType: string;
   propertyType: string;
+  latitude: number;
+  longitude: number;
 }

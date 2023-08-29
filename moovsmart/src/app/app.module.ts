@@ -10,7 +10,6 @@ import {PropertyFormComponent} from './components/property-form/property-form.co
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { DetailsMapComponent } from './components/details-map/details-map.component';
 import {CarouselComponent} from './components/carousel/carousel.component';
 import {MapComponent} from './components/map/map.component';
 import {RegisterComponent} from './components/register/register.component';
@@ -24,7 +23,6 @@ import {AuthInterceptor} from "./utils/auth.interceptor";
     PropertyDetailsComponent,
     PropertyListComponent,
     FooterComponent,
-    DetailsMapComponent,
     CarouselComponent,
     MapComponent,
     RegisterComponent

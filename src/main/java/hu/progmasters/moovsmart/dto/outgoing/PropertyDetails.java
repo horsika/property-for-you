@@ -24,6 +24,8 @@ public class PropertyDetails {
     private String listingStatus;
     private String listingType;
     private String address;
+    private Double latitude;
+    private Double longitude;
 
     public PropertyDetails(Property property) {
         this.id = property.getPropertyId();
@@ -40,5 +42,7 @@ public class PropertyDetails {
         this.listingStatus = property.getListingStatus().getDisplayName();
         this.listingType = property.getListingType().getDisplayName();
         this.address = property.getAddress().toString();
+        this.latitude = property.getLatitude();
+        this.longitude = property.getLongitude();
     }
 }

@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping("/api/properties")
 public class PropertyController {
 
-    private PropertyService propertyService;
-    private PropertyFormValidator propertyFormValidator;
+    private final PropertyService propertyService;
+    private final PropertyFormValidator propertyFormValidator;
 
     @Autowired
     public PropertyController(PropertyService propertyService, PropertyFormValidator propertyFormValidator) {

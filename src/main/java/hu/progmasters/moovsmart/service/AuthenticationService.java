@@ -32,7 +32,7 @@ public class AuthenticationService {
                 .email(registerRequest.getEmail())
                 .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
                 .profilePicture(registerRequest.getProfilePicture())
-                .role(UserRole.ROlE_USER)
+                .role(UserRole.ROLE_USER)
                 .build();
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
             throw new AuthenticationServiceException("User with given email already exists!");
