@@ -12,6 +12,7 @@ export class SearchCityComponent implements OnInit {
 
   searchForm: FormGroup;
   searchResults: string[] = [];
+  isFirstSearch: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
               public searchService: SearchService,
@@ -38,10 +39,18 @@ export class SearchCityComponent implements OnInit {
   }
 
   onListItemClick(result: string) {
-    this.searchService.listItemClicked.emit(result);
     this.searchService.setSelectedCity(result);
-    this.searchResults = [];
-    this.router.navigate(['/property-list'], {queryParams: {city: result}})
+    // this.searchResults = [];
+    if (this.isFirstSearch) {
+
+      this.router.navigate(['/property-list'], {queryParams: {city: result}})
+      this.isFirstSearch = false;
+    }
+
+    setTimeout(() => {
+      this.searchResults = [];
+    }, 100);
+
 
   }
 

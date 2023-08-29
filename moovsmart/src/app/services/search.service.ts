@@ -1,7 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +9,11 @@ export class SearchService {
 
   searchForm: FormGroup;
   citiesHu: any [] = [];
-  listItemClicked: EventEmitter<string> = new EventEmitter<string>();
   selectedCity: string = '';
 
 
   constructor(private formBuilder: FormBuilder,
-              private http: HttpClient,
-              private route: ActivatedRoute) {
+              private http: HttpClient) {
     this.searchForm = this.formBuilder.group({
       query: ['']
     });

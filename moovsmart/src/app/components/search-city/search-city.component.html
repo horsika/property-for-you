@@ -9,7 +9,7 @@
 
   <div class="search-results" *ngIf="searchResults.length > 0">
     <ul class="search-results-list">
-      <li *ngFor="let result of searchResults" (click)="onListItemClick(result)">
+      <li *ngFor="let result of searchResults" (mousedown)="onListItemClick(result)">
         {{ result }}
       </li>
     </ul>

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
 import {SearchService} from "../../services/search.service";
 
@@ -39,33 +39,40 @@ export class PropertyListComponent implements OnInit {
 
   constructor(private propertyService: PropertyService,
               private searchService: SearchService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.selectedCity = this.searchService.getSelectedCity();
+    this.route.queryParams.subscribe(params => {
+      this.selectedCity = params['city'];
+
+      // this.selectedCity = this.searchService.getSelectedCity();
+      console.log(this.selectedCity);
+
+
+      this.propertyService.getPropertyList().subscribe(
+        propertyListItems => {
+          this.originalProperties = propertyListItems
+            .filter(property => property.city === this.selectedCity)
+            .map(property => ({
+              ...property,
+              activatedAt: new Date(property.activatedAt),
+              formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })
+            }));
+
+          this.properties = this.originalProperties;
+          this.commonFilteredProperties = this.originalProperties;
+        });
+    });
+
     this.isFilterCityApplied = true;
-
-    this.propertyService.getPropertyList().subscribe(
-      propertyListItems => {
-        this.originalProperties = propertyListItems
-          .filter(property => property.city === this.selectedCity)
-          .map(property => ({
-          ...property,
-          activatedAt: new Date(property.activatedAt),
-          formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })
-        }));
-
-        this.properties = this.originalProperties;
-        this.commonFilteredProperties = this.originalProperties;
-      }
-    );
   }
 
   details(id: number) {
