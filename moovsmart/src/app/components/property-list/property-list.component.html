@@ -34,8 +34,8 @@
     </div>
 
 
-<!--    <button class="btn btn-outline-secondary mx-2">Price</button>-->
-<!--    <button class="btn btn-outline-secondary mx-2">Beds & Baths</button>-->
+    <!--    <button class="btn btn-outline-secondary mx-2">Price</button>-->
+    <!--    <button class="btn btn-outline-secondary mx-2">Beds & Baths</button>-->
 
     <div class="dropdown-container">
       <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -154,7 +154,8 @@
     <!-- Small cards section with scrollbar -->
     <div class="row g-4  scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
       <div *ngFor="let property of commonFilteredProperties" class="col-12 col-md-6">
-        <div class="card small-card">
+        <div id="property-card" class="card small-card" (click)="goToDetails(property.propertyId)"
+             style="cursor: pointer;">
           <img src="{{property.images[0]}}" class="card-img-top" alt="image">
           <!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->
           <!--          <app-carousel class="carousel" [images]="property.images"></app-carousel>-->

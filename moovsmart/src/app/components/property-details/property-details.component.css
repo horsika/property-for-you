@@ -4,14 +4,12 @@
 
 .property-details-inline li {
   display: inline;
+  font-size: x-large;
 }
 
 .property-details-inline h2 {
   display: inline;
-}
-
-#feature-img {
-
+  font-size: x-large;
 }
 
 #property-img {
@@ -36,3 +34,14 @@
 #map {
   height: 100%;
 }
+
+#back-button {
+  border: 0;
+  font-size: xx-large;
+  color: black;
+}
+
+#back-button:hover {
+  color:lightgreen;
+}
+

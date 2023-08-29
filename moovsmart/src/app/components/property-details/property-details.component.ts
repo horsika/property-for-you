@@ -9,7 +9,7 @@ import * as L from "leaflet";
   templateUrl: './property-details.component.html',
   styleUrls: ['./property-details.component.css']
 })
-export class PropertyDetailsComponent implements OnInit, AfterViewInit {
+export class PropertyDetailsComponent implements OnInit {
 
   private map: any;
   propertyId: number;
@@ -49,7 +49,7 @@ export class PropertyDetailsComponent implements OnInit, AfterViewInit {
 
     tiles.addTo(this.map);
 
-    const budapestMarker = L.marker([47.4979, 19.0402], {
+    const budapestMarker = L.marker([this.property.latitude, this.property.longitude], {
       icon: L.icon({
         iconUrl: 'assets/leaflet/marker-icon.png',
         shadowUrl: 'assets/leaflet/marker-shadow.png',
@@ -90,10 +90,6 @@ export class PropertyDetailsComponent implements OnInit, AfterViewInit {
         this.initMap();
       }
     });
-  }
-
-  ngAfterViewInit() {
-
   }
 
 }

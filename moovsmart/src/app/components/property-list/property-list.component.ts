@@ -222,4 +222,8 @@ export class PropertyListComponent implements OnInit {
 
   }
 
+  goToDetails(id: number) {
+    this.router.navigate(['property-details', id]);
+  }
+
 }
