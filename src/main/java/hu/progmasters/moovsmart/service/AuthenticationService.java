@@ -1,9 +1,11 @@
 package hu.progmasters.moovsmart.service;
 
+import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.domain.user.UserRole;
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
 import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
+import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import hu.progmasters.moovsmart.domain.user.User;
 
 @Service
 @Transactional
@@ -60,11 +61,20 @@ public class AuthenticationService {
     }
 
     public void changeEmail(EmailChangeForm emailChangeForm, String token) {
+        String processableToken = token.substring(7);
         if(userRepository.findUserByEmail(emailChangeForm.getEmail()).isEmpty()
-        && userRepository.findUserByEmail(jwtService.extractEmail(token)).isPresent()){
-           User user =  userRepository.findUserByEmail(jwtService.extractEmail(token)).orElseThrow();
+        && userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).isPresent()){
+           User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
            user.setEmail(emailChangeForm.getEmail());
            userRepository.save(user);
+        } else {
+            throw new AuthenticationServiceException("User with given email already exists!");
         }
+    }
+
+    public AccountDetails getAccountDetails(String token) {
+        String processableToken = token.substring(7);
+        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        return new AccountDetails(user);
     }
 }

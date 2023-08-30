@@ -3,6 +3,7 @@ package hu.progmasters.moovsmart.controller;
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
 import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
+import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.service.AuthenticationService;
 import hu.progmasters.moovsmart.validation.AuthValidator;
@@ -34,9 +35,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-email")
-    public ResponseEntity<Void> changeEmail(@RequestBody EmailChangeForm emailChangeForm, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<Void> changeEmail(@RequestBody @Valid EmailChangeForm emailChangeForm, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         authenticationService.changeEmail(emailChangeForm, token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/account-details")
+    public ResponseEntity<AccountDetails> sendAccountDetails(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return new ResponseEntity<>(authenticationService.getAccountDetails(token), HttpStatus.OK);
+    }
+
 
 }

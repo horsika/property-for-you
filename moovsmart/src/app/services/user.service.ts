@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {RegisterRequestModel} from "../models/register-request.model";
 import {AuthRequestModel} from "../models/auth-request-model";
 import {AuthResponseModel} from "../models/auth-response.model";
 import {environment} from "../../environments/environment";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
+import {EmailChangeModel} from "../models/email-change.model";
+import {MyAccountModel} from "../models/my-account.model";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -28,5 +30,12 @@ export class UserService {
   removeToken() {
     localStorage.removeItem('token');
     this.tokenIsPresent.next(false);
+  }
+
+  getMyAccountDetails(): Observable<MyAccountModel> {
+    return this.http.get<MyAccountModel>(BASE_URL + '/account-details');
+  }
+  changeEmail(data: EmailChangeModel) {
+    return this.http.post(BASE_URL + '/change-email', data);
   }
 }

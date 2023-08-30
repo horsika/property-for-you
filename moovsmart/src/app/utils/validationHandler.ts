@@ -12,4 +12,12 @@ export function validationHandler(error: Error, form: FormGroup) {
   }
 }
 
+export function emailIsAlreadyInUseHandler(error: Error) {
+  if (error instanceof HttpErrorResponse && error.status === 409) {
+    return 'This email is already used by someone else!'
+  } else {
+    return null;
+  }
+}
+
 
