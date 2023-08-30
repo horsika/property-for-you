@@ -12,16 +12,26 @@ import {validationHandler} from '../../utils/validationHandler';
 export class PropertyFormComponent implements OnInit {
 
   propertyForm: FormGroup;
+  propertyTypeList: any;
+  heatingTypeList: any;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
               private router: Router) {
     this.propertyForm = this.formBuilder.group({
       'name': [''],
-      'numberOfRooms': [0],
-      'price': [0],
+      'numberOfBedrooms': [],
+      'numberOfBathrooms': [],
+      'price': [],
+      'floorArea': [],
+      'airConditioning': [false],
       'description': [''],
-      'imageUrl': [''],
+      'images': [''],
+      'address': [''],
+      'propertyType': [],
+      'heatingType': [],
+      'listingStatus': [],
+      'listingType': [],
     });
   }
 
@@ -35,6 +45,7 @@ export class PropertyFormComponent implements OnInit {
     );
 
   };
+
 
 
 }

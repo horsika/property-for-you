@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Register New Room</h2>
+  <h2>Register New Property</h2>
   <hr/>
   <form (ngSubmit)="submit()" [formGroup]="propertyForm">
     <div class="form-group">
@@ -18,16 +18,31 @@
 
     <div class="form-group">
       <label
-        for="numberOfRooms">Number of rooms</label>
+        for="numberOfBedrooms">Number of bedrooms</label>
       <input
         class="form-control"
-        formControlName="numberOfRooms"
-        id="numberOfRooms"
-        placeholder="Enter the number of rooms"
+        formControlName="numberOfBedrooms"
+        id="numberOfBedrooms"
+        placeholder="Enter the number of bedrooms"
         type="number"
       />
-      <small *ngIf="propertyForm.get('numberOfRooms').errors?.serverError" class="text-danger">
-        {{propertyForm.get('numberOfRooms').errors['serverError']}}
+      <small *ngIf="propertyForm.get('numberOfBedrooms').errors?.serverError" class="text-danger">
+        {{propertyForm.get('numberOfBedrooms').errors['serverError']}}
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label
+        for="numberOfBathrooms">Number of bathrooms</label>
+      <input
+        class="form-control"
+        formControlName="numberOfBathrooms"
+        id="numberOfBathrooms"
+        placeholder="Enter the number of bathrooms"
+        type="number"
+      />
+      <small *ngIf="propertyForm.get('numberOfBathrooms').errors?.serverError" class="text-danger">
+        {{propertyForm.get('numberOfBathrooms').errors['serverError']}}
       </small>
     </div>
 
@@ -64,17 +79,96 @@
 
     <div class="form-group">
       <label
-        for="imageUrl">Image</label>
+        for="floorArea">Floor area</label>
       <input
         class="form-control"
-        formControlName="imageUrl"
-        id="imageUrl"
-        placeholder="Enter an url for the image"
+        formControlName="floorArea"
+        id="floorArea"
+        placeholder="Enter the floor area"
+        type="number"
       />
-      <small *ngIf="propertyForm.get('imageUrl').errors?.serverError" class="text-danger">
-        {{propertyForm.get('imageUrl').errors['serverError']}}
+      <small *ngIf="propertyForm.get('floorArea').errors?.serverError" class="text-danger">
+        {{propertyForm.get('floorArea').errors['serverError']}}
       </small>
     </div>
+
+    <div class="form-group">
+      <label
+        for="images">Images</label>
+      <input
+        class="form-control"
+        formControlName="images"
+        id="images"
+        placeholder="Enter the urls for the images separated by ;"
+      />
+      <small *ngIf="propertyForm.get('images').errors?.serverError" class="text-danger">
+        {{propertyForm.get('images').errors['serverError']}}
+      </small>
+    </div>
+
+    <div class="form-group py-2">
+      <div class="form-check form-switch">
+        <label class="form-check-label" for="airConditioning">Air conditioning</label>
+        <input class="form-check-input" type="checkbox" id="airConditioning">
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="propertyType">Type of property:</label>
+      <select class="form-select"
+              aria-label="propertyType"
+              formControlName="propertyType"
+              id="propertyType"
+              [ngClass]="{'is-invalid': (propertyForm.get('propertyType')?.invalid && propertyForm.get('propertyType')?.touched)
+    || (propertyForm.get('propertyType')?.errors?.['serverError'])}"
+      >
+
+        <option *ngFor="let propertyType of propertyTypeList" value="{{propertyType.id}}">
+          {{propertyType}}</option>
+      </select>
+      <small *ngIf="propertyForm.get('propertyType')?.errors?.['serverError']" class="text-danger">
+        {{propertyForm.get('propertyType')?.errors!['serverError']}}
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="heatingType">Type of heating:</label>
+      <select class="form-select"
+              aria-label="heatingType"
+              formControlName="heatingType"
+              id="heatingType"
+              [ngClass]="{'is-invalid': (propertyForm.get('heatingType')?.invalid && propertyForm.get('propertyType')?.touched)
+    || (propertyForm.get('heatingType')?.errors?.['serverError'])}"
+      >
+
+        <option *ngFor="let heatingType of heatingTypeList" value="{{heatingType.id}}">
+          {{heatingType}}</option>
+      </select>
+      <small *ngIf="propertyForm.get('heatingType')?.errors?.['serverError']" class="text-danger">
+        {{propertyForm.get('heatingType')?.errors!['serverError']}}
+      </small>
+    </div>
+
+    <div class="form-group py-2">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+        <label class="form-check-label" for="flexRadioDefault1">
+          For sale
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+        <label class="form-check-label" for="flexRadioDefault2">
+          For rent
+        </label>
+      </div>
+
+      <small *ngIf="propertyForm.get('images').errors?.serverError" class="text-danger">
+        {{propertyForm.get('images').errors['serverError']}}
+      </small>
+    </div>
+
 
     <br/>
     <button class="btn btn-primary my-buttons">Save Property</button>
