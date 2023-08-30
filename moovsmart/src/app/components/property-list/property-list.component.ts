@@ -48,8 +48,7 @@ export class PropertyListComponent implements OnInit {
       this.selectedCity = params['city'];
 
       // this.selectedCity = this.searchService.getSelectedCity();
-      console.log(this.selectedCity);
-
+      // console.log(this.selectedCity);
 
       this.propertyService.getPropertyList().subscribe(
         propertyListItems => {
@@ -69,11 +68,14 @@ export class PropertyListComponent implements OnInit {
 
           this.properties = this.originalProperties;
           this.commonFilteredProperties = this.originalProperties;
+          this.applyCombinedFilters();
+
         });
     });
 
     this.isFilterCityApplied = true;
   }
+
 
   details(id: number) {
     this.router.navigate(['property-details', id]);
@@ -167,6 +169,7 @@ export class PropertyListComponent implements OnInit {
       this.anyCheckboxChecked = false;
     }
     this.deselectAllChecked = !this.deselectAllChecked;
+
     this.applyFilterPropertyType();
   }
 
@@ -225,9 +228,11 @@ export class PropertyListComponent implements OnInit {
     this.applyCombinedFilters();
   }
 
+
   filterPropertiesPropertyType(selectedPropertyTypes: string[]): PropertyListItemModel[] {
     return this.originalProperties.filter(property => selectedPropertyTypes.includes(property.propertyTypeDisplayName))
   }
+
 
   //Combined filters--------------------------------------------------------------------
   applyCombinedFilters(): void {
