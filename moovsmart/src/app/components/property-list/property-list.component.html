@@ -8,7 +8,8 @@
 
     <div class="dropdown-container">
       <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-        {{selectedFilterOptionListingType}}
+        <ng-container *ngIf="isFilterListingTypeApplied">{{ selectedFilterOptionListingType }}</ng-container>
+        <ng-container *ngIf="!isFilterListingTypeApplied">For sale or rent?</ng-container>
       </button>
       <div class="dropdown-menu" (click)="preventDropdownCollapse($event)">
         <div class="form-check custom-form-check">
