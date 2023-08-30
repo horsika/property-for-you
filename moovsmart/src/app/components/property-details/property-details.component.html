@@ -10,23 +10,26 @@
     <div class="col-5 p-0">
       <div class="card">
         <div class="card-header p-0">
-          <table class="table border border-0">
-            <tr class="col">
-              <td class="">
-                <img src="assets/pfy.png" draggable="false" alt="pfy logo"
-                     style="max-height: 5rem; background-color: transparent">
-              </td>
-              <td>
-                <input id="property-save" name="property-save" class="btn btn-danger"
-                       type="button" value="💚Save"
-                       (click)="null">
-              </td>
-              <td style="text-align: end">
-                <button type="button" id="back-button" routerLink="/property-list" style="background-color: transparent">
-                  <i class="fa-solid fa-arrow-left" style="background-color: transparent"></i></button>
-              </td>
-            </tr>
-          </table>
+          <div class="table-responsive">
+            <table class="table border border-0">
+              <tr class="col">
+                <td class="">
+                  <img src="assets/pfy.png" draggable="false" alt="pfy logo"
+                       style="max-height: 5rem; background-color: transparent">
+                </td>
+                <td>
+                  <input id="property-save" name="property-save" class="btn btn-danger"
+                         type="button" value="💚Save"
+                         (click)="null">
+                </td>
+                <td style="text-align: end">
+                  <button type="button" id="back-button" routerLink="/property-list"
+                          style="background-color: transparent">
+                    <i class="fa-solid fa-arrow-left" style="background-color: transparent"></i></button>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
 
         <ul class="list-group list-group-flush">
