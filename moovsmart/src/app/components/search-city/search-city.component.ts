@@ -38,21 +38,26 @@ export class SearchCityComponent implements OnInit {
 
   }
 
-  onListItemClick(result: string) {
-    this.searchService.setSelectedCity(result);
-    // this.searchResults = [];
-    if (this.isFirstSearch) {
+  // onListItemClick(result: string) {
+  //   this.searchService.setSelectedCity(result);
+  //   // this.searchResults = [];
+  //   if (this.isFirstSearch) {
+  //
+  //     this.router.navigate(['/property-list'], {queryParams: {city: result}})
+  //     this.isFirstSearch = false;
+  //   }
+  //
+  //   setTimeout(() => {
+  //     this.searchResults = [];
+  //   }, 100);
 
+
+    onListItemClick(result: string) {
+      this.searchService.setSelectedCity(result);
+      // this.searchResults = [];
       this.router.navigate(['/property-list'], {queryParams: {city: result}})
-      this.isFirstSearch = false;
+
     }
-
-    setTimeout(() => {
-      this.searchResults = [];
-    }, 100);
-
-
-  }
 
 
 }
