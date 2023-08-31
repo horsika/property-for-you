@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import hu.progmasters.moovsmart.domain.user.User;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -62,5 +64,9 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
     }
 }

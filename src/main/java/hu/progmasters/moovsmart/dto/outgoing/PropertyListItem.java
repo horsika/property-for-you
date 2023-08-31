@@ -42,8 +42,7 @@ public class PropertyListItem {
         this.numberOfBathrooms = property.getNumberOfBathrooms();
         this.airConditioning = property.isAirConditioning();
         this.heatingType = property.getHeatingType().name();
-//        this.price = property.getPriceHistory().get(0);
-        this.price = -1;
+        this.price = property.getPriceHistory().get(0);
         this.activatedAt = property.getActivatedAt();
         this.listingTypeDisplayName = property.getListingType().getDisplayName();
     }

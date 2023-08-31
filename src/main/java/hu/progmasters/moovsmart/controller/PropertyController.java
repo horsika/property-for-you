@@ -1,11 +1,14 @@
 package hu.progmasters.moovsmart.controller;
 
+import hu.progmasters.moovsmart.dto.outgoing.FormOptions;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyTypeListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
 import hu.progmasters.moovsmart.validation.PropertyFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -43,9 +46,13 @@ public class PropertyController {
     }
 
     @PostMapping
-    public ResponseEntity createProperty(@RequestBody @Valid PropertyForm propertyForm) {
-        propertyService.createProperty(propertyForm);
+    public ResponseEntity createProperty(@RequestBody @Valid PropertyForm propertyForm, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        propertyService.createProperty(propertyForm, token);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @GetMapping("/form-options")
+    public ResponseEntity<FormOptions> getPropertyTypes() {
+        return new ResponseEntity<>(propertyService.getFormOptions(), HttpStatus.OK);
+    }
 }

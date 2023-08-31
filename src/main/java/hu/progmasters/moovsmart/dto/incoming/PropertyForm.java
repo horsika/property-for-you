@@ -7,7 +7,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -23,7 +22,7 @@ public class PropertyForm {
 
     private double numberOfBathrooms;
 
-    private int price;
+    private double price;
 
     private double floorArea;
 
@@ -35,7 +34,7 @@ public class PropertyForm {
 
     private double latitude;
 
-    private List<String> images;
+    private String images;
 
     private String address;
 

@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {PropertyService} from '../../services/property.service';
 import {Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
+import {PropertyTypeFormListItemModel} from "../../models/property-type-form-list-item.model";
+import {HeatingTypeFormListItemModel} from "../../models/heating-type-form-list-item.model";
 
 @Component({
   selector: 'app-property-form',
@@ -12,8 +14,8 @@ import {validationHandler} from '../../utils/validationHandler';
 export class PropertyFormComponent implements OnInit {
 
   propertyForm: FormGroup;
-  propertyTypeList: any;
-  heatingTypeList: any;
+  propertyTypeList: PropertyTypeFormListItemModel[];
+  heatingTypeList: HeatingTypeFormListItemModel[];
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -24,7 +26,7 @@ export class PropertyFormComponent implements OnInit {
       'numberOfBathrooms': [],
       'price': [],
       'floorArea': [],
-      'airConditioning': [false],
+      'airConditioning': [],
       'description': [''],
       'images': [''],
       'address': [''],
@@ -36,6 +38,13 @@ export class PropertyFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.propertyService.getFormOptions().subscribe({
+      next: response => {
+        this.propertyTypeList = response.propertyTypes;
+        this.heatingTypeList = response.heatingTypes;
+      },
+      error: err => console.warn(err),
+    })
   }
 
   submit = () => {

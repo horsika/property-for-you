@@ -7,9 +7,9 @@ export interface PropertyFormDataModel {
   price: number;
   floorArea: number;
   description: string;
-  images: string[];
+  images: string;
   airConditioning: boolean;
-  address: AddressModel;
+  address: string;
   propertyType: string;
   heatingType: string;
   listingStatus: string;
