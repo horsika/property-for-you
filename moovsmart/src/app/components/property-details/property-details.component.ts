@@ -83,7 +83,6 @@ export class PropertyDetailsComponent implements OnInit {
       next: value => this.property = value,
       error: err => console.warn(err),
       complete: () => {
-        console.log(this.property);
         while (this.property.address.includes('null')) {
           this.property.address = this.property.address.replace('null', '');
         }
