@@ -5,6 +5,8 @@ import {PropertyListItemModel} from "../models/propertyListItem.model";
 import {PropertyFormDataModel} from "../models/propertyFormData.model";
 import {PropertyDetailsModel} from "../models/propertyDetails.model";
 import {environment} from "../../environments/environment";
+import {PropertyTypeFormListItemModel} from "../models/property-type-form-list-item.model";
+import {FormOptionsModel} from "../models/form-options.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,8 @@ export class PropertyService {
   constructor(private httpClient: HttpClient) {
   }
 
-  createProperty(roomFormData: PropertyFormDataModel): Observable<any> {
-    return this.httpClient.post(this.baseUrl, roomFormData);
+  createProperty(propertyFormData: PropertyFormDataModel): Observable<any> {
+    return this.httpClient.post(this.baseUrl, propertyFormData);
   }
 
   getPropertyList(): Observable<Array<PropertyListItemModel>> {
@@ -28,4 +30,7 @@ export class PropertyService {
     return this.httpClient.get<PropertyDetailsModel>(this.baseUrl + id);
   }
 
+  getFormOptions() {
+    return this.httpClient.get<FormOptionsModel>(this.baseUrl + 'form-options')
+  }
 }

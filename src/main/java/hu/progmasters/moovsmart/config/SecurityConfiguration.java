@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
+
         return httpS.build();
     }
 

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import hu.progmasters.moovsmart.domain.user.User;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class AuthenticationService {
                 .email(registerRequest.getEmail())
                 .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
                 .profilePicture(registerRequest.getProfilePicture())
-                .role(UserRole.ROlE_USER)
+                .role(UserRole.ROLE_USER)
                 .build();
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
             throw new AuthenticationServiceException("User with given email already exists!");
@@ -62,5 +64,9 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
     }
 }
