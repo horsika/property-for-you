@@ -5,7 +5,6 @@ import {PropertyListItemModel} from "../models/propertyListItem.model";
 import {PropertyFormDataModel} from "../models/propertyFormData.model";
 import {PropertyDetailsModel} from "../models/propertyDetails.model";
 import {environment} from "../../environments/environment";
-import {PropertyTypeFormListItemModel} from "../models/property-type-form-list-item.model";
 import {FormOptionsModel} from "../models/form-options.model";
 
 @Injectable({
@@ -13,7 +12,7 @@ import {FormOptionsModel} from "../models/form-options.model";
 })
 export class PropertyService {
 
-   baseUrl = environment.BASE_URL + '/api/properties/';
+   baseUrl = environment.BASE_URL + '/api/properties';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -27,7 +26,7 @@ export class PropertyService {
   }
 
   getPropertyById(id: number) {
-    return this.httpClient.get<PropertyDetailsModel>(this.baseUrl + id);
+    return this.httpClient.get<PropertyDetailsModel>(this.baseUrl + '/' + id);
   }
 
   getFormOptions() {

@@ -42,6 +42,7 @@ public class SecurityConfiguration {
                 .requestMatchers(new AntPathRequestMatcher("/api/auth/register"),
                         new AntPathRequestMatcher("/api/auth/authentication"),
                         new AntPathRequestMatcher("/api/properties"),
+                        new AntPathRequestMatcher("/api/properties/*"),
                         new AntPathRequestMatcher("/api/auth/am-i-logged-in"))
                 .permitAll()
                 .anyRequest()
