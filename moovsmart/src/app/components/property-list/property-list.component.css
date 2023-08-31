@@ -19,7 +19,7 @@
 
 /* Apply custom styles to the scrollbar */
 .scrollable-cards {
-  max-height: calc(100vh - 20px);
+  max-height: calc(71vh - 20px);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #888888 #f0f0f0;

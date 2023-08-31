@@ -1,184 +1,184 @@
-<br>
-<!-- Search and filtering buttons section -->
-<div class="mb-4 d-flex justify-content-between">
-  <div class="d-flex w-100">
-<!--    <input type="text" class="form-control" style="width: 200px;" placeholder="Search">-->
+<div class="container-fluid mt-3 mb-3" style="height: 50vh;">
+  <!-- Search and filtering buttons section -->
+  <div class="mb-4 d-flex justify-content-between">
+    <div class="d-flex w-100">
+      <!--    <input type="text" class="form-control" style="width: 200px;" placeholder="Search">-->
 
       <app-search-city></app-search-city>
 
-    <div class="dropdown-container">
-      <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-        <ng-container *ngIf="isFilterListingTypeApplied">{{ selectedFilterOptionListingType }}</ng-container>
-        <ng-container *ngIf="!isFilterListingTypeApplied">For sale or rent?</ng-container>
-      </button>
-      <div class="dropdown-menu" (click)="preventDropdownCollapse($event)">
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
-                 (click)="setFilterOptionListingType('For sale'); applyFilterListingType()">
-          <label class="form-check-label" for="flexRadioDefault1">
-            For sale
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                 (click)="setFilterOptionListingType('For rent'); applyFilterListingType()">
-          <label class="form-check-label" for="flexRadioDefault2">
-            For rent
-          </label>
-        </div>
-        <div class="button-container">
-          <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply</button>
-        </div>
-      </div>
-    </div>
-
-
-    <!--    <button class="btn btn-outline-secondary mx-2">Price</button>-->
-    <!--    <button class="btn btn-outline-secondary mx-2">Beds & Baths</button>-->
-
-    <div class="dropdown-container">
-      <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
-        Home type {{ isFilterPropertyTypeApplied ? ' (' + selectedPropertyTypes.length + ')' : '' }}
-      </button>
-      <div class="dropdown-menu" (click)="preventDropdownCollapse($event)">
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault"
-                 [checked]="deselectAllChecked"
-                 (click)="toggleSelectAll()">
-          <label class="form-check-label" for="flexRadioDefault">
-            {{ deselectAllChecked ? 'Deselect All' : 'Select All' }}
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked0" [checked]="houseChecked"
-                 (click)="togglePropertyType('House')">
-          <label class="form-check-label" for="flexCheckChecked0">
-            House
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1"
-                 [checked]="multiFamilyHouseChecked"
-                 (click)="togglePropertyType('Multi-family house')">
-          <label class="form-check-label" for="flexCheckChecked1">
-            Multi-family house
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" [checked]="apartmentChecked"
-                 (click)="togglePropertyType('Apartment')">
-          <label class="form-check-label" for="flexCheckChecked2">
-            Apartment
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" [checked]="condoChecked"
-                 (click)="togglePropertyType('Condo')">
-          <label class="form-check-label" for="flexCheckChecked3">
-            Condo
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" [checked]="rowHouseChecked"
-                 (click)="togglePropertyType('Row house')">
-          <label class="form-check-label" for="flexCheckChecked4">
-            Row house
-          </label>
-        </div>
-        <div class="form-check custom-form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5" [checked]="summerHouseChecked"
-                 (click)="togglePropertyType('Summer house')">
-          <label class="form-check-label" for="flexCheckChecked5">
-            Summer house
-          </label>
-        </div>
-        <div class="button-container">
-          <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply
-          </button>
+      <div class="dropdown-container">
+        <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
+          <ng-container *ngIf="isFilterListingTypeApplied">{{ selectedFilterOptionListingType }}</ng-container>
+          <ng-container *ngIf="!isFilterListingTypeApplied">For sale or rent?</ng-container>
+        </button>
+        <div class="dropdown-menu" (click)="preventDropdownCollapse($event)">
+          <div class=" form-check custom-form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                   (click)="setFilterOptionListingType('For sale'); applyFilterListingType()">
+            <label class="form-check-label" for="flexRadioDefault1">
+              For sale
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                   (click)="setFilterOptionListingType('For rent'); applyFilterListingType()">
+            <label class="form-check-label" for="flexRadioDefault2">
+              For rent
+            </label>
+          </div>
+          <div class="button-container">
+            <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply</button>
+          </div>
         </div>
       </div>
-    </div>
-
-  </div>
-</div>
 
 
-<div class="row g-4">
-  <div class="col-md-6 d-none d-md-block">
-    <!-- Larger column content with a card containing a big image: a map will come here -->
-    <div class="card border-0">
-      <div class="card-body p-0">
-        <!--      <img src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/w_2560%2Cc_limit/GoogleMapTA.jpg"-->
-        <!--           class="card-img-top" alt="Large Image" style="height: 100%;">-->
-        <app-map style="width: 100%; height: 100%;"></app-map>
-      </div>
-    </div>
-  </div>
+      <!--    <button class="btn btn-outline-secondary mx-2">Price</button>-->
+      <!--    <button class="btn btn-outline-secondary mx-2">Beds & Baths</button>-->
 
-  <div class="col-12 col-md-6">
-    <!-- Right side content with title, search result, sorting options, and small cards -->
-    <div class="mb-4">
-      <!-- Title section -->
-      <h1 class="mb-0">Your Property Listings</h1>
-
-      <!-- Search results and sorting options section -->
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="mr-2">{{commonFilteredProperties.length}} results</span>
-
-        <div>
-          <div class="dropdown-center">
-            <button #dropdownBtn class="btn btn-outline-secondary dropdown-toggle" type="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-              Sort by: {{selectedSortingOption}}
+      <div class="dropdown-container">
+        <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
+          Home type {{ isFilterPropertyTypeApplied ? ' (' + selectedPropertyTypes.length + ')' : '' }}
+        </button>
+        <div class="dropdown-menu" (click)="preventDropdownCollapse($event)">
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault"
+                   [checked]="deselectAllChecked"
+                   (click)="toggleSelectAll()">
+            <label class="form-check-label" for="flexRadioDefault">
+              {{ deselectAllChecked ? 'Deselect All' : 'Select All' }}
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked0" [checked]="houseChecked"
+                   (click)="togglePropertyType('House')">
+            <label class="form-check-label" for="flexCheckChecked0">
+              House
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked1"
+                   [checked]="multiFamilyHouseChecked"
+                   (click)="togglePropertyType('Multi-family house')">
+            <label class="form-check-label" for="flexCheckChecked1">
+              Multi-family house
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked2" [checked]="apartmentChecked"
+                   (click)="togglePropertyType('Apartment')">
+            <label class="form-check-label" for="flexCheckChecked2">
+              Apartment
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked3" [checked]="condoChecked"
+                   (click)="togglePropertyType('Condo')">
+            <label class="form-check-label" for="flexCheckChecked3">
+              Condo
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked4" [checked]="rowHouseChecked"
+                   (click)="togglePropertyType('Row house')">
+            <label class="form-check-label" for="flexCheckChecked4">
+              Row house
+            </label>
+          </div>
+          <div class="form-check custom-form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked5"
+                   [checked]="summerHouseChecked"
+                   (click)="togglePropertyType('Summer house')">
+            <label class="form-check-label" for="flexCheckChecked5">
+              Summer house
+            </label>
+          </div>
+          <div class="button-container">
+            <button class="btn btn-primary mt-2 custom-apply-button" type="submit">Apply
             </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"
-                     (click)="sortByActivatedAtDescending($event); closeDropdown()">Newest</a></li>
-              <li><a class="dropdown-item" href="#" (click)="sortByPriceDescending($event); closeDropdown()">Price
-                (High to Low)</a></li>
-              <li><a class="dropdown-item" href="#" (click)="sortByPriceAscending($event); closeDropdown()">Price
-                (Low to High)</a></li>
-              <li><a class="dropdown-item" href="#"
-                     (click)="sortByFloorAreaDescending($event); closeDropdown()">Sqft(Large to Small)</a></li>
-              <li><a class="dropdown-item" href="#"
-                     (click)="sortByFloorAreaAscending($event); closeDropdown()">Sqft (Small to Large)</a></li>
-              <li><a class="dropdown-item" href="#"
-                     (click)="sortByBedroomsDescending($event); closeDropdown()">Bedrooms</a></li>
-            </ul>
           </div>
         </div>
       </div>
 
     </div>
-    <!-- Small cards section with scrollbar -->
-    <div class="row g-4  scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
+  </div>
 
-      <div *ngFor="let property of commonFilteredProperties" class="col-12 col-md-6">
-        <div id="property-card" class="card small-card" (click)="goToDetails(property.propertyId)"
-             style="cursor: pointer;">
-          <img src="{{property.images[0]}}" class="card-img-top" alt="image">
-          <!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->
-          <!--          <app-carousel class="carousel" [images]="property.images"></app-carousel>-->
 
-          <div class="card-body">
-            <h5>
-              $<span class="price">{{property.price  | number:'1.0-0'}}</span>
-              <small class="per-sqft"> (${{ (property.price / property.floorArea) | number:'1.0-0' }} per sqft)</small>
-            </h5>
-            <div class="activated-at"> {{property.formattedActivatedAt}}</div>
-            <div class="details-list">
-              {{property.floorArea | number:'1.0-0'}} sqft |
-              {{property.numberOfBedrooms}} bdr |
-              {{property.numberOfBathrooms}} ba |
-              {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}
+  <div class="row g-4">
+    <div class="col-md-6 d-none d-md-block">
+      <div class="card border-0">
+        <div class="card-body p-0">
+          <app-map></app-map>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <!-- Right side content with title, search result, sorting options, and small cards -->
+      <div class="mb-4">
+        <!-- Title section -->
+        <h1 class="mb-0">Your Property Listings</h1>
+
+        <!-- Search results and sorting options section -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="mr-2">{{commonFilteredProperties.length}} results</span>
+
+          <div>
+            <div class="dropdown-center">
+              <button #dropdownBtn class="btn btn-outline-secondary dropdown-toggle" type="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                Sort by: {{selectedSortingOption}}
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#"
+                       (click)="sortByActivatedAtDescending($event); closeDropdown()">Newest</a></li>
+                <li><a class="dropdown-item" href="#" (click)="sortByPriceDescending($event); closeDropdown()">Price
+                  (High to Low)</a></li>
+                <li><a class="dropdown-item" href="#" (click)="sortByPriceAscending($event); closeDropdown()">Price
+                  (Low to High)</a></li>
+                <li><a class="dropdown-item" href="#"
+                       (click)="sortByFloorAreaDescending($event); closeDropdown()">Sqft(Large to Small)</a></li>
+                <li><a class="dropdown-item" href="#"
+                       (click)="sortByFloorAreaAscending($event); closeDropdown()">Sqft (Small to Large)</a></li>
+                <li><a class="dropdown-item" href="#"
+                       (click)="sortByBedroomsDescending($event); closeDropdown()">Bedrooms</a></li>
+              </ul>
             </div>
-            <h6 class="mt-2">{{property.city}}, {{property.name}}</h6>
           </div>
         </div>
+
+      </div>
+      <!-- Small cards section with scrollbar -->
+      <div class="row g-4 scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
+
+        <div *ngFor="let property of commonFilteredProperties" class="col-12 col-md-6">
+          <div id="property-card" class="card small-card" (click)="goToDetails(property.propertyId)"
+               style="cursor: pointer;">
+            <img src="{{property.images[0]}}" class="card-img-top" alt="image">
+            <!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->
+            <!--          <app-carousel class="carousel" [images]="property.images"></app-carousel>-->
+
+            <div class="card-body">
+              <h5>
+                $<span class="price">{{property.price  | number:'1.0-0'}}</span>
+                <small class="per-sqft"> (${{ (property.price / property.floorArea) | number:'1.0-0' }} per
+                  sqft)</small>
+              </h5>
+              <div class="activated-at"> {{property.formattedActivatedAt}}</div>
+              <div class="details-list">
+                {{property.floorArea | number:'1.0-0'}} sqft |
+                {{property.numberOfBedrooms}} bdr |
+                {{property.numberOfBathrooms}} ba |
+                {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}
+              </div>
+              <h6 class="mt-2">{{property.city}}, {{property.name}}</h6>
+            </div>
+          </div>
+        </div>
+
       </div>
 
+
     </div>
-
-
   </div>
 </div>

@@ -64,7 +64,7 @@ export class RegisterComponent{
         this.badCredentials = 'Email or password are incorrect';
       },
       () => {
-        this.router.navigate(["property-list"])
+        this.router.navigate(["/homepage"])
       }
     )
   }
