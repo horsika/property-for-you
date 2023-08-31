@@ -152,6 +152,7 @@
     </div>
     <!-- Small cards section with scrollbar -->
     <div class="row g-4  scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
+
       <div *ngFor="let property of commonFilteredProperties" class="col-12 col-md-6">
         <div class="card small-card">
           <img src="{{property.images[0]}}" class="card-img-top" alt="image">
@@ -174,6 +175,9 @@
           </div>
         </div>
       </div>
+
     </div>
+
+
   </div>
 </div>

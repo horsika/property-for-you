@@ -19,10 +19,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SpringWebConfig implements WebMvcConfigurer {
 
     //visszatettem, mert enélkül nem hozta fel a frontenden az adatokat a develop branch mergelése után
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200", "http://127.0.0.1:4200")
-                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+//                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS");
+//    }
 }
