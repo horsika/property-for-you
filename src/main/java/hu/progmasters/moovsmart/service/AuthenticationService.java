@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -58,6 +60,10 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
 
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
     }
 
     public void changeEmail(EmailChangeForm emailChangeForm, String token) {

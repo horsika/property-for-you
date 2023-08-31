@@ -35,6 +35,26 @@ public class Address {
     @OneToOne(mappedBy = "address")
     private Property property;
 
+    public Address(String address) {
+        String[] split = address.split(" ");
+        this.postalCode = Integer.parseInt(split[0]);
+        this.city = split[1];
+        if (split[1].equalsIgnoreCase("Budapest") || split[1].equalsIgnoreCase("bp")) {
+            this.budapestDistrict = Integer.parseInt(split[0].substring(1, 3));
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int i = 2;
+        while (!split[i].equals("utca") && !split[i].equals("út") && !split[i].equals("tér") && !split[i].equals("köz")) {
+            sb.append(split[i]).append(" ");
+            i++;
+        }
+        sb.append(split[i++]);
+        this.streetName = sb.toString();
+
+        this.houseNumber = Integer.parseInt(split[i]);
+    }
+
     @Override
     public String toString() {
         return postalCode + " " +

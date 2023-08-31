@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.domain.property;
 
 import hu.progmasters.moovsmart.domain.user.User;
+import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -92,6 +93,22 @@ public class Property {
     @Column
     private LocalDateTime activatedAt = LocalDateTime.now();
     @Column
-    private LocalDateTime archivedAt = LocalDateTime.now();
+    private LocalDateTime archivedAt;
 
+
+    public Property(PropertyForm propertyForm) {
+        this.name = propertyForm.getName();
+        this.numberOfBathrooms = propertyForm.getNumberOfBathrooms();
+        this.numberOfBedrooms = propertyForm.getNumberOfBedrooms();
+        this.priceHistory = List.of(propertyForm.getPrice());
+        this.floorArea = propertyForm.getFloorArea();
+        this.airConditioning = propertyForm.isAirConditioning();
+        this.images = List.of(propertyForm.getImages().replace(" ", "").split(";"));
+        this.description = propertyForm.getDescription();
+        this.address = new Address(propertyForm.getAddress());
+        this.propertyType = PropertyType.valueOf(propertyForm.getPropertyType());
+        this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
+        this.listingStatus = ListingStatus.ACTIVE;
+        this.listingType = ListingType.getNameFromDisplayName(propertyForm.getListingType());
+    }
 }

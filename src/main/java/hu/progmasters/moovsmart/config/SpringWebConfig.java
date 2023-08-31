@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SpringWebConfig implements WebMvcConfigurer {
 
+    //visszatettem, mert enélkül nem hozta fel a frontenden az adatokat a develop branch mergelése után
 //    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
 //        registry.addMapping("/**")

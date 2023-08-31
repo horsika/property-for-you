@@ -1,93 +1,106 @@
 <div class="container-fluid">
-    <div class="row p-0">
-        <div class="col-7 p-0">
-            <img [src]="property.images[0]" class="col-12 px-1" alt="feature-image" id="feature-img">
+  <div class="row p-0">
+    <div class="col-7 p-0">
+      <img [src]="property.images[0]" class="col-12 px-1" alt="feature-image" id="feature-img">
+      <img *ngFor="let image of property.images" [src]="image" class="col-6 p-1"
+           id="property-img" alt="property-images">
+    </div>
+
+
+    <div class="col-5 p-0">
+      <div class="card">
+        <div class="card-header p-0">
+          <div class="table-responsive">
+            <table class="table border border-0">
+              <tr class="col">
+                <td class="">
+                  <img src="assets/pfy.png" draggable="false" alt="pfy logo"
+                       style="max-height: 5rem; background-color: transparent">
+                </td>
+                <td>
+                  <input id="property-save" name="property-save" class="btn btn-danger"
+                         type="button" value="💚Save"
+                         (click)="null">
+                </td>
+                <td style="text-align: end">
+                  <button type="button" id="back-button" routerLink="/property-list"
+                          style="background-color: transparent">
+                    <i class="fa-solid fa-arrow-left" style="background-color: transparent"></i></button>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
 
-
-        <div class="col-5 p-0 sticky-top">
-            <div class="position-relative">
-                <table class="table border border-0 border-bottom">
-                    <tr class="col">
-                        <td class="">
-                            <img src="assets/pfy.png" draggable="false" alt="pfy logo"
-                                 style="max-height: 5rem;">
-                        </td>
-                        <td>
-                            <input id="property-save" name="property-save" class="btn btn-danger"
-                                   type="button" value="💚Save"
-                                   (click)="null">
-                        </td>
-                        <td style="text-align: end">
-                            <button type="button" class="btn-close mx-auto" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </td>
-                    </tr>
-                </table>
-                <div class="property-details-inline">
-                    <h2>${{property.priceHistory[0]}}</h2>
-                    <ul class="px-4">
-                        <li class="px-2">{{property.numberOfBedrooms}} bd</li>
-                        <li class="px-2">{{property.numberOfBathrooms}} ba</li>
-                        <li class="px-2">{{property.floorArea}} m<sup>2</sup></li>
-                    </ul>
-                    <p style="padding-top: 0.5rem; font-size: 1.25rem;">{{property.address}}</p>
-                    <div style="display: flex; justify-content: center"
-                         class="border-0 border-bottom py-2">
-                        <input type="button" class="btn btn-success text-light justify-content-center"
-                               value="Request a tour">
-                    </div>
-                </div>
-
-                <div style="text-align: center;" class="">
-                    <h2>{{property.name}}</h2>
-                    <br>
-                    <h6>{{property.description}} Until recently, the prevailing view assumed lorem ipsum
-                        was born as a
-                        nonsense text. “It's not Latin, though it looks like it, and it actually says
-                        nothing,” Before &
-                        After magazine answered a curious reader, “Its ‘words’ loosely approximate the
-                        frequency with which
-                        letters occur in English, which is why at a glance it looks pretty real.”</h6>
-                </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="property-details-inline">
+              <h2>${{property.priceHistory[0]}}</h2>
+              <ul class="px-4">
+                <li class="px-2">{{property.numberOfBedrooms}} bd</li>
+                <li class="px-2">{{property.numberOfBathrooms}} ba</li>
+                <li class="px-2">{{property.floorArea}} m<sup>2</sup></li>
+              </ul>
+              <p style="padding-top: 0.5rem; font-size: x-large;">{{property.address}}</p>
+              <div style="display: flex; justify-content: center"
+                   class="border-0 py-2">
+                <input type="button" class="btn btn-success text-light justify-content-center"
+                       value="Request a tour">
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="row p-0">
-        <div class="col-7 p-0">
-            <img *ngFor="let image of property.images" [src]="image" class="col-6 p-1"
-                 id="property-img" alt="property.images">
-        </div>
+          </li>
 
-        <div id="property-details-overview" class="col-5 p-0 pt-1">
+          <li class="list-group-item">
+            <div style="text-align: center;" class="">
+              <h2>{{property.name}}</h2>
+              <br>
+              <h6>{{property.description}} Until recently, the prevailing view assumed lorem ipsum
+                was born as a
+                nonsense text. “It's not Latin, though it looks like it, and it actually says
+                nothing,” Before &
+                After magazine answered a curious reader, “Its ‘words’ loosely approximate the
+                frequency with which
+                letters occur in English, which is why at a glance it looks pretty real.”</h6>
+            </div>
+          </li>
+
+          <li class="list-group-item">
             <ul class="list-group">
-                <li class="list-group-item"><i class="fa-solid fa-house"></i> {{property.propertyType}}
-                </li>
-                <li class="list-group-item"><i
-                        class="fa-solid fa-temperature-arrow-up"></i> {{property.heatingType}}
-                    heating
-                </li>
-                <li class="list-group-item" *ngIf="property.airConditioning"><i
-                        class="fa-solid fa-temperature-arrow-down"></i> AC: <i class="fa-solid fa-check"
-                                                                               style="color: green;"></i>
-                </li>
-                <li class="list-group-item" *ngIf="!property.airConditioning"><i
-                        class="fa-solid fa-temperature-arrow-down"></i> AC: <i class="fa-solid fa-xmark"
-                                                                               style="color: red;"></i>
-                </li>
-                <li class="list-group-item"><i class="fa-solid fa-money-bill-transfer"></i> Price
-                    history:
-                </li>
-                <ul class="list-group">
-                    <li class="mx-0 list-group-item"
-                        *ngFor="let price of property.priceHistory">{{price}}</li>
-                    <li class="mx-auto">-</li>
-                </ul>
+              <li class="list-group-item"><i class="fa-solid fa-house"></i> {{property.propertyType}}
+              </li>
+              <li class="list-group-item"><i
+                class="fa-solid fa-temperature-arrow-up"></i> {{property.heatingType}}
+                heating
+              </li>
+              <li class="list-group-item" *ngIf="property.airConditioning"><i
+                class="fa-solid fa-temperature-arrow-down"></i> AC: <i class="fa-solid fa-check"
+                                                                       style="color: green;"></i>
+              </li>
+              <li class="list-group-item" *ngIf="!property.airConditioning"><i
+                class="fa-solid fa-temperature-arrow-down"></i> AC: <i class="fa-solid fa-xmark"
+                                                                       style="color: red;"></i>
+              </li>
+              <li class="list-group-item"><i class="fa-solid fa-money-bill-transfer"></i> Price
+                history:
+              </li>
+              <ul class="list-group">
+                <li class="mx-0 list-group-item"
+                    *ngFor="let price of property.priceHistory">{{price}}</li>
+                <li class="mx-auto">-</li>
+              </ul>
             </ul>
+          </li>
 
-            <app-details-map></app-details-map>
+          <li class="list-group-item">
+            <div class="map-container">
+              <div class="map-frame">
+                <div id="map"></div>
+              </div>
+            </div>
+          </li>
 
-        </div>
+        </ul>
+      </div>
     </div>
-
+  </div>
 </div>

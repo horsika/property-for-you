@@ -12,5 +12,8 @@ export interface PropertyListItemModel {
   activatedAt: Date;
   formattedActivatedAt: string;
   listingTypeDisplayName: string;
+  city: string;
+  latitude: number;
+  longitude: number;
 
 }

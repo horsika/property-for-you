@@ -1,0 +1,163 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+a{
+  text-decoration: none;
+}
+
+/* Image and filter box*/
+.background-image-container {
+  position: relative;
+  width: 100%;
+  height: 55vh;
+  overflow: hidden;
+}
+
+.background-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.search-box-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; /* Adjust the width as needed */
+  max-width: 400px; /* Set a maximum width for the search box */
+  background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.large-search-box .search-form {
+  padding-right: 30px; /* Make room for the search icon */
+  height: 200px; /* Increase the height to make it larger */
+  border-radius: 12px; /* Increase the border radius for rounded corners */
+  border-width: 2px; /* Increase border width for a bolder border */
+  width: 100%;
+}
+
+.large-search-box .search-input {
+  height: 100%; /* Adjust the height to match the search-form height */
+}
+
+.large-search-box .search-icon {
+  right: 20px; /* Adjust this value to control the distance from the right */
+}
+
+.large-search-box .search-results {
+  top: calc(100% + 10px); /* Adjust this value for spacing */
+}
+
+@media screen and (min-width: 576px){
+  .carousel-inner{
+    display: flex;
+  }
+  .carousel-item{
+    display: block;
+    margin-right: 0;
+    flex: 0 0 calc(100%/3);
+  }
+}
+
+.carousel-inner{
+  padding: 1rem;
+}
+
+.card{
+  margin: 0.5rem;
+}
+
+
+/* slider -------*/
+.p-slider{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+}
+
+.p-slider-heading{
+  font-size: 20px;
+  color: #313131;
+  /*text-align: center;*/
+  margin: 50px;
+}
+
+.p-box{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 15px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  margin: 0px 20px;
+  position: relative;
+}
+
+.p-img-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.p-img a,
+.p-img{
+  width: 100%;
+  height: 80%;
+  display: flex;
+}
+
+.p-img a img {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+  animation: fade 0.6s;
+}
+
+.p-img-back{
+  display: none;
+}
+.p-img-container:hover .p-img-back{
+  display: block;
+}
+.p-img-container:hover .p-img-front{
+  display: none;
+}
+@keyframes fade {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+.p-box-text {
+  margin-top: 5px;
+  width: 100%;
+}
+.price {
+  font-size: 1.3rem;
+}
+
+.per-sqft {
+  font-size: 0.8rem;
+  float: right;
+}
+.activated-at{
+  font-size: 14px;
+}
+.details-list{
+  font-size: 14px;
+  color: lightgrey;
+}
