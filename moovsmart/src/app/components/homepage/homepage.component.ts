@@ -1,16 +1,17 @@
+declare var bootstrap: any;
+
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {SearchService} from "../../services/search.service";
 import {Router} from "@angular/router";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
-// import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, AfterViewInit {
 
   properties: Array<PropertyListItemModel> = [];
 
@@ -38,8 +39,34 @@ export class HomepageComponent implements OnInit {
     );
   }
 
-  // ngAfterViewInit() {
-  //   const carousel = new bootstrap.Carousel(document.getElementById('carouselExample'));
-  // }
+  ngAfterViewInit(): void {
+    this.initCarousel();
+  }
 
+  initCarousel(): void {
+    const carouselElement = document.getElementById('carouselExample');
+
+    // Initialize the carousel using Bootstrap's carousel API
+    if (carouselElement) {
+      const carousel = new bootstrap.Carousel(carouselElement, {
+        interval: 5000,
+        pause: 'hover',
+        keyboard: true
+      });
+
+      const prevButton = document.querySelector('.carousel-control-prev');
+      const nextButton = document.querySelector('.carousel-control-next');
+
+      if (prevButton && nextButton) {
+        prevButton.addEventListener('click', () => {
+          carousel.prev();
+        });
+
+        nextButton.addEventListener('click', () => {
+          carousel.next();
+        });
+      }
+    }
+  }
 }
+

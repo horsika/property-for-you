@@ -77,10 +77,6 @@ export class PropertyListComponent implements OnInit {
   }
 
 
-  details(id: number) {
-    this.router.navigate(['property-details', id]);
-  }
-
   //Sorting--------------------------------------------
   closeDropdown() {
     this.dropdownButton.nativeElement.click();
