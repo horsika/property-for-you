@@ -30,6 +30,6 @@ export class PropertyService {
   }
 
   getFormOptions() {
-    return this.httpClient.get<FormOptionsModel>(this.baseUrl + 'form-options')
+    return this.httpClient.get<FormOptionsModel>(this.baseUrl + '/form-options')
   }
 }
