@@ -5,6 +5,7 @@ import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
+import hu.progmasters.moovsmart.dto.outgoing.EmailVerificationResponse;
 import hu.progmasters.moovsmart.service.AuthenticationService;
 import hu.progmasters.moovsmart.validation.AuthValidator;
 import lombok.RequiredArgsConstructor;
@@ -47,10 +48,11 @@ public class AuthenticationController {
     }
 
     @GetMapping("/{token}")
-    public ResponseEntity<String> sendEmailVerificationMessage(@PathVariable String token) {
+    public ResponseEntity<EmailVerificationResponse> sendEmailVerificationMessage(@PathVariable String token) {
         authenticationService.verifyEmail(token);
-        String message = "Your email is now verified. Please log in!";
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        EmailVerificationResponse resp = new EmailVerificationResponse();
+        resp.setMessage("Your email is now verified.");
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
 

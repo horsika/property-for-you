@@ -45,8 +45,8 @@ export class MyPageComponent implements OnInit{
         this.emailConflictMessage = emailIsAlreadyInUseHandler(error);
       },
       () => {
-        this.activePage = 'AccountDetails';
-        this.router.navigate(['/my-page'])
+        localStorage.removeItem('token');
+        this.router.navigate(['/register'])
       }
     )
   }

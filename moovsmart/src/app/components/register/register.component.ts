@@ -16,6 +16,7 @@ export class RegisterComponent{
   auth: FormGroup;
   toggle: boolean;
   badCredentials: string | null = null;
+  emailSent: string | null = null;
 
 
   constructor(private userService: UserService,
@@ -26,7 +27,6 @@ export class RegisterComponent{
       'password': ['', [Validators.required, Validators.min(6)]],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required]
-      // TODO profilePicture upload??
     });
 
     this.auth = this.formBuilder.group({
@@ -34,7 +34,7 @@ export class RegisterComponent{
       'loginPassword': ['', Validators.required]
     });
 
-    this.toggle = true;
+    this.toggle = true; //true: Register tab is active
   }
 
   onRegister() {
@@ -47,6 +47,7 @@ export class RegisterComponent{
       },
       () => {
         this.toggle = false;
+        this.emailSent = "We've sent an email to you. Please click the link inside to verify yourself. Then, you may log in."
         this.router.navigate(["register"])
       }
     )

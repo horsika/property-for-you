@@ -83,6 +83,8 @@ public class AuthenticationService {
         && userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).isPresent()){
            User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
            user.setEmail(emailChangeForm.getEmail());
+           user.setEnabled(false);
+           emailTokenService.sendVerificationEmail(user);
            userRepository.save(user);
         } else {
             throw new AuthenticationServiceException("User with given email already exists!");

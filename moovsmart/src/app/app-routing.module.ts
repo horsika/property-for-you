@@ -6,8 +6,8 @@ import {PropertyDetailsComponent} from "./components/property-details/property-d
 import {RegisterComponent} from "./components/register/register.component";
 import {AuthGuard} from "./utils/auth.guard";
 import {MyPageComponent} from "./components/my-page/my-page.component";
-import {SearchCityComponent} from "./components/search-city/search-city.component";
 import {HomepageComponent} from "./components/homepage/homepage.component";
+import {InfoComponent} from "./components/info/info.component";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -16,7 +16,8 @@ const routes: Routes = [
   {path: "property-details/:id", component: PropertyDetailsComponent},
   {path: "register", component: RegisterComponent},
   {path: "my-page", component: MyPageComponent, canActivate: [AuthGuard]},
-  {path: "homepage", component: HomepageComponent}
+  {path: "homepage", component: HomepageComponent},
+  {path: "verify-email/:token", component: InfoComponent}
 ];
 
 @NgModule({

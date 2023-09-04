@@ -39,11 +39,11 @@
               <h5 class="card-title">My Account Details</h5>
             </div>
             <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{myAccount.email}}</li>
-              <li class="list-group-item">{{myAccount.firstName}} {{myAccount.lastName}}</li>
-            </ul>
-          </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{myAccount.email}}</li>
+                <li class="list-group-item">{{myAccount.firstName}} {{myAccount.lastName}}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -72,10 +72,14 @@
             Please enter a valid email!
           </small>
           <small class="text-danger"
-          *ngIf="emailConflictMessage">
+                 *ngIf="emailConflictMessage">
             {{emailConflictMessage}}
           </small>
+          <p>Once you hit "Change Email", we will send a verification email to you. Verify your email address by
+            clicking on the link in the email.
+            Login again with your new email!</p>
         </div>
+
         <div class="p-2">
           <button type="button" class="btn btn-primary" [disabled]="email.invalid" (click)="changeEmail()">
             Change Email
