@@ -1,4 +1,5 @@
 cors-policies: http://localhost:4200, http://127.0.0.1:4200
+base-url: http://localhost:4200
 
 server:
   port: 8080
@@ -22,6 +23,17 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pfy59432@gmail.com
+    password: vvfpsnbfiavlkmei
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 logging:
   level:

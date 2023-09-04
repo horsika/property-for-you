@@ -10,7 +10,6 @@ package hu.progmasters.moovsmart.exception;/*
  */
 
 import com.fasterxml.jackson.core.JsonParseException;
-import hu.progmasters.moovsmart.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -96,10 +96,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ApiError> accountDisabledHandler(DisabledException e) {
+        ApiError body = new ApiError("DISABLED_ACCOUNT_ERROR", "This account is currently disabled!", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiError> loginBadCredentialsError(BadCredentialsException e) {
         ApiError body= new ApiError("BAD_CREDENTIALS_ERROR", "Email or password incorrect", e.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExpiredEmailVerificationTokenException.class)
+    public ResponseEntity<ApiError> expiredEmailTokenHandler(ExpiredEmailVerificationTokenException e) {
+        ApiError body = new ApiError("EXPIRED_EMAIL_VERIFICATION_TOKEN", "This email verification token is expired", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 
 

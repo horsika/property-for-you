@@ -26,6 +26,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
         authenticationService.register(registerRequest);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -43,6 +44,13 @@ public class AuthenticationController {
     @GetMapping("/account-details")
     public ResponseEntity<AccountDetails> sendAccountDetails(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(authenticationService.getAccountDetails(token), HttpStatus.OK);
+    }
+
+    @GetMapping("/{token}")
+    public ResponseEntity<String> sendEmailVerificationMessage(@PathVariable String token) {
+        authenticationService.verifyEmail(token);
+        String message = "Your email is now verified. Please log in!";
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 
