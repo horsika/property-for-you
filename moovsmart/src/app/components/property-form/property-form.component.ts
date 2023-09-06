@@ -26,15 +26,15 @@ export class PropertyFormComponent implements OnInit {
             'numberOfBedrooms': ['', [Validators.required, Validators.min(1)]],
             'numberOfBathrooms': ['', [Validators.required, Validators.min(1), validateNumberOfBathrooms]],
             'price': ['', [Validators.required, Validators.min(0.1)]],
-            'floorArea': ['', [Validators.required], Validators.min(5)],
+            'floorArea': ['', [Validators.required, Validators.min(5)]],
             'airConditioning': [],
-            'description': ['', [Validators.required], Validators.maxLength(600), Validators.minLength(50)],
+            'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
             'images': [''],
             'address': ['', [Validators.required]],
-            'propertyType': ['', [Validators.required]],
-            'heatingType': ['', [Validators.required]],
-            'listingStatus': ['', [Validators.required]],
-            'listingType': ['', [Validators.required]],
+            'propertyType': ['', Validators.required],
+            'heatingType': ['', Validators.required],
+            'listingStatus': [''],
+            'listingType': ['', Validators.required],
         });
     }
 
