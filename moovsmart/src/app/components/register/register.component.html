@@ -1,17 +1,17 @@
-<div class="container-fluid mt-5">
-<div class="card" style="width: 24rem; margin: auto">
+<div class="container mt-5">
+<div class="card">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item">
-          <a [ngClass]="toggle ? 'nav-link' : 'nav-link active'" (click)="goToLogin()">Login</a>
+          <button [ngClass]="toggle ? 'nav-link' : 'nav-link active'" (click)="goToLogin()">Login</button>
         </li>
         <li class="nav-item">
-          <a [ngClass]="!toggle ? 'nav-link' : 'nav-link active'" (click)="goToRegister()">Register</a>
+          <button [ngClass]="!toggle ? 'nav-link' : 'nav-link active'" (click)="goToRegister()">Register</button>
         </li>
       </ul>
     </div>
     <div class="card-body">
-      <form [formGroup]="user" *ngIf="toggle">
+      <form [formGroup]="user" *ngIf="toggle" (keydown.enter)="onRegister()">
         <div class="form-group mb-4">
 
           <label for="email"
@@ -102,7 +102,7 @@
       <!-- LOGIN FORM -->
 
 
-      <form [formGroup]="auth" *ngIf="!toggle">
+      <form [formGroup]="auth" *ngIf="!toggle" (keydown.enter)="onLogin()">
         <div class="form-group  mb-4">
           <label for="loginEmail"
                  [ngClass]="{
