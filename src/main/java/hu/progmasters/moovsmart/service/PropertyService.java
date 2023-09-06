@@ -8,14 +8,10 @@ import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,10 +31,11 @@ public class PropertyService {
         this.authenticationService = authenticationService;
     }
 
-    public List<PropertyListItem> getProperties() {
-        List<Property> properties = propertyRepository.findAllByOrderByActivatedAtDesc();
+    public List<PropertyListItem> getPropertiesActivated() {
+        List<Property> properties = propertyRepository.findAllByActivatedAtIsNotNullOrderByActivatedAtDesc();
         return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
     }
+
 
     public PropertyDetails getPropertyDetails(Long id) {
         Property property = propertyRepository.findById(id)

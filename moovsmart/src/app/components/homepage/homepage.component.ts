@@ -24,14 +24,13 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
   //only newest 10 properties listed currently!
   ngOnInit() {
-    this.propertyService.getPropertyList().subscribe(
+    this.propertyService.getActivatedPropertyList().subscribe(
       propertyListItems => {
         this.properties = propertyListItems
           .slice(0,10)
           .map(property => ({
             ...property,
           }));
-        console.log(this.properties);
       }
     );
 

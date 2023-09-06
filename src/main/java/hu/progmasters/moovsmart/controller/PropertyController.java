@@ -35,8 +35,8 @@ public class PropertyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PropertyListItem>> getAllProperties() {
-        return new ResponseEntity<>(propertyService.getProperties(), HttpStatus.OK);
+    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated() {
+        return new ResponseEntity<>(propertyService.getPropertiesActivated(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
