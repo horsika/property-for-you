@@ -3,7 +3,7 @@ package hu.progmasters.moovsmart.domain.property;
 public enum ListingStatus {
     INACTIVE("Inactive"),
     ACTIVE("Active"),
-    ARCHIVED("Archived");
+    X_ARCHIVED("Archived");
 
     private String displayName;
 

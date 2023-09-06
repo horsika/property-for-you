@@ -73,4 +73,10 @@ public class PropertyService {
     public FormOptions getFormOptions() {
         return new FormOptions(getPropertyTypes(), getHeatingTypes());
     }
+
+    public List<MyPropertyListItem> getMyProperties(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<Property> properties = propertyRepository.findByOwnerUserOrderByListingStatus(user);
+        return properties.stream().map(MyPropertyListItem::new).collect(Collectors.toList());
+    }
 }

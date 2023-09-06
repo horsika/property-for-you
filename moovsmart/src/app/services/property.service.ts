@@ -6,6 +6,7 @@ import {PropertyFormDataModel} from "../models/propertyFormData.model";
 import {PropertyDetailsModel} from "../models/propertyDetails.model";
 import {environment} from "../../environments/environment";
 import {FormOptionsModel} from "../models/form-options.model";
+import {MyPropertyListItemModel} from "../models/my-property-list-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,9 @@ export class PropertyService {
 
   getFormOptions() {
     return this.httpClient.get<FormOptionsModel>(this.baseUrl + '/form-options')
+  }
+
+  getMyProperties() {
+    return this.httpClient.get<Array<MyPropertyListItemModel>>(this.baseUrl + '/my-properties');
   }
 }

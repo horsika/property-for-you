@@ -97,6 +97,11 @@ public class AuthenticationService {
         return new AccountDetails(user);
     }
 
+    public User findUserByToken(String token) {
+        String processableToken = token.substring(7);
+        return userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+    }
+
     public void verifyEmail(String token) {
         EmailToken emailToken = emailTokenService.findToken(token);
         if(emailToken.getExpiryDateTime().isBefore(LocalDateTime.now())) {

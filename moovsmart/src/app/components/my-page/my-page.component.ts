@@ -4,6 +4,9 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {emailIsAlreadyInUseHandler} from "../../utils/validationHandler";
 import {MyAccountModel} from "../../models/my-account.model";
+import {PropertyService} from "../../services/property.service";
+import {PropertyListItemModel} from "../../models/propertyListItem.model";
+import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
 
 @Component({
   selector: 'app-my-page',
@@ -17,7 +20,9 @@ export class MyPageComponent implements OnInit{
   emailConflictMessage: string | null = null;
   myAccount: MyAccountModel;
 
-  constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder) {
+  myProperties: MyPropertyListItemModel[];
+
+  constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder) {
     this.email = this.formBuilder.group({
       email: ['', Validators.required]
     })
@@ -35,6 +40,15 @@ export class MyPageComponent implements OnInit{
     this.activePage = 'NameChange';
   }
 
+  showAccountDetails() {
+    this.activePage = 'AccountDetails';
+    this.userService.getMyAccountDetails().subscribe(
+      response => {
+        this.myAccount = response;
+      }
+    )
+  }
+
   changeEmail() {
     const data = this.email.value;
 
@@ -46,17 +60,26 @@ export class MyPageComponent implements OnInit{
       },
       () => {
         localStorage.removeItem('token');
-        this.router.navigate(['/register'])
+        this.router.navigate(['/register']);
       }
     )
   }
 
-  showAccountDetails() {
-    this.activePage = 'AccountDetails';
-    this.userService.getMyAccountDetails().subscribe(
-      response => {
-        this.myAccount = response;
-      }
-    )
+  showMyProperties() {
+    this.activePage = 'MyProperties';
+    console.log('p')
+    this.propertyService.getMyProperties().subscribe(response => {
+      this.myProperties = response;
+    })
+  }
+
+  logOut() {
+    this.userService.tokenIsPresent.next(false);
+    localStorage.removeItem('token');
+    this.router.navigate(['/homepage']);
+  }
+
+  previewProperty(id: number) {
+    this.router.navigate(['property-details', id]);
   }
 }
