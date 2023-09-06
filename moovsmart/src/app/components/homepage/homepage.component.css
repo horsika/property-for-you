@@ -1,14 +1,25 @@
+body {
+  overflow-x: hidden;
+  margin: 0;
+}
+
+.custom-container {
+  padding-left: 0px; /* Adjust as needed */
+  padding-right: 0px; /* Adjust as needed */
+}
+
 /* Image and filter box*/
 .background-image-container {
   position: relative;
-  width: 100%;
-  height: 60vh;
+  max-width: 100%;
+  height: 55vh;
   overflow: hidden;
 }
 
 .background-image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
@@ -20,9 +31,13 @@
 }
 
 h1 {
-  font-size: 55px;
+  font-size: 2em; /* 2x the text size instead of 55px*/
   color: #ffffff;
   text-shadow: 2px 2px #757575;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide any overflow beyond the container */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
+  max-width: 100%;
 }
 
 .search-box-overlay {
@@ -64,7 +79,9 @@ h1 {
 /* horizontal scrolling */
 .container {
   inline-size: min(100% - 4rem, 70rem);
-  margin-inline: auto;
+  margin-inline: auto auto;
+  overflow: hidden;
+  position: relative;
 }
 .flow {
   display: grid;
@@ -72,23 +89,28 @@ h1 {
 }
 
 .section-title {
-  padding-inline-start: 1.75rem;
-  margin-block: 4rem .5rem;
+  align-self: flex-start;
+  margin-left: 0;
+  margin-bottom: 10px;
+  padding: 4px;
 }
-
-
 
 .media-scroller-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  margin-bottom: 20px; /* Adjust this margin as needed */
+  align-items: flex-start;
+  margin-top: 2.5rem; /*40px*/
+  margin-bottom: 1.25rem; /*20px*/
+  position: relative;
+  overflow: hidden;
 }
 
 .media-scroller-controls {
   display: flex;
-  gap: 10px; /* Adjust the gap between the buttons as needed */
-  margin-top: 10px; /* Adjust the margin as needed */
+  gap: 10px; /* gap between the buttons */
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .prev-button,
@@ -104,26 +126,42 @@ h1 {
   background-color: #aaa; /* Customize button hover styles as needed */
 }
 
+.media-scroller::-webkit-scrollbar {
+  width: 0.1rem; /* Set the scrollbar width to a very small value */
+}
+
 .media-scroller {
   display: grid;
   grid-auto-flow: column;
-  gap: .5rem;
-  grid-auto-columns: 41%;
-  padding: 0 .5rem .5rem;
+  gap: 3rem; /*gap btw each element*/
+  grid-auto-columns: 16%; /* how many elements?*/
+  padding: 0;
   overflow-x: auto;
   overscroll-behavior-x: contain;
+  margin-top: 20px;
+  scrollbar-width: none;
+  width: calc(100%- 12rem);
+  margin-inline: auto;
+}
+
+/* For Firefox */
+.media-scroller::-webkit-scrollbar-track {
+  display: none; /* Hide the scrollbar track in Firefox */
 }
 
 .media-element {
   display: grid;
   grid-template-rows: min-content;
   padding: .5rem;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   gap: .5rem;
 }
 
+
 .media-element > img {
-  inline-size: 90%;
+  inline-size: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
@@ -137,123 +175,49 @@ h1 {
   scroll-snap-align: start;
 }
 
-/* general styling */
 
 /* Property infos */
 .price {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  margin-bottom: 0;
+  line-height: 1;
 }
 
-.per-sqft {
-  font-size: 0.8rem;
-  float: right;
-}
-.activated-at{
-  font-size: 14px;
-}
 .details-list{
-  font-size: 14px;
+  font-size: 0.8rem;
   color: lightgrey;
+  line-height: 1;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide any overflow beyond the container */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
+  max-width: 100%;
+}
+
+.city-name{
+  font-size: 1rem;
+  line-height: 1;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide any overflow beyond the container */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
+  max-width: 100%;
 }
 
 
-
-
-
-
-/*previous carousel*/
-.carousel-inner{
-  padding: 1rem;
-}
-
-.card{
-  margin: 0.5rem;
-}
-
-
-/* slider -------*/
-.p-slider{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 50px auto;
-}
-
-.p-slider-heading{
-  font-size: 20px;
-  color: #313131;
-  /*text-align: center;*/
-  margin: 50px;
-}
-
-.p-box{
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  padding: 15px;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 10px;
-  margin: 0px 20px;
-  position: relative;
-}
-
-.p-img-container{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  overflow: hidden;
-}
-
-.p-img a,
-.p-img{
-  width: 100%;
-  height: 80%;
-  display: flex;
-}
-
-.p-img a img {
-  width: 100%;
-  height: 100%;
-  object-position: center;
-  object-fit: cover;
-  animation: fade 0.6s;
-}
-
-.p-img-back{
-  display: none;
-}
-.p-img-container:hover .p-img-back{
-  display: block;
-}
-.p-img-container:hover .p-img-front{
-  display: none;
-}
-@keyframes fade {
-  0%{
-    opacity: 0;
+@media (max-width: 768px) {
+  .background-image-container {
+    height: 45vh;
   }
-  100%{
-    opacity: 1;
+
+  .media-scroller-controls {
+    display: none; /* Hide control buttons on mobile view */
+  }
+
+  .media-scroller {
+    gap: 2rem; /*gap btw each element*/
+    grid-auto-columns: 25%; /* how many elements?*/
+    width: calc(100%- 1rem);
+
   }
 }
 
-.p-box-text {
-  margin-top: 5px;
-  width: 100%;
-}
-.price {
-  font-size: 1.3rem;
-}
 
-.per-sqft {
-  font-size: 0.8rem;
-  float: right;
-}
-.activated-at{
-  font-size: 14px;
-}
-.details-list{
-  font-size: 14px;
-  color: lightgrey;
-}

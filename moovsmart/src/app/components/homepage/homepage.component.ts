@@ -22,24 +22,21 @@ export class HomepageComponent implements OnInit, AfterViewInit {
               private el: ElementRef) {
   }
 
+  //only newest 10 properties listed currently!
   ngOnInit() {
     this.propertyService.getPropertyList().subscribe(
       propertyListItems => {
         this.properties = propertyListItems
+          .slice(0,10)
           .map(property => ({
             ...property,
-            activatedAt: new Date(property.activatedAt),
-            formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })
           }));
+        console.log(this.properties);
       }
     );
+
   }
+
 
   ngAfterViewInit() {
     const prevButton = this.el.nativeElement.querySelector('#prevButton');
@@ -53,6 +50,10 @@ export class HomepageComponent implements OnInit, AfterViewInit {
     nextButton.addEventListener('click', () => {
       mediaScroller.scrollBy({ left: 200, behavior: 'smooth' }); // Adjust the scrolling amount (200) as needed
     });
+  }
+
+  goToDetails(id: number) {
+    this.propertyService.goToPropertyDetails(id);
   }
 
 }
