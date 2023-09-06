@@ -105,10 +105,23 @@
             </div>
             <div class="col-sm-1">
               <div class="d-grid gap-2">
-                <button class="btn btn-outline-success m-1" (click)="previewProperty(p.propertyId)">Preview
+                <!-- active property buttons -->
+                <button class="btn btn-outline-success m-1"
+                        (click)="previewProperty(p.propertyId)"
+                        *ngIf="p.isActiveDisplayName === 'Active'">Preview
                 </button>
-                <button class="btn btn-outline-primary m-1">Modify</button>
-                <button class="btn btn-outline-danger m-1">Deactivate</button>
+                <button class="btn btn-outline-primary m-1"
+                        *ngIf="p.isActiveDisplayName === 'Active'">Modify
+                </button>
+                <button class="btn btn-outline-danger m-1"
+                        (click)="deactivateProperty(p.propertyId)"
+                        *ngIf="p.isActiveDisplayName === 'Active'">Deactivate
+                </button>
+                <!-- inactive property button -->
+                <button class="btn btn-outline-danger m-1"
+                        (click)="activateProperty(p.propertyId)"
+                        *ngIf="p.isActiveDisplayName === 'Inactive' || p.isActiveDisplayName === 'Archived'">Activate
+                </button>
               </div>
             </div>
           </div>

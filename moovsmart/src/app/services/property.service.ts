@@ -7,6 +7,7 @@ import {PropertyDetailsModel} from "../models/propertyDetails.model";
 import {environment} from "../../environments/environment";
 import {FormOptionsModel} from "../models/form-options.model";
 import {MyPropertyListItemModel} from "../models/my-property-list-item.model";
+import {PropertyActiveToggleModel} from "../models/property-active-toggle.model";
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class PropertyService {
 
   getMyProperties() {
     return this.httpClient.get<Array<MyPropertyListItemModel>>(this.baseUrl + '/my-properties');
+  }
+
+  setListingStatus(status: PropertyActiveToggleModel) {
+    return this.httpClient.post(this.baseUrl + '/change-active-status', status);
   }
 }

@@ -7,6 +7,7 @@ import {environment} from "../../environments/environment";
 import {Observable, Subject} from "rxjs";
 import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
+import {PropertyActiveToggleModel} from "../models/property-active-toggle.model";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 

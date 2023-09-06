@@ -1,9 +1,11 @@
 package hu.progmasters.moovsmart.service;
 
 import hu.progmasters.moovsmart.domain.property.HeatingType;
+import hu.progmasters.moovsmart.domain.property.ListingStatus;
 import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.property.PropertyType;
 import hu.progmasters.moovsmart.domain.user.User;
+import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
@@ -78,5 +80,11 @@ public class PropertyService {
         User user = authenticationService.findUserByToken(token);
         List<Property> properties = propertyRepository.findByOwnerUserOrderByListingStatus(user);
         return properties.stream().map(MyPropertyListItem::new).collect(Collectors.toList());
+    }
+
+    public void changeActiveStatus(PropertyActiveToggle active) {
+        Property property = propertyRepository.getById(active.getPropertyId());
+        property.setListingStatus(ListingStatus.valueOf(active.getListingStatus()));
+        propertyRepository.save(property);
     }
 }

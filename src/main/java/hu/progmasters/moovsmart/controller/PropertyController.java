@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.controller;
 
+import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.service.PropertyService;
@@ -56,5 +57,11 @@ public class PropertyController {
     @GetMapping("/my-properties")
     public ResponseEntity<List<MyPropertyListItem>> getMyProperties(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(propertyService.getMyProperties(token), HttpStatus.OK);
+    }
+
+    @PostMapping("/change-active-status")
+    public ResponseEntity<Void> changeActiveStatus(@RequestBody PropertyActiveToggle active){
+        propertyService.changeActiveStatus(active);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

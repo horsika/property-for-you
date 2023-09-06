@@ -7,13 +7,14 @@ import {MyAccountModel} from "../../models/my-account.model";
 import {PropertyService} from "../../services/property.service";
 import {PropertyListItemModel} from "../../models/propertyListItem.model";
 import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
+import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
 
 @Component({
   selector: 'app-my-page',
   templateUrl: './my-page.component.html',
   styleUrls: ['./my-page.component.css']
 })
-export class MyPageComponent implements OnInit{
+export class MyPageComponent implements OnInit {
 
   activePage: string = "";
   email: FormGroup;
@@ -67,7 +68,6 @@ export class MyPageComponent implements OnInit{
 
   showMyProperties() {
     this.activePage = 'MyProperties';
-    console.log('p')
     this.propertyService.getMyProperties().subscribe(response => {
       this.myProperties = response;
     })
@@ -81,5 +81,29 @@ export class MyPageComponent implements OnInit{
 
   previewProperty(id: number) {
     this.router.navigate(['property-details', id]);
+  }
+
+  activateProperty(id: number) {
+    const data: PropertyActiveToggleModel = {propertyId: id, listingStatus: 'ACTIVE'}
+    this.propertyService.setListingStatus(data).subscribe(() => {
+      },
+      () => {
+      },
+      () => {
+        this.showMyProperties();
+      }
+    )
+  }
+
+  deactivateProperty(id: number) {
+    const data: PropertyActiveToggleModel = {propertyId: id, listingStatus: 'INACTIVE'}
+    this.propertyService.setListingStatus(data).subscribe(() => {
+      },
+      () => {
+      },
+      () => {
+        this.showMyProperties();
+      }
+    )
   }
 }
