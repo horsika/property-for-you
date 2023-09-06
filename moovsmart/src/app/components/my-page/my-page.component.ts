@@ -5,7 +5,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {emailIsAlreadyInUseHandler, validationHandler} from "../../utils/validationHandler";
 import {MyAccountModel} from "../../models/my-account.model";
 import {PropertyService} from "../../services/property.service";
-import {PropertyListItemModel} from "../../models/propertyListItem.model";
 import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
 import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
 import {PasswordChangeModel} from "../../services/password-change.model";
