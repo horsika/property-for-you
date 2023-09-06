@@ -5,6 +5,7 @@ import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.domain.user.UserRole;
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
 import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
+import hu.progmasters.moovsmart.dto.incoming.PasswordChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
@@ -110,5 +111,12 @@ public class AuthenticationService {
 
         User userFromToken = emailToken.getUser();
         userFromToken.setEnabled(true);
+    }
+
+    public void changePassword(String token, PasswordChangeForm pass) {
+        String processableToken = token.substring(7);
+        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        user.setPasswordHash(passwordEncoder.encode(pass.getPassword()));
+        userRepository.save(user);
     }
 }

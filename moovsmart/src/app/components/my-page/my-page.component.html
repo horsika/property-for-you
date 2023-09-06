@@ -11,7 +11,7 @@
               <a class="btn" (click)="showEmailChangePage()">Change email</a>
             </li>
             <li>
-              <a class="btn" (click)="showNameChangePage()">Change name</a>
+              <a class="btn" (click)="showPasswordChangePage()">Change password</a>
             </li>
             <li>
               <a class="btn">Profile Picture</a>
@@ -127,6 +127,42 @@
           </div>
         </div>
 
+        <!-- change password -->
+        <div *ngSwitchCase="'PasswordChange'" class="row" id="password-change">
+          <form [formGroup]="password" class="p-4">
+            <div class="form-group p-2">
+              <label for="email"
+                     [ngClass]="{
+                    'text-danger': password.get('password').invalid && password.get('password').touched || password.get('password').errors?.serverError
+                }">
+                New password
+              </label>
+              <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password"
+                     [ngClass]="{
+                    'is-invalid': password.get('password').invalid && password.get('password').touched || password.get('password').errors?.serverError
+                }">
+              <small *ngIf="password.get('password').errors?.serverError" class="text-danger">
+                {{password.get('password').errors['serverError']}}
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="password.get('password').invalid && password.get('password').touched && !password.get('password').errors?.serverError"
+              >
+                Please enter a valid password!
+              </small>
+              <small *ngIf="password.get('password').errors?.serverError" class="text-danger">
+                {{password.get('password').errors['serverError']}}
+              </small>
+              <p>Changing your password will require you to log in again!</p>
+            </div>
+
+            <div class="p-2">
+              <button type="button" class="btn btn-primary" [disabled]="password.invalid" (click)="changePassword()">
+                Change Password
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

@@ -23,15 +23,15 @@ export class RegisterComponent{
               private formBuilder: FormBuilder,
               private router: Router) {
     this.user = this.formBuilder.group({
-      'email': ['', Validators.required],
-      'password': ['', [Validators.required, Validators.min(6)]],
+      'email': ['', [Validators.email, Validators.required]],
+      'password': ['', [Validators.minLength(6), Validators.required]],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required]
     });
 
     this.auth = this.formBuilder.group({
-      'loginEmail': ['', Validators.required],
-      'loginPassword': ['', Validators.required]
+      'loginEmail': ['', [Validators.email, Validators.required]],
+      'loginPassword': ['', Validators.required, Validators.minLength(6)]
     });
 
     this.toggle = true; //true: Register tab is active

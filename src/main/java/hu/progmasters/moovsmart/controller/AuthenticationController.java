@@ -2,6 +2,7 @@ package hu.progmasters.moovsmart.controller;
 
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
 import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
+import hu.progmasters.moovsmart.dto.incoming.PasswordChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
@@ -53,6 +54,12 @@ public class AuthenticationController {
         EmailVerificationResponse resp = new EmailVerificationResponse();
         resp.setMessage("Your email is now verified.");
         return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Void> changePassword(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody @Valid PasswordChangeForm pass) {
+        authenticationService.changePassword(token, pass);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

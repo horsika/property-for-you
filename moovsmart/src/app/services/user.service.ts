@@ -8,6 +8,7 @@ import {Observable, Subject} from "rxjs";
 import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
 import {PropertyActiveToggleModel} from "../models/property-active-toggle.model";
+import {PasswordChangeModel} from "./password-change.model";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -38,5 +39,9 @@ export class UserService {
   }
   changeEmail(data: EmailChangeModel) {
     return this.http.post(BASE_URL + '/change-email', data);
+  }
+
+  changePassword(data: PasswordChangeModel) {
+    return this.http.post(BASE_URL + '/change-password', data);
   }
 }
