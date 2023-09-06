@@ -1,12 +1,12 @@
-*{
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box;
-}
+/**{*/
+/*  margin: 0px;*/
+/*  padding: 0px;*/
+/*  box-sizing: border-box;*/
+/*}*/
 
-a{
-  text-decoration: none;
-}
+/*a{*/
+/*  text-decoration: none;*/
+/*}*/
 
 /* Image and filter box*/
 .background-image-container {
@@ -66,6 +66,113 @@ a{
   }
 }
 
+/* horizontal scrolling */
+.media-scroller-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 20px; /* Adjust this margin as needed */
+}
+
+.media-scroller {
+  /* Your existing styles for the media scroller */
+}
+
+.media-scroller-controls {
+  display: flex;
+  gap: 10px; /* Adjust the gap between the buttons as needed */
+  margin-top: 10px; /* Adjust the margin as needed */
+}
+
+.prev-button,
+.next-button {
+  padding: 5px 10px;
+  background-color: #ccc; /* Customize button styles as needed */
+  border: none;
+  cursor: pointer;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: #aaa; /* Customize button hover styles as needed */
+}
+
+
+/* original scroller without controllers*/
+
+.media-scroller {
+  display: grid;
+  grid-auto-flow: column;
+  gap: .5rem;
+  grid-auto-columns: 41%;
+  padding: 0 .5rem .5rem;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.media-element {
+  display: grid;
+  grid-template-rows: min-content;
+  padding: .5rem;
+  border-radius: 5px;
+  gap: .5rem;
+}
+
+.media-element > img {
+  inline-size: 90%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.snaps-inline {
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline: .5rem;
+}
+
+.snaps-inline > * {
+  scroll-snap-align: start;
+}
+
+/* general styling */
+.container {
+  inline-size: min(100% - 4rem, 70rem);
+  margin-inline: auto;
+}
+
+.flow {
+  display: grid;
+  gap: .5rem;
+}
+
+.section-title {
+  padding-inline-start: 1.75rem;
+  margin-block: 4rem .5rem;
+}
+
+/* Property infos */
+.price {
+  font-size: 1.3rem;
+}
+
+.per-sqft {
+  font-size: 0.8rem;
+  float: right;
+}
+.activated-at{
+  font-size: 14px;
+}
+.details-list{
+  font-size: 14px;
+  color: lightgrey;
+}
+
+
+
+
+
+
+/*previous carousel*/
 .carousel-inner{
   padding: 1rem;
 }
