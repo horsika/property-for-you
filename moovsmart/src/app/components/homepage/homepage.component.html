@@ -10,76 +10,17 @@
     </div>
   </div>
 
-  <!--<section class="p-slider">-->
-
-  <!--  &lt;!&ndash;heading&ndash;&gt;-->
-  <!--  <h3 class="product-slider-heading"> Homes For You </h3>-->
-
-  <!--  &lt;!&ndash;  Box&ndash;&gt;-->
-  <!--  <div class="property-box">-->
-
-  <!--    <div class="p-img-container">-->
-
-  <!--      <div class="p-img">-->
-  <!--        <a href="#"></a>-->
-  <!--        <img src="https://photos.zillowstatic.com/fp/9edbfa43c77fc184d7468d5d5acbe048-cc_ft_384.webp"-->
-  <!--             class="p-img-front" alt="Front">-->
-  <!--        <img src="https://photos.zillowstatic.com/fp/9edbfa43c77fc184d7468d5d5acbe048-cc_ft_384.webp"-->
-  <!--             class="p-img-back" alt="Back">-->
-  <!--      </div>-->
-
-  <!--      <div class="p-box-text">-->
-  <!--        &lt;!&ndash;        name&ndash;&gt;-->
-  <!--        <div class="property-name">-->
-  <!--          <span>Zingatlan neve</span>-->
-  <!--        </div>-->
-
-  <!--        &lt;!&ndash;        type&ndash;&gt;-->
-  <!--        <a href="#" class="property-type">-->
-  <!--          <span>Zingatlan típusa</span>-->
-  <!--        </a>-->
-
-  <!--      </div>-->
-
-  <!--    </div>-->
-  <!--  </div>-->
-
-  <!--</section>-->
-
-
-  <!--<section class="p-slider">-->
-
-  <!--  &lt;!&ndash;heading&ndash;&gt;-->
-  <!--  <h3 class="p-slider-heading"> Homes For You </h3>-->
-
-  <!--  <div *ngFor="let property of properties" class="p-box">-->
-  <!--    <div class="p-img-container">-->
-  <!--      <img src="{{property.images[0]}}"  class="p-img" alt="image">-->
-  <!--    </div>-->
-  <!--    <div class="p-box-text">-->
-  <!--      <h5>-->
-  <!--        $<span class="price">{{property.price  | number:'1.0-0'}}</span>-->
-  <!--      </h5>-->
-  <!--      <div class="details-list">-->
-  <!--        {{property.floorArea | number:'1.0-0'}} sqft |-->
-  <!--        {{property.numberOfBedrooms}} bdr |-->
-  <!--        {{property.numberOfBathrooms}} ba |-->
-  <!--        {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}-->
-  <!--      </div>-->
-  <!--      <h6 class="mt-2">{{property.city}}, {{property.name}}</h6>-->
-  <!--    </div>-->
-  <!--  </div>-->
-
-
-  <!--</section>-->
-
   <div class="container">
 
     <div class="media-scroller-container">
       <h5 class="section-title">Homes For You</h5>
       <div class="media-scroller-controls">
-        <button class="prev-button" id="prevButton">&lt;</button>
-        <button class="next-button" id="nextButton">&gt;</button>
+        <button class="prev-button" id="prevButton">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="next-button" id="nextButton">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
       <div class="media-scroller with-overscroll snaps-inline snaps--individual" id="media-scroller">
         <div class="media-element" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">

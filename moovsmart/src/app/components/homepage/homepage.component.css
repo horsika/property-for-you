@@ -113,18 +113,25 @@ h1 {
   right: 0;
 }
 
+
 .prev-button,
 .next-button {
   padding: 5px 10px;
-  background-color: #ccc; /* Customize button styles as needed */
-  border: none;
+  background-color: transparent;
+  border: 1px solid #aaa;
   cursor: pointer;
+  border-radius: 50%; /* Make the button circular */
+  width: 40px; /* Set the width of the circular button */
+  height: 40px; /* Set the height of the circular button */
+  position: relative;
+
 }
 
 .prev-button:hover,
 .next-button:hover {
-  background-color: #aaa; /* Customize button hover styles as needed */
+  background-color: #cccc; /* Customize button hover styles as needed */
 }
+
 
 .media-scroller::-webkit-scrollbar {
   width: 0.1rem; /* Set the scrollbar width to a very small value */
