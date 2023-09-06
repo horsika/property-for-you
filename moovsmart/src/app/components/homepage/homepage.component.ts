@@ -41,36 +41,6 @@ export class HomepageComponent implements OnInit, AfterViewInit {
     );
   }
 
-  // ngAfterViewInit(): void {
-  //   this.initCarousel();
-  // }
-  //
-  // initCarousel(): void {
-  //   const carouselElement = document.getElementById('carouselExample');
-  //
-  //   // Initialize the carousel using Bootstrap's carousel API
-  //   if (carouselElement) {
-  //     const carousel = new bootstrap.Carousel(carouselElement, {
-  //       interval: 5000,
-  //       pause: 'hover',
-  //       keyboard: true
-  //     });
-  //
-  //     const prevButton = document.querySelector('.carousel-control-prev');
-  //     const nextButton = document.querySelector('.carousel-control-next');
-  //
-  //     if (prevButton && nextButton) {
-  //       prevButton.addEventListener('click', () => {
-  //         carousel.prev();
-  //       });
-  //
-  //       nextButton.addEventListener('click', () => {
-  //         carousel.next();
-  //       });
-  //     }
-  //   }
-  // }
-
   ngAfterViewInit() {
     const prevButton = this.el.nativeElement.querySelector('#prevButton');
     const nextButton = this.el.nativeElement.querySelector('#nextButton');
