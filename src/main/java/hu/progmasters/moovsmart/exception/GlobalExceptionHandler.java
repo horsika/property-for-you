@@ -10,6 +10,7 @@ package hu.progmasters.moovsmart.exception;/*
  */
 
 import com.fasterxml.jackson.core.JsonParseException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +113,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> expiredEmailTokenHandler(ExpiredEmailVerificationTokenException e) {
         ApiError body = new ApiError("EXPIRED_EMAIL_VERIFICATION_TOKEN", "This email verification token is expired", e.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ApiError> tokenExpiredHandler(ExpiredJwtException e) {
+        ApiError body = new ApiError("EXPIRED_TOKEN", "Your time has expired. Please log in again!", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
 
