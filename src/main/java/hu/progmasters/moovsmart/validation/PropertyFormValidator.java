@@ -25,8 +25,38 @@ public class PropertyFormValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         PropertyForm property = (PropertyForm) o;
-        if (property.getName() == null || property.getName().equals("")) {
+        if (property.getName() == null || property.getName().isBlank()) {
             errors.rejectValue("name", "property.name.empty");
+        }
+        if (property.getDescription() == null || property.getName().isBlank()) {
+            errors.rejectValue("description", "property.description.empty");
+        }
+        if (property.getAddress() == null || property.getAddress().isBlank()) {
+            errors.rejectValue("address", "property.address.empty");
+        }
+        if (property.getPropertyType() == null || property.getPropertyType().isBlank()) {
+            errors.rejectValue("propertyType", "property.propertyType.empty");
+        }
+        if (property.getHeatingType() == null || property.getHeatingType().isBlank()) {
+            errors.rejectValue("heatingType", "property.heatingType.empty");
+        }
+        if (property.getListingStatus() == null || property.getListingStatus().isBlank()) {
+            errors.rejectValue("listingStatus", "property.listingStatus.empty");
+        }
+        if (property.getListingType() == null || property.getListingType().isBlank()) {
+            errors.rejectValue("listingType", "property.listingType.empty");
+        }
+        if (property.getPrice() < 0.1) {
+            errors.rejectValue("price", "property.price.invalid");
+        }
+        if (property.getFloorArea() < 5) {
+            errors.rejectValue("floorArea", "property.floorArea.invalid");
+        }
+        if (property.getNumberOfBedrooms() < 1) {
+            errors.rejectValue("numberOfBedrooms", "property.numberOfBedrooms.invalid");
+        }
+        if (property.getNumberOfBathrooms() < 1 || property.getNumberOfBathrooms() % 0.5 != 0) {
+            errors.rejectValue("numberOfBathrooms", "property.numberOfBathrooms.invalid");
         }
     }
 }

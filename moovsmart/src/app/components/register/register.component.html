@@ -1,153 +1,159 @@
-<div class="card" style="width: 24rem; margin: auto">
-  <div class="card-header">
-    <ul class="nav nav-tabs card-header-tabs">
-      <li class="nav-item">
-        <a [ngClass]="toggle ? 'nav-link' : 'nav-link active'" (click)="goToLogin()">Login</a>
-      </li>
-      <li class="nav-item">
-        <a  [ngClass]="!toggle ? 'nav-link' : 'nav-link active'" (click)="goToRegister()">Register</a>
-      </li>
-    </ul>
-  </div>
-  <div class="card-body">
-    <form [formGroup]="user" *ngIf="toggle">
-      <div class="form-group mb-4">
+<div class="container mt-5">
+<div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <button [ngClass]="toggle ? 'nav-link' : 'nav-link active'" (click)="goToLogin()">Login</button>
+        </li>
+        <li class="nav-item">
+          <button [ngClass]="!toggle ? 'nav-link' : 'nav-link active'" (click)="goToRegister()">Register</button>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="user" *ngIf="toggle" (keydown.enter)="onRegister()">
+        <div class="form-group mb-4">
 
-        <label for="email"
-               [ngClass]="{
+          <label for="email"
+                 [ngClass]="{
                     'text-danger': user.get('email').invalid && user.get('email').touched || user.get('email').errors?.serverError
                 }">
-          Email address
-        </label>
-        <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email"
-               [ngClass]="{
+            Email address
+          </label>
+          <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email"
+                 [ngClass]="{
                     'is-invalid': user.get('email').invalid && user.get('email').touched || user.get('email').errors?.serverError
                 }">
-        <small *ngIf="user.get('email').errors?.serverError" class="text-danger">
-          {{user.get('email').errors['serverError']}}
-        </small>
-        <small
-          class="text-danger"
-          *ngIf="user.get('email').invalid && user.get('email').touched && !user.get('email').errors?.serverError"
-        >
-          Please enter a valid email!
-        </small>
+          <small *ngIf="user.get('email').errors?.serverError" class="text-danger">
+            {{user.get('email').errors['serverError']}}
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="user.get('email').invalid && user.get('email').touched && !user.get('email').errors?.serverError"
+          >
+            Please enter a valid email!
+          </small>
 
-      </div>
+        </div>
 
-      <div class="form-group  mb-4">
-        <label for="pass"
-               [ngClass]="{
+        <div class="form-group  mb-4">
+          <label for="pass"
+                 [ngClass]="{
                     'text-danger': user.get('password').invalid && user.get('password').touched || user.get('password').errors?.serverError
                 }">Password</label>
-        <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password"
-               [ngClass]="{
+          <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password"
+                 [ngClass]="{
                     'is-invalid': user.get('password').invalid && user.get('password').touched || user.get('password').errors?.serverError
                 }">
-        <small *ngIf="user.get('password').errors?.serverError" class="text-danger">
-          {{user.get('password').errors['serverError']}}
-        </small>
-        <small
-          class="text-danger"
-          *ngIf="user.get('password').invalid && user.get('password').touched && !user.get('password').errors?.serverError"
-        >
-          Please enter a valid password!
-        </small>
-      </div>
+          <small *ngIf="user.get('password').errors?.serverError" class="text-danger">
+            {{user.get('password').errors['serverError']}}
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="user.get('password').invalid && user.get('password').touched && !user.get('password').errors?.serverError"
+          >
+            Please enter a valid password!
+          </small>
+        </div>
 
-      <div class="form-group  mb-4">
-        <label for="firstname"
-               [ngClass]="{
+        <div class="form-group  mb-4">
+          <label for="firstname"
+                 [ngClass]="{
                     'text-danger': user.get('firstName').invalid && user.get('firstName').touched || user.get('firstName').errors?.serverError
                 }">First Name</label>
-        <input type="text" class="form-control" id="firstname" placeholder="First Name"
-               formControlName="firstName"
-               [ngClass]="{
+          <input type="text" class="form-control" id="firstname" placeholder="First Name"
+                 formControlName="firstName"
+                 [ngClass]="{
                     'is-invalid': user.get('firstName').invalid && user.get('firstName').touched || user.get('firstName').errors?.serverError
                 }">
-        <small *ngIf="user.get('firstName').errors?.serverError" class="text-danger">
-          {{user.get('firstName').errors['serverError']}}
-        </small>
-        <small
-          class="text-danger"
-          *ngIf="user.get('firstName').invalid && user.get('firstName').touched && !user.get('firstName').errors?.serverError"
-        >
-          Please enter a your first name!
-        </small>
-      </div>
+          <small *ngIf="user.get('firstName').errors?.serverError" class="text-danger">
+            {{user.get('firstName').errors['serverError']}}
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="user.get('firstName').invalid && user.get('firstName').touched && !user.get('firstName').errors?.serverError"
+          >
+            Please enter a your first name!
+          </small>
+        </div>
 
-      <div class="form-group">
-        <label for="lastname"
-               [ngClass]="{
+        <div class="form-group">
+          <label for="lastname"
+                 [ngClass]="{
                     'text-danger': user.get('lastName').invalid && user.get('lastName').touched || user.get('lastName').errors?.serverError
                 }">Last Name</label>
-        <input type="text" class="form-control" id="lastname" placeholder="Last Name" formControlName="lastName"
-               [ngClass]="{
+          <input type="text" class="form-control" id="lastname" placeholder="Last Name" formControlName="lastName"
+                 [ngClass]="{
                     'is-invalid': user.get('lastName').invalid && user.get('lastName').touched || user.get('lastName').errors?.serverError
                 }">
-        <small *ngIf="user.get('lastName').errors?.serverError" class="text-danger">
-          {{user.get('lastName').errors['serverError']}}
-        </small>
-        <small
-          class="text-danger"
-          *ngIf="user.get('lastName').invalid && user.get('lastName').touched && !user.get('lastName').errors?.serverError"
-        >
-          Please enter a your last name!
-        </small>
-      </div>
-    </form>
+          <small *ngIf="user.get('lastName').errors?.serverError" class="text-danger">
+            {{user.get('lastName').errors['serverError']}}
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="user.get('lastName').invalid && user.get('lastName').touched && !user.get('lastName').errors?.serverError"
+          >
+            Please enter a your last name!
+          </small>
+        </div>
+      </form>
 
 
-    <!-- LOGIN FORM -->
+      <!-- LOGIN FORM -->
 
 
-    <form [formGroup]="auth" *ngIf="!toggle">
-      <div class="form-group  mb-4">
-        <label for="loginEmail"
-               [ngClass]="{
+      <form [formGroup]="auth" *ngIf="!toggle" (keydown.enter)="onLogin()">
+        <div class="form-group  mb-4">
+          <label for="loginEmail"
+                 [ngClass]="{
                     'text-danger': auth.get('loginEmail').invalid && auth.get('loginEmail').touched || auth.get('loginEmail').errors?.serverError
                 }">Email address</label>
-        <input type="email" class="form-control" id="loginEmail" placeholder="Email" formControlName="loginEmail"
-               [ngClass]="{
+          <input type="email" class="form-control" id="loginEmail" placeholder="Email" formControlName="loginEmail"
+                 [ngClass]="{
                     'is-invalid': auth.get('loginEmail').invalid && auth.get('loginEmail').touched || auth.get('loginEmail').errors?.serverError
                 }">
-        <small
-          class="text-danger"
-          *ngIf="auth.get('loginEmail').invalid && auth.get('loginEmail').touched && !auth.get('loginEmail').errors?.serverError"
-        >
-          Please enter a valid email!
-        </small>
-      </div>
+          <small
+            class="text-danger"
+            *ngIf="auth.get('loginEmail').invalid && auth.get('loginEmail').touched && !auth.get('loginEmail').errors?.serverError"
+          >
+            Please enter a valid email!
+          </small>
+        </div>
 
-      <div class="form-group">
-        <label for="loginPass"
-               [ngClass]="{
+        <div class="form-group">
+          <label for="loginPass"
+                 [ngClass]="{
                     'text-danger': auth.get('loginPassword').invalid && auth.get('loginPassword').touched || auth.get('loginPassword').errors?.serverError
                 }">Password</label>
-        <input type="password" class="form-control" id="loginPass" placeholder="Password"
-               formControlName="loginPassword"
-               [ngClass]="{
+          <input type="password" class="form-control" id="loginPass" placeholder="Password"
+                 formControlName="loginPassword"
+                 [ngClass]="{
                     'is-invalid': auth.get('loginPassword').invalid && auth.get('loginPassword').touched || auth.get('loginPassword').errors?.serverError
                 }">
-        <small
-          class="text-danger"
-          *ngIf="auth.get('loginPassword').invalid && auth.get('loginPassword').touched && !auth.get('loginPassword').errors?.serverError"
-        >
-          Please enter your password!
-        </small>
-      </div>
+          <small
+            class="text-danger"
+            *ngIf="auth.get('loginPassword').invalid && auth.get('loginPassword').touched && !auth.get('loginPassword').errors?.serverError"
+          >
+            Please enter your password!
+          </small>
+        </div>
 
-      <p class="text-danger" *ngIf="badCredentials">
-        {{badCredentials}}
-      </p>
-    </form>
+        <p class="text-danger" *ngIf="badCredentials">
+          {{badCredentials}}
+        </p>
+      </form>
+    </div>
+
+    <div class="card-footer">
+      <button type="button" class="btn btn-primary" [disabled]="user.invalid" (click)="onRegister()" *ngIf="toggle">
+        Register
+      </button>
+      <button type="button" class="btn btn-primary" [disabled]="auth.invalid" (click)="onLogin()" *ngIf="!toggle">Login
+      </button>
+    </div>
   </div>
 
-  <div class="card-footer">
-    <button type="button" class="btn btn-primary" [disabled]="user.invalid" (click)="onRegister()" *ngIf="toggle">
-      Register
-    </button>
-    <button type="button" class="btn btn-primary" [disabled]="auth.invalid" (click)="onLogin()" *ngIf="!toggle">Login
-    </button>
+  <div class="text-info-emphasis justify-content-center" *ngIf="emailSent">
+    {{emailSent}}
   </div>
 </div>

@@ -8,7 +8,7 @@ import {UserService} from "../../services/user.service";
 })
 export class NavbarComponent implements OnInit {
 
-  loggedIn : boolean;
+  loggedIn : boolean = false;
   constructor(private userService: UserService) {
   }
 

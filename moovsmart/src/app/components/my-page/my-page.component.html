@@ -1,91 +1,169 @@
-<div class="d-flex flex-row">
-  <div class="container-fluid w-25">
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item p-4">
-        <a class="btn" (click)="showAccountDetails()">My Account</a>
+<div class="container">
+  <div class="row">
 
-        <ul>
-          <li>
-            <a class="btn" (click)="showEmailChangePage()">Change email</a>
-          </li>
-          <li>
-            <a class="btn" (click)="showNameChangePage()">Change name</a>
-          </li>
-          <li>
-            <a class="btn">Profile Picture</a>
-          </li>
-        </ul>
-      </li>
-      <li class="list-group-item p-4">
-        <a class="btn">My Properties</a>
-      </li>
-      <li class="list-group-item p-4">
-        <a class="btn">Saved Properties</a>
-      </li>
-    </ul>
-  </div>
+    <!-- SIDEBAR -->
+    <div class="col-sm-3">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-4">
+          <a class="btn" (click)="showAccountDetails()">My Account</a>
+          <ul>
+            <li>
+              <a class="btn" (click)="showEmailChangePage()">Change email</a>
+            </li>
+            <li>
+              <a class="btn" (click)="showPasswordChangePage()">Change password</a>
+            </li>
+            <li>
+              <a class="btn">Profile Picture</a>
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item p-4">
+          <a class="btn" (click)="showMyProperties()">My Properties</a>
+        </li>
+        <li class="list-group-item p-4">
+          <a class="btn">Saved Properties</a>
+        </li>
+        <li class="list-group-item p-4">
+          <a class="btn" (click)="logOut()">Logout</a>
+        </li>
+      </ul>
+    </div>
 
+    <!-- ACTIVE PAGE -->
+    <div class="col-sm-9">
+      <div class="container-fluid p-4" [ngSwitch]="activePage">
 
-  <div class="container-fluid w-75">
-
-    <div *ngIf="activePage === 'AccountDetails'" class="p-4">
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4 p-0">
-            <img [src]="myAccount.profilePicture" class="card-img" alt="profile picture">
+        <!-- my account -->
+        <div *ngSwitchDefault class="row" id="my-account">
+          <h5>My Account Details</h5>
+          <div class="col-sm-5">
+            <img [src]="myAccount.profilePicture" alt="profile picture" class="img-fluid img-thumbnail">
           </div>
-          <div class="col-md-8" style="padding-left: 0">
-            <div class="card-header">
-              <h5 class="card-title">My Account Details</h5>
-            </div>
-            <div class="card-body">
+          <div class="col-sm-7">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">{{myAccount.email}}</li>
               <li class="list-group-item">{{myAccount.firstName}} {{myAccount.lastName}}</li>
             </ul>
           </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <div *ngIf="activePage === 'EmailChange'">
-      <form [formGroup]="email" class="p-4">
-        <div class="form-group p-2">
-          <label for="email"
-                 [ngClass]="{
+        <!-- change email -->
+        <div *ngSwitchCase="'EmailChange'" class="row" id="email-change">
+          <form [formGroup]="email" class="p-4">
+            <div class="form-group p-2">
+              <label for="email"
+                     [ngClass]="{
                     'text-danger': email.get('email').invalid && email.get('email').touched || email.get('email').errors?.serverError
                 }">
-            New email address
-          </label>
-          <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email"
-                 [ngClass]="{
+                New email address
+              </label>
+              <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email"
+                     [ngClass]="{
                     'is-invalid': email.get('email').invalid && email.get('email').touched || email.get('email').errors?.serverError
                 }">
-          <small *ngIf="email.get('email').errors?.serverError" class="text-danger">
-            {{email.get('email').errors['serverError']}}
-          </small>
-          <small
-            class="text-danger"
-            *ngIf="email.get('email').invalid && email.get('email').touched && !email.get('email').errors?.serverError"
-          >
-            Please enter a valid email!
-          </small>
-          <small class="text-danger"
-          *ngIf="emailConflictMessage">
-            {{emailConflictMessage}}
-          </small>
-        </div>
-        <div class="p-2">
-          <button type="button" class="btn btn-primary" [disabled]="email.invalid" (click)="changeEmail()">
-            Change Email
-          </button>
-        </div>
-      </form>
-    </div>
+              <small *ngIf="email.get('email').errors?.serverError" class="text-danger">
+                {{email.get('email').errors['serverError']}}
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="email.get('email').invalid && email.get('email').touched && !email.get('email').errors?.serverError"
+              >
+                Please enter a valid email!
+              </small>
+              <small class="text-danger"
+                     *ngIf="emailConflictMessage">
+                {{emailConflictMessage}}
+              </small>
+              <p>Once you hit "Change Email", we will send a verification email to you. Verify your email address by
+                clicking on the link in the email.
+                Login again with your new email!</p>
+            </div>
 
-    <div *ngIf="activePage === 'NameChange'">
-      PASSWORD CHANGE
+            <div class="p-2">
+              <button type="button" class="btn btn-primary" [disabled]="email.invalid" (click)="changeEmail()">
+                Change Email
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- my properties -->
+        <div class="container-fluid" *ngFor="let p of myProperties">
+          <div *ngSwitchCase="'MyProperties'" class="row mb-3" id="my-properties">
+            <div class="col-sm-5">
+              <img [src]="p.firstImage" class="img-fluid img-thumbnail" alt="property-picture">
+            </div>
+            <div class="col-sm-6">
+              <h5 class="d-inline">{{p.name}}</h5>
+              <ul>
+                <li>Property Type: {{p.propertyTypeDisplayName}}</li>
+                <li>Price: {{p.price}} Million HUF</li>
+                <li>City: {{p.city}}</li>
+                <li>{{p.listingTypeDisplayName}}</li>
+              </ul>
+            </div>
+            <div class="col-sm-1">
+              <div class="d-grid gap-2">
+                <!-- active property buttons -->
+                <button class="btn btn-outline-success m-1"
+                        (click)="previewProperty(p.propertyId)"
+                        *ngIf="p.isActiveDisplayName === 'Active'">Preview
+                </button>
+                <button class="btn btn-outline-primary m-1"
+                        *ngIf="p.isActiveDisplayName === 'Active'">Modify
+                </button>
+                <button class="btn btn-outline-danger m-1"
+                        (click)="deactivateProperty(p.propertyId)"
+                        *ngIf="p.isActiveDisplayName === 'Active'">Deactivate
+                </button>
+                <!-- inactive property button -->
+                <button class="btn btn-outline-danger m-1"
+                        (click)="activateProperty(p.propertyId)"
+                        *ngIf="p.isActiveDisplayName === 'Inactive' || p.isActiveDisplayName === 'Archived'">Activate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- change password -->
+        <div *ngSwitchCase="'PasswordChange'" class="row" id="password-change">
+          <form [formGroup]="password" class="p-4">
+            <div class="form-group p-2">
+              <label for="email"
+                     [ngClass]="{
+                    'text-danger': password.get('password').invalid && password.get('password').touched || password.get('password').errors?.serverError
+                }">
+                New password
+              </label>
+              <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password"
+                     [ngClass]="{
+                    'is-invalid': password.get('password').invalid && password.get('password').touched || password.get('password').errors?.serverError
+                }">
+              <small *ngIf="password.get('password').errors?.serverError" class="text-danger">
+                {{password.get('password').errors['serverError']}}
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="password.get('password').invalid && password.get('password').touched && !password.get('password').errors?.serverError"
+              >
+                Please enter a valid password!
+              </small>
+              <small *ngIf="password.get('password').errors?.serverError" class="text-danger">
+                {{password.get('password').errors['serverError']}}
+              </small>
+              <p>Changing your password will require you to log in again!</p>
+            </div>
+
+            <div class="p-2">
+              <button type="button" class="btn btn-primary" [disabled]="password.invalid" (click)="changePassword()">
+                Change Password
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
