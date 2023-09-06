@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -10,7 +10,7 @@ import {AuthResponseModel} from "../../models/auth-response.model";
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent{
+export class RegisterComponent {
 
   user: FormGroup;
   auth: FormGroup;
@@ -31,7 +31,7 @@ export class RegisterComponent{
 
     this.auth = this.formBuilder.group({
       'loginEmail': ['', [Validators.email, Validators.required]],
-      'loginPassword': ['', Validators.required, Validators.minLength(6)]
+      'loginPassword': ['', [Validators.required, Validators.minLength(6)]]
     });
 
     this.toggle = true; //true: Register tab is active
