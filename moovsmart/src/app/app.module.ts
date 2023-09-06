@@ -17,6 +17,7 @@ import {AuthInterceptor} from "./utils/auth.interceptor";
 import { SearchCityComponent } from './components/search-city/search-city.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { MyPageComponent } from './components/my-page/my-page.component';
+import { InfoComponent } from './components/info/info.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MyPageComponent } from './components/my-page/my-page.component';
     RegisterComponent,
     SearchCityComponent,
     HomepageComponent,
-    MyPageComponent
+    MyPageComponent,
+    InfoComponent
   ],
   imports: [
     HttpClientModule,

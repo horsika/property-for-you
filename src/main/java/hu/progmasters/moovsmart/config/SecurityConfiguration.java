@@ -39,11 +39,9 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/register"),
-                        new AntPathRequestMatcher("/api/auth/authentication"),
+                .requestMatchers(new AntPathRequestMatcher("/api/auth/*"),
                         new AntPathRequestMatcher("/api/properties"),
-                        new AntPathRequestMatcher("/api/properties/*"),
-                        new AntPathRequestMatcher("/api/auth/am-i-logged-in"))
+                        new AntPathRequestMatcher("/api/properties/*"))
                 .permitAll()
                 .anyRequest()
                 .authenticated()

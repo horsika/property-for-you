@@ -1,8 +1,10 @@
 package hu.progmasters.moovsmart.controller;
 
-import hu.progmasters.moovsmart.dto.outgoing.FormOptions;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
+import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
+import hu.progmasters.moovsmart.dto.outgoing.FormOptions;
+import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
 import hu.progmasters.moovsmart.validation.PropertyFormValidator;
@@ -47,5 +49,16 @@ public class PropertyController {
     @GetMapping("/form-options")
     public ResponseEntity<FormOptions> getPropertyTypes() {
         return new ResponseEntity<>(propertyService.getFormOptions(), HttpStatus.OK);
+    }
+
+    @GetMapping("/my-properties")
+    public ResponseEntity<List<MyPropertyListItem>> getMyProperties(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return new ResponseEntity<>(propertyService.getMyProperties(token), HttpStatus.OK);
+    }
+
+    @PostMapping("/change-active-status")
+    public ResponseEntity<Void> changeActiveStatus(@RequestBody PropertyActiveToggle active){
+        propertyService.changeActiveStatus(active);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

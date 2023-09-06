@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.repository;
 
 import hu.progmasters.moovsmart.domain.property.Property;
+import hu.progmasters.moovsmart.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +12,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     List<Property> findAllByOrderByActivatedAtDesc();
     List<Property> findAllByActivatedAtIsNotNullOrderByActivatedAtDesc();
+
+    List<Property> findByOwnerUserOrderByListingStatus(User user);
 
 }
