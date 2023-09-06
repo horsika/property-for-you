@@ -40,16 +40,14 @@ export class RegisterComponent{
   onRegister() {
     const data = this.user.value;
     this.userService.registerUser(data).subscribe(
-      (response: AuthResponseModel) => {
-        const token = response.token;
-        localStorage.setItem('token', token);
-
+      () => {
       },
       error => {
         validationHandler(error, this.user)
       },
       () => {
-        this.router.navigate(["property-list"])
+        this.toggle = false;
+        this.router.navigate(["register"])
       }
     )
   }
@@ -60,12 +58,13 @@ export class RegisterComponent{
       (response: AuthResponseModel) => {
         const token = response.token;
         localStorage.setItem('token', token);
+        this.userService.tokenIsPresent.next(true);
       },
       error => {
         this.badCredentials = 'Email or password are incorrect';
       },
       () => {
-        this.router.navigate(["property-list"])
+        this.router.navigate(["/homepage"])
       }
     )
   }

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,10 +8,18 @@ import {Component, OnInit} from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() {
+  loggedIn : boolean;
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
+
+    const token = localStorage.getItem('token');
+    this.loggedIn = !!token;
+
+    this.userService.tokenIsPresent.subscribe((isTokenPresent: boolean) => {
+      this.loggedIn = isTokenPresent;
+    })
   }
 
 }

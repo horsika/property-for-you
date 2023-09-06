@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
-import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import {ActivatedRoute} from "@angular/router";
+import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
 
 @Component({

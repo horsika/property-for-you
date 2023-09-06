@@ -1,0 +1,91 @@
+<div class="d-flex flex-row">
+  <div class="container-fluid w-25">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item p-4">
+        <a class="btn" (click)="showAccountDetails()">My Account</a>
+
+        <ul>
+          <li>
+            <a class="btn" (click)="showEmailChangePage()">Change email</a>
+          </li>
+          <li>
+            <a class="btn" (click)="showNameChangePage()">Change name</a>
+          </li>
+          <li>
+            <a class="btn">Profile Picture</a>
+          </li>
+        </ul>
+      </li>
+      <li class="list-group-item p-4">
+        <a class="btn">My Properties</a>
+      </li>
+      <li class="list-group-item p-4">
+        <a class="btn">Saved Properties</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="container-fluid w-75">
+
+    <div *ngIf="activePage === 'AccountDetails'" class="p-4">
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-4 p-0">
+            <img [src]="myAccount.profilePicture" class="card-img" alt="profile picture">
+          </div>
+          <div class="col-md-8" style="padding-left: 0">
+            <div class="card-header">
+              <h5 class="card-title">My Account Details</h5>
+            </div>
+            <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{myAccount.email}}</li>
+              <li class="list-group-item">{{myAccount.firstName}} {{myAccount.lastName}}</li>
+            </ul>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activePage === 'EmailChange'">
+      <form [formGroup]="email" class="p-4">
+        <div class="form-group p-2">
+          <label for="email"
+                 [ngClass]="{
+                    'text-danger': email.get('email').invalid && email.get('email').touched || email.get('email').errors?.serverError
+                }">
+            New email address
+          </label>
+          <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email"
+                 [ngClass]="{
+                    'is-invalid': email.get('email').invalid && email.get('email').touched || email.get('email').errors?.serverError
+                }">
+          <small *ngIf="email.get('email').errors?.serverError" class="text-danger">
+            {{email.get('email').errors['serverError']}}
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="email.get('email').invalid && email.get('email').touched && !email.get('email').errors?.serverError"
+          >
+            Please enter a valid email!
+          </small>
+          <small class="text-danger"
+          *ngIf="emailConflictMessage">
+            {{emailConflictMessage}}
+          </small>
+        </div>
+        <div class="p-2">
+          <button type="button" class="btn btn-primary" [disabled]="email.invalid" (click)="changeEmail()">
+            Change Email
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="activePage === 'NameChange'">
+      PASSWORD CHANGE
+    </div>
+  </div>
+</div>

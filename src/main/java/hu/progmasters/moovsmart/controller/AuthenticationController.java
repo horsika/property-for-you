@@ -1,11 +1,14 @@
 package hu.progmasters.moovsmart.controller;
 
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
+import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
+import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.service.AuthenticationService;
 import hu.progmasters.moovsmart.validation.AuthValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,9 @@ public class AuthenticationController {
     private final AuthValidator authValidator;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
-        return new ResponseEntity<>(authenticationService.register(registerRequest), HttpStatus.OK);
+    public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
+        authenticationService.register(registerRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/authentication")
@@ -30,8 +34,16 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticationService.authenticate(request), HttpStatus.OK);
     }
 
-    @GetMapping("/am-i-logged-in")
-    public ResponseEntity<Void> determineLoggedIn() {
+    @PostMapping("/change-email")
+    public ResponseEntity<Void> changeEmail(@RequestBody @Valid EmailChangeForm emailChangeForm, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        authenticationService.changeEmail(emailChangeForm, token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/account-details")
+    public ResponseEntity<AccountDetails> sendAccountDetails(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return new ResponseEntity<>(authenticationService.getAccountDetails(token), HttpStatus.OK);
+    }
+
+
 }

@@ -1,8 +1,11 @@
 package hu.progmasters.moovsmart.service;
 
+import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.domain.user.UserRole;
 import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
+import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
 import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
+import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import hu.progmasters.moovsmart.domain.user.User;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -26,7 +28,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
 
         var user = User.builder()
                 .firstName(registerRequest.getFirstName())
@@ -40,12 +42,6 @@ public class AuthenticationService {
             throw new AuthenticationServiceException("User with given email already exists!");
         }
         userRepository.save(user);
-
-        var jwtToken = jwtService.generateToken(user);
-
-        return AuthResponse.builder()
-                .token(jwtToken)
-                .build();
     }
 
     public AuthResponse authenticate(AuthenticationRequest request) {
@@ -68,5 +64,23 @@ public class AuthenticationService {
 
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public void changeEmail(EmailChangeForm emailChangeForm, String token) {
+        String processableToken = token.substring(7);
+        if(userRepository.findUserByEmail(emailChangeForm.getEmail()).isEmpty()
+        && userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).isPresent()){
+           User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+           user.setEmail(emailChangeForm.getEmail());
+           userRepository.save(user);
+        } else {
+            throw new AuthenticationServiceException("User with given email already exists!");
+        }
+    }
+
+    public AccountDetails getAccountDetails(String token) {
+        String processableToken = token.substring(7);
+        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        return new AccountDetails(user);
     }
 }
