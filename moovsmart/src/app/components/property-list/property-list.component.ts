@@ -50,7 +50,7 @@ export class PropertyListComponent implements OnInit {
       // this.selectedCity = this.searchService.getSelectedCity();
       // console.log(this.selectedCity);
 
-      this.propertyService.getPropertyList().subscribe(
+      this.propertyService.getActivatedPropertyList().subscribe(
         propertyListItems => {
           this.originalProperties = propertyListItems
             .filter(property => property.city === this.selectedCity)
@@ -256,8 +256,11 @@ export class PropertyListComponent implements OnInit {
 
   }
 
-  goToDetails(id: number) {
-    this.router.navigate(['property-details', id]);
-  }
+  // goToDetails(id: number) {
+  //   this.router.navigate(['property-details', id]);
+  // }
 
+  goToDetails(id: number) {
+    this.propertyService.goToPropertyDetails(id);
+  }
 }

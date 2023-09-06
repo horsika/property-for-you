@@ -1,181 +1,102 @@
-<div class="background-image-container">
-  <img class="background-image"
-       src="https://d32ijn7u0aqfv4.cloudfront.net/wp/wp-content/uploads/raw/couple-man-woman-movingboxes-newhome_SOMG19009_1147468190_is_780x440.jpg">
-  <div class="search-heading">
-    <h1>Search for a home</h1>
+<div class="container-fluid custom-container">
+  <div class="background-image-container">
+    <img class="background-image"
+         src="https://d32ijn7u0aqfv4.cloudfront.net/wp/wp-content/uploads/raw/couple-man-woman-movingboxes-newhome_SOMG19009_1147468190_is_780x440.jpg">
+    <div class="search-heading">
+      <h1>Search for a home</h1>
+    </div>
+    <div class="search-box-overlay">
+      <app-search-city class="large-search-box"></app-search-city>
+    </div>
   </div>
-  <div class="search-box-overlay">
-    <app-search-city class="large-search-box"></app-search-city>
+
+  <!--<section class="p-slider">-->
+
+  <!--  &lt;!&ndash;heading&ndash;&gt;-->
+  <!--  <h3 class="product-slider-heading"> Homes For You </h3>-->
+
+  <!--  &lt;!&ndash;  Box&ndash;&gt;-->
+  <!--  <div class="property-box">-->
+
+  <!--    <div class="p-img-container">-->
+
+  <!--      <div class="p-img">-->
+  <!--        <a href="#"></a>-->
+  <!--        <img src="https://photos.zillowstatic.com/fp/9edbfa43c77fc184d7468d5d5acbe048-cc_ft_384.webp"-->
+  <!--             class="p-img-front" alt="Front">-->
+  <!--        <img src="https://photos.zillowstatic.com/fp/9edbfa43c77fc184d7468d5d5acbe048-cc_ft_384.webp"-->
+  <!--             class="p-img-back" alt="Back">-->
+  <!--      </div>-->
+
+  <!--      <div class="p-box-text">-->
+  <!--        &lt;!&ndash;        name&ndash;&gt;-->
+  <!--        <div class="property-name">-->
+  <!--          <span>Zingatlan neve</span>-->
+  <!--        </div>-->
+
+  <!--        &lt;!&ndash;        type&ndash;&gt;-->
+  <!--        <a href="#" class="property-type">-->
+  <!--          <span>Zingatlan típusa</span>-->
+  <!--        </a>-->
+
+  <!--      </div>-->
+
+  <!--    </div>-->
+  <!--  </div>-->
+
+  <!--</section>-->
+
+
+  <!--<section class="p-slider">-->
+
+  <!--  &lt;!&ndash;heading&ndash;&gt;-->
+  <!--  <h3 class="p-slider-heading"> Homes For You </h3>-->
+
+  <!--  <div *ngFor="let property of properties" class="p-box">-->
+  <!--    <div class="p-img-container">-->
+  <!--      <img src="{{property.images[0]}}"  class="p-img" alt="image">-->
+  <!--    </div>-->
+  <!--    <div class="p-box-text">-->
+  <!--      <h5>-->
+  <!--        $<span class="price">{{property.price  | number:'1.0-0'}}</span>-->
+  <!--      </h5>-->
+  <!--      <div class="details-list">-->
+  <!--        {{property.floorArea | number:'1.0-0'}} sqft |-->
+  <!--        {{property.numberOfBedrooms}} bdr |-->
+  <!--        {{property.numberOfBathrooms}} ba |-->
+  <!--        {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}-->
+  <!--      </div>-->
+  <!--      <h6 class="mt-2">{{property.city}}, {{property.name}}</h6>-->
+  <!--    </div>-->
+  <!--  </div>-->
+
+
+  <!--</section>-->
+
+  <div class="container">
+
+    <div class="media-scroller-container">
+      <h5 class="section-title">Homes For You</h5>
+      <div class="media-scroller-controls">
+        <button class="prev-button" id="prevButton">&lt;</button>
+        <button class="next-button" id="nextButton">&gt;</button>
+      </div>
+      <div class="media-scroller with-overscroll snaps-inline snaps--individual" id="media-scroller">
+        <div class="media-element" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">
+          <img src="{{property.images[0]}}" alt="">
+          <!--    <p class="title">$<span class="price">{{property.price  | number:'1.0-0'}}</span></p>-->
+          <div>
+            $<span class="price">{{property.price  | number:'1.0-0'}}</span>
+          </div>
+          <div class="details-list">
+            {{property.floorArea | number:'1.0-0'}} sqft |
+            {{property.numberOfBedrooms}} bdr |
+            {{property.numberOfBathrooms}} ba |
+            {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}
+          </div>
+          <div class="city-name">{{property.city}}, {{property.name}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<!--<div id="carouselExample" class="carousel slide">-->
-<!--  <div class="carousel-inner">-->
-<!--    <div class="carousel-item active">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/159313813ec8ea2cdab543913544871f-cc_ft_960.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card One</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/fa837cc3b8eec9265eaa2737e366f19b-cc_ft_1536.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Two</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/22d289da849779e9d77e929e087fbd3c-cc_ft_1536.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Three</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/fa837cc3b8eec9265eaa2737e366f19b-cc_ft_1536.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Four</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/d765088da6f5a6fcb15a86d6516d1edd-cc_ft_384.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Five</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/fa837cc3b8eec9265eaa2737e366f19b-cc_ft_1536.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Two</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/22d289da849779e9d77e929e087fbd3c-cc_ft_1536.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Three</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/fa837cc3b8eec9265eaa2737e366f19b-cc_ft_1536.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Four</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="carousel-item">-->
-<!--      <div class="card">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/d765088da6f5a6fcb15a86d6516d1edd-cc_ft_384.webp" class="card-img-top" alt="...">-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title">Card Five</h5>-->
-<!--          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-<!--          <a href="#" class="btn btn-primary">Go somewhere</a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">-->
-<!--    <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--    <span class="visually-hidden">Previous</span>-->
-<!--  </button>-->
-<!--  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">-->
-<!--    <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--    <span class="visually-hidden">Next</span>-->
-<!--  </button>-->
-<!--</div>-->
-
-<br>
-
-<!--<section class="p-slider">-->
-
-<!--  &lt;!&ndash;heading&ndash;&gt;-->
-<!--  <h3 class="product-slider-heading"> Homes For You </h3>-->
-
-<!--  &lt;!&ndash;  Box&ndash;&gt;-->
-<!--  <div class="property-box">-->
-
-<!--    <div class="p-img-container">-->
-
-<!--      <div class="p-img">-->
-<!--        <a href="#"></a>-->
-<!--        <img src="https://photos.zillowstatic.com/fp/9edbfa43c77fc184d7468d5d5acbe048-cc_ft_384.webp"-->
-<!--             class="p-img-front" alt="Front">-->
-<!--        <img src="https://photos.zillowstatic.com/fp/9edbfa43c77fc184d7468d5d5acbe048-cc_ft_384.webp"-->
-<!--             class="p-img-back" alt="Back">-->
-<!--      </div>-->
-
-<!--      <div class="p-box-text">-->
-<!--        &lt;!&ndash;        name&ndash;&gt;-->
-<!--        <div class="property-name">-->
-<!--          <span>Zingatlan neve</span>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash;        type&ndash;&gt;-->
-<!--        <a href="#" class="property-type">-->
-<!--          <span>Zingatlan típusa</span>-->
-<!--        </a>-->
-
-<!--      </div>-->
-
-<!--    </div>-->
-<!--  </div>-->
-
-<!--</section>-->
-
-
-
-<!--<section class="p-slider">-->
-
-<!--  &lt;!&ndash;heading&ndash;&gt;-->
-<!--  <h3 class="p-slider-heading"> Homes For You </h3>-->
-
-<!--  <div *ngFor="let property of properties" class="p-box">-->
-<!--    <div class="p-img-container">-->
-<!--      <img src="{{property.images[0]}}"  class="p-img" alt="image">-->
-<!--    </div>-->
-<!--    <div class="p-box-text">-->
-<!--      <h5>-->
-<!--        $<span class="price">{{property.price  | number:'1.0-0'}}</span>-->
-<!--      </h5>-->
-<!--      <div class="details-list">-->
-<!--        {{property.floorArea | number:'1.0-0'}} sqft |-->
-<!--        {{property.numberOfBedrooms}} bdr |-->
-<!--        {{property.numberOfBathrooms}} ba |-->
-<!--        {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}-->
-<!--      </div>-->
-<!--      <h6 class="mt-2">{{property.city}}, {{property.name}}</h6>-->
-<!--    </div>-->
-<!--  </div>-->
-
-
-<!--</section>-->
-
-
