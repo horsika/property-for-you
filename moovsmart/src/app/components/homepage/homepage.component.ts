@@ -1,6 +1,6 @@
 declare var bootstrap: any;
 
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {SearchService} from "../../services/search.service";
 import {Router} from "@angular/router";
@@ -17,56 +17,43 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
   constructor(private propertyService: PropertyService,
               private searchService: SearchService,
-              private router: Router) {
+              private router: Router,
+              private renderer: Renderer2, //to manipulate DOM elements
+              private el: ElementRef) {
   }
 
+  //only newest 10 properties listed currently!
   ngOnInit() {
-    this.propertyService.getPropertyList().subscribe(
+    this.propertyService.getActivatedPropertyList().subscribe(
       propertyListItems => {
         this.properties = propertyListItems
+          .slice(0,10)
           .map(property => ({
             ...property,
-            activatedAt: new Date(property.activatedAt),
-            formattedActivatedAt: new Date(property.activatedAt).toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })
           }));
       }
     );
+
   }
 
-  ngAfterViewInit(): void {
-    this.initCarousel();
+
+  ngAfterViewInit() {
+    const prevButton = this.el.nativeElement.querySelector('#prevButton');
+    const nextButton = this.el.nativeElement.querySelector('#nextButton');
+    const mediaScroller = this.el.nativeElement.querySelector('.media-scroller');
+
+    prevButton.addEventListener('click', () => {
+      mediaScroller.scrollBy({ left: -200, behavior: 'smooth' }); // Adjust the scrolling amount (-200) as needed
+    });
+
+    nextButton.addEventListener('click', () => {
+      mediaScroller.scrollBy({ left: 200, behavior: 'smooth' }); // Adjust the scrolling amount (200) as needed
+    });
   }
 
-  initCarousel(): void {
-    const carouselElement = document.getElementById('carouselExample');
-
-    // Initialize the carousel using Bootstrap's carousel API
-    if (carouselElement) {
-      const carousel = new bootstrap.Carousel(carouselElement, {
-        interval: 5000,
-        pause: 'hover',
-        keyboard: true
-      });
-
-      const prevButton = document.querySelector('.carousel-control-prev');
-      const nextButton = document.querySelector('.carousel-control-next');
-
-      if (prevButton && nextButton) {
-        prevButton.addEventListener('click', () => {
-          carousel.prev();
-        });
-
-        nextButton.addEventListener('click', () => {
-          carousel.next();
-        });
-      }
-    }
+  goToDetails(id: number) {
+    this.propertyService.goToPropertyDetails(id);
   }
+
 }
 

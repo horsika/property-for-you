@@ -11,6 +11,7 @@ import java.util.List;
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     List<Property> findAllByOrderByActivatedAtDesc();
+    List<Property> findAllByActivatedAtIsNotNullOrderByActivatedAtDesc();
 
     List<Property> findByOwnerUserOrderByListingStatus(User user);
 
