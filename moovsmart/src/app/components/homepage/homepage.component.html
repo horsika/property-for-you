@@ -25,9 +25,8 @@
       <div class="media-scroller with-overscroll snaps-inline snaps--individual" id="media-scroller">
         <div class="media-element" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">
           <img src="{{property.images[0]}}" alt="">
-          <!--    <p class="title">$<span class="price">{{property.price  | number:'1.0-0'}}</span></p>-->
           <div>
-            HUF<span class="price">{{property.price  | number:'1.0-0'}}</span>
+            HUF <span class="price">{{property.price  | number:'1.0-0'}}</span>
           </div>
           <div class="details-list">
             {{property.floorArea | number:'1.0-0'}} sqft |
