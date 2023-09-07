@@ -232,7 +232,6 @@ export class PropertyListComponent implements OnInit {
 
   //Combined filters--------------------------------------------------------------------
   applyCombinedFilters(): void {
-    console.log('before: ', this.commonFilteredProperties);
     if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied && this.isFilterCityApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
         .filter(property =>

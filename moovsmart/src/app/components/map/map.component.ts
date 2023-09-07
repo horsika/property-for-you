@@ -20,7 +20,6 @@ export class MapComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.initMap();
     this.propertyService.commonFilteredProperties$.subscribe((properties => {
-      console.log('Properties changed:', properties);
       this.displayPropertiesOnMap(properties);
     }))
   }
