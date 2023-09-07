@@ -43,4 +43,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
-
+cloudinary:
+  cloud_name: dai5h04h9
+  api_key: 695614668358737
+  api_secret: z2HdHXRPAyg1AslY-iauGzrpoXA

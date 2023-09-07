@@ -5,27 +5,27 @@
     <div class="col-sm-3">
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-4">
-          <a class="btn" (click)="showAccountDetails()">My Account</a>
+          <button class="btn" (click)="showAccountDetails()">My Account</button>
           <ul>
             <li>
-              <a class="btn" (click)="showEmailChangePage()">Change email</a>
+              <button class="btn" (click)="showEmailChangePage()">Change email</button>
             </li>
             <li>
-              <a class="btn" (click)="showPasswordChangePage()">Change password</a>
+              <button class="btn" (click)="showPasswordChangePage()">Change password</button>
             </li>
             <li>
-              <a class="btn">Profile Picture</a>
+              <button class="btn" (click)="showProfilePictureForm()">Profile Picture</button>
             </li>
           </ul>
         </li>
         <li class="list-group-item p-4">
-          <a class="btn" (click)="showMyProperties()">My Properties</a>
+          <button class="btn" (click)="showMyProperties()">My Properties</button>
         </li>
         <li class="list-group-item p-4">
-          <a class="btn">Saved Properties</a>
+          <button class="btn">Saved Properties</button>
         </li>
         <li class="list-group-item p-4">
-          <a class="btn" (click)="logOut()">Logout</a>
+          <button class="btn" (click)="logOut()">Logout</button>
         </li>
       </ul>
     </div>
@@ -81,7 +81,7 @@
             </div>
 
             <div class="p-2">
-              <button type="button" class="btn btn-primary" [disabled]="email.invalid" (click)="changeEmail()">
+              <button type="button" class="btn btn-outline-primary" [disabled]="email.invalid" (click)="changeEmail()">
                 Change Email
               </button>
             </div>
@@ -128,7 +128,7 @@
         </div>
 
         <!-- change password -->
-        <div *ngSwitchCase="'PasswordChange'" class="row" id="password-change">
+        <div *ngSwitchCase="'PasswordChange'" id="password-change">
           <form [formGroup]="password" class="p-4">
             <div class="form-group p-2">
               <label for="email"
@@ -157,13 +157,41 @@
             </div>
 
             <div class="p-2">
-              <button type="button" class="btn btn-primary" [disabled]="password.invalid" (click)="changePassword()">
+              <button type="button" class="btn btn-outline-primary" [disabled]="password.invalid"
+                      (click)="changePassword()">
                 Change Password
               </button>
             </div>
           </form>
         </div>
+
+        <!-- upload profile picture -->
+        <div *ngSwitchCase="'ProfilePicture'" class="p-4">
+          <form [formGroup]="profilePic">
+            <label for="profile-pic">
+              Upload a new profile picture
+            </label>
+            <input type="file" class="form-control" id="profile-pic" (change)="onFileChange($event)"
+                   [ngClass]="{
+                    'is-invalid': profilePic.get('file').invalid && profilePic.get('file').touched || profilePic.get('file').errors?.serverError}">
+            <small *ngIf="profilePic.get('file').errors?.serverError">
+              {{profilePic.get('file').errors['serverError']}}
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="profilePic.get('file').invalid && profilePic.get('file').touched && !profilePic.get('file').errors?.serverError"
+            >
+              Please choose a valid file!
+            </small>
+
+            <button class="btn btn-outline-primary mt-3"
+                    [disabled]="profilePic.invalid"
+                    (click)="changeProfilePicture()">Submit</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+
 </div>

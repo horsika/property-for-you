@@ -24,13 +24,13 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
     private final JwtService jwtService;
-    private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @Autowired
-    public PropertyService(PropertyRepository propertyRepository, JwtService jwtService, AuthenticationService authenticationService) {
+    public PropertyService(PropertyRepository propertyRepository, JwtService jwtService, UserService userService) {
         this.propertyRepository = propertyRepository;
         this.jwtService = jwtService;
-        this.authenticationService = authenticationService;
+        this.userService = userService;
     }
 
     public List<PropertyListItem> getPropertiesActivated() {
@@ -49,7 +49,7 @@ public class PropertyService {
     public void createProperty(PropertyForm propertyForm, String token) {
         String processableToken = token.substring(7);
         String userEmail = jwtService.extractEmail(processableToken);
-        User author = authenticationService.findUserByEmail(userEmail);
+        User author = userService.findUserByEmail(userEmail);
         Property propertyToSave = new Property(propertyForm);
 
         propertyToSave.setOwnerUser(author);
@@ -74,7 +74,7 @@ public class PropertyService {
     }
 
     public List<MyPropertyListItem> getMyProperties(String token) {
-        User user = authenticationService.findUserByToken(token);
+        User user = userService.findUserByToken(token);
         List<Property> properties = propertyRepository.findByOwnerUserOrderByListingStatus(user);
         return properties.stream().map(MyPropertyListItem::new).collect(Collectors.toList());
     }
