@@ -62,7 +62,7 @@ public class Property {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -83,7 +83,7 @@ public class Property {
     private ListingType listingType;
 
     @ManyToMany
-    @JoinTable(name = "user_like",
+    @JoinTable(name = "user_like_property",
             joinColumns = @JoinColumn(name = "property_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> saverUsers = new HashSet<>();
