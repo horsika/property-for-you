@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
 
@@ -31,7 +31,8 @@ export class PropertyDetailsComponent implements OnInit {
   };
 
   constructor(private propertyService: PropertyService,
-              private route: ActivatedRoute,) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   private initMap(): void {
@@ -91,4 +92,7 @@ export class PropertyDetailsComponent implements OnInit {
     });
   }
 
+  goBackToListPage() {
+    this.router.navigate(['/property-list'], {queryParams: {city: this.property.address.split(' ')[1]}});
+  }
 }

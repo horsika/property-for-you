@@ -108,7 +108,7 @@ public class Property {
         this.address = new Address(propertyForm.getAddress());
         this.propertyType = PropertyType.valueOf(propertyForm.getPropertyType());
         this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
-        this.listingStatus = ListingStatus.ACTIVE;
+        this.listingStatus = ListingStatus.INACTIVE;
         this.listingType = ListingType.getNameFromDisplayName(propertyForm.getListingType());
     }
 }
