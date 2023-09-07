@@ -69,7 +69,7 @@ export class PropertyListComponent implements OnInit {
           this.properties = this.originalProperties;
           this.commonFilteredProperties = this.originalProperties;
           this.applyCombinedFilters();
-
+          // this.propertyService.updateCommonFilteredProperties(this.commonFilteredProperties);
         });
     });
 
@@ -232,6 +232,7 @@ export class PropertyListComponent implements OnInit {
 
   //Combined filters--------------------------------------------------------------------
   applyCombinedFilters(): void {
+    console.log('before: ', this.commonFilteredProperties);
     if (this.isFilterListingTypeApplied && this.isFilterPropertyTypeApplied && this.isFilterCityApplied) {
       this.commonFilteredProperties = this.filterPropertiesListingType(this.selectedFilterOptionListingType)
         .filter(property =>
@@ -253,6 +254,8 @@ export class PropertyListComponent implements OnInit {
     } else {
       this.commonFilteredProperties = this.originalProperties;
     }
+
+    this.propertyService.updateCommonFilteredProperties(this.commonFilteredProperties);
 
   }
 

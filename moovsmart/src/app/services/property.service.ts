@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {PropertyListItemModel} from "../models/propertyListItem.model";
 import {PropertyFormDataModel} from "../models/propertyFormData.model";
 import {PropertyDetailsModel} from "../models/propertyDetails.model";
@@ -45,7 +45,15 @@ export class PropertyService {
     return this.httpClient.post(this.baseUrl + '/change-active-status', status);
   }
 
+
   goToPropertyDetails(id:number){
     this.router.navigate(['property-details', id]);
+  }
+
+  // passing the filtered property list
+  commonFilteredPropertiesSubject = new BehaviorSubject<Array<PropertyListItemModel>>([]);
+  commonFilteredProperties$: Observable<Array<PropertyListItemModel>> = this.commonFilteredPropertiesSubject.asObservable();
+  updateCommonFilteredProperties(properties: Array<PropertyListItemModel>):void{
+    this.commonFilteredPropertiesSubject.next(properties);
   }
 }
