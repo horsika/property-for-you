@@ -9,19 +9,21 @@ import {FormOptionsModel} from "../models/form-options.model";
 import {Router} from "@angular/router";
 import {MyPropertyListItemModel} from "../models/my-property-list-item.model";
 import {PropertyActiveToggleModel} from "../models/property-active-toggle.model";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertyService {
 
-   baseUrl = environment.BASE_URL + '/api/properties';
+  baseUrl = environment.BASE_URL + '/api/properties';
 
   constructor(private httpClient: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private userService: UserService) {
   }
 
-  createProperty(propertyFormData: PropertyFormDataModel): Observable<any> {
+  createProperty(propertyFormData: PropertyFormDataModel) {
     return this.httpClient.post(this.baseUrl, propertyFormData);
   }
 
@@ -45,7 +47,11 @@ export class PropertyService {
     return this.httpClient.post(this.baseUrl + '/change-active-status', status);
   }
 
-  goToPropertyDetails(id:number){
+  goToPropertyDetails(id: number) {
     this.router.navigate(['property-details', id]);
+  }
+
+  saveToFavourites(propertyId: number) {
+    return this.httpClient.post(this.baseUrl + '/save-to-favourites', propertyId);
   }
 }
