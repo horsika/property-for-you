@@ -16,7 +16,7 @@
   height: 2.5rem;
   padding: 0.5rem;
   /*padding-right: 2rem; !* Make room for the search icon *!*/
-  border-radius: 8px;
+  border-radius: 0.5rem;
   border-width: 1px;
   border-style: solid;
   border-color: #757575;
@@ -48,6 +48,8 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
   z-index: 3;
   opacity: 1;  /* This is needed finally to ensure the results appear above other elements */
 }

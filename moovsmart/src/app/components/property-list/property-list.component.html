@@ -1,12 +1,14 @@
 <div class="container-fluid mt-3 mb-3" style="height: 50vh;">
   <!-- Search and filtering buttons section -->
-  <div class="mb-4 d-flex justify-content-between">
-    <div class="d-flex w-100">
-      <!--    <input type="text" class="form-control" style="width: 200px;" placeholder="Search">-->
+  <div class="mb-4 d-flex justify-content-between align-items-start">
+    <div class="d-flex flex-column flex-md-row">
 
-      <app-search-city></app-search-city>
+      <!-- Search input -->
+      <div class="search-container mx-2 mb-2 mb-md-0">
+        <app-search-city></app-search-city>
+      </div>
 
-      <div class="dropdown-container">
+      <div class="dropdown-container mx-0 mb-2 mb-md-0">
         <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
           <ng-container *ngIf="isFilterListingTypeApplied">{{ selectedFilterOptionListingType }}</ng-container>
           <ng-container *ngIf="!isFilterListingTypeApplied">For sale or rent?</ng-container>
@@ -32,11 +34,7 @@
         </div>
       </div>
 
-
-      <!--    <button class="btn btn-outline-secondary mx-2">Price</button>-->
-      <!--    <button class="btn btn-outline-secondary mx-2">Beds & Baths</button>-->
-
-      <div class="dropdown-container">
+      <div class="dropdown-container mx-0 mb-2 mb-md-0">
         <button class="btn btn-outline-secondary dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false">
           Home type {{ isFilterPropertyTypeApplied ? ' (' + selectedPropertyTypes.length + ')' : '' }}
         </button>
@@ -105,6 +103,8 @@
 
 
   <div class="row g-4">
+
+    <!--Map-->
     <div class="col-md-6 d-none d-md-block">
       <div class="card border-0">
         <div class="card-body p-0">
@@ -113,8 +113,8 @@
       </div>
     </div>
 
+    <!-- Right side content with title, search result, sorting options, and small cards -->
     <div class="col-12 col-md-6">
-      <!-- Right side content with title, search result, sorting options, and small cards -->
       <div class="mb-4">
         <!-- Title section -->
         <h1 class="mb-0">Your Property Listings</h1>
@@ -146,8 +146,8 @@
             </div>
           </div>
         </div>
-
       </div>
+
       <!-- Small cards section with scrollbar -->
       <div class="row g-4 scrollable-cards" [ngClass]="{'disabled-cards': !deselectAllChecked && !anyCheckboxChecked}">
 
