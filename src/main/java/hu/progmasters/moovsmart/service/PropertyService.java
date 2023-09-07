@@ -84,4 +84,13 @@ public class PropertyService {
         property.setListingStatus(ListingStatus.valueOf(active.getListingStatus()));
         propertyRepository.save(property);
     }
+
+    public void saveToFavourites(Long propertyId, String token) {
+        User user = this.authenticationService.findUserByToken(token);
+        Property property = this.propertyRepository.getById(propertyId);
+
+        property.addToSaverUsers(user);
+
+        this.propertyRepository.save(property);
+    }
 }

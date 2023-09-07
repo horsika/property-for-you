@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,8 +39,8 @@ public class User implements UserDetails {
     @JoinTable(name = "account_role")
     private UserRole role;
 
-    @OneToMany(mappedBy = "saverUser")
-    private List<Property> savedProperties;
+    @ManyToMany(mappedBy = "saverUsers")
+    private Set<Property> savedProperties = new HashSet<>();
 
     @OneToMany(mappedBy = "ownerUser")
     private List<Property> ownedProperties;

@@ -11,7 +11,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -80,9 +82,11 @@ public class Property {
     @Column(name = "listing_type")
     private ListingType listingType;
 
-    @ManyToOne
-    @JoinColumn(name = "saver_user_id")
-    private User saverUser;
+    @ManyToMany
+    @JoinTable(name = "user_like",
+            joinColumns = @JoinColumn(name = "property_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> saverUsers = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "owner_user_id")
@@ -110,5 +114,9 @@ public class Property {
         this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
         this.listingStatus = ListingStatus.INACTIVE;
         this.listingType = ListingType.getNameFromDisplayName(propertyForm.getListingType());
+    }
+
+    public void addToSaverUsers(User userToAdd) {
+        this.saverUsers.add(userToAdd);
     }
 }
