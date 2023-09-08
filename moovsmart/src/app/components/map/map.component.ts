@@ -80,7 +80,6 @@ export class MapComponent implements AfterViewInit {
     </div>
   `;
 
-      console.log('Property Price:', property.price);
 
       // Create a custom icon
       const customIcon = L.divIcon({
