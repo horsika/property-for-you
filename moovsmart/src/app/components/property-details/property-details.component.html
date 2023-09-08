@@ -1,13 +1,7 @@
 <div class="container-fluid">
   <div class="row p-0">
-    <div class="col-7 p-0">
-      <img [src]="property.images[0]" class="col-12 px-1" alt="feature-image" id="feature-img">
-      <img *ngFor="let image of property.images" [src]="image" class="col-6 p-1"
-           id="property-img" alt="property-images">
-    </div>
 
-
-    <div class="col-5 p-0">
+    <div class="p-0 col-sm-5">
       <div class="card">
         <div class="card-header p-0">
           <div class="table-responsive">
@@ -102,5 +96,12 @@
         </ul>
       </div>
     </div>
+
+    <div class="p-0 col-sm-7">
+      <img [src]="property.images[0]" class="col-12 px-1" alt="feature-image" id="feature-img">
+      <img *ngFor="let image of property.images" [src]="image" class="col-6 p-1"
+           id="property-img" alt="property-images">
+    </div>
+
   </div>
 </div>
