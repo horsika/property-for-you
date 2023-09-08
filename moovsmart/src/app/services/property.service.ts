@@ -21,7 +21,7 @@ export class PropertyService {
               private router: Router) {
   }
 
-  createProperty(propertyFormData: PropertyFormDataModel): Observable<any> {
+  createProperty(propertyFormData: PropertyFormDataModel) {
     return this.httpClient.post(this.baseUrl, propertyFormData);
   }
 
@@ -45,8 +45,7 @@ export class PropertyService {
     return this.httpClient.post(this.baseUrl + '/change-active-status', status);
   }
 
-
-  goToPropertyDetails(id:number){
+  goToPropertyDetails(id: number) {
     this.router.navigate(['property-details', id]);
   }
 
@@ -55,5 +54,9 @@ export class PropertyService {
   commonFilteredProperties$: Observable<Array<PropertyListItemModel>> = this.commonFilteredPropertiesSubject.asObservable();
   updateCommonFilteredProperties(properties: Array<PropertyListItemModel>):void{
     this.commonFilteredPropertiesSubject.next(properties);
+  }
+
+  saveToFavourites(propertyId: number) {
+    return this.httpClient.post(this.baseUrl + '/save-to-favourites', propertyId);
   }
 }

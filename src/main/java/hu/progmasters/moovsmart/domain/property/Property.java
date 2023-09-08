@@ -1,5 +1,7 @@
 package hu.progmasters.moovsmart.domain.property;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import lombok.Data;
@@ -11,7 +13,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -60,7 +65,7 @@ public class Property {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -80,12 +85,16 @@ public class Property {
     @Column(name = "listing_type")
     private ListingType listingType;
 
-    @ManyToOne
-    @JoinColumn(name = "saver_user_id")
-    private User saverUser;
+    @ManyToMany
+    @JoinTable(name = "user_like_property",
+            joinColumns = @JoinColumn(name = "property_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnore
+    private Set<User> saverUsers = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "owner_user_id")
+    @JsonIgnore
     private User ownerUser;
 
     @Column
@@ -110,5 +119,9 @@ public class Property {
         this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
         this.listingStatus = ListingStatus.INACTIVE;
         this.listingType = ListingType.getNameFromDisplayName(propertyForm.getListingType());
+    }
+
+    public void addToSaverUsers(User userToAdd) {
+        this.saverUsers.add(userToAdd);
     }
 }

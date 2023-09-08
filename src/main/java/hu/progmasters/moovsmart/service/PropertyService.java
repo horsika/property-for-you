@@ -1,9 +1,6 @@
 package hu.progmasters.moovsmart.service;
 
-import hu.progmasters.moovsmart.domain.property.HeatingType;
-import hu.progmasters.moovsmart.domain.property.ListingStatus;
-import hu.progmasters.moovsmart.domain.property.Property;
-import hu.progmasters.moovsmart.domain.property.PropertyType;
+import hu.progmasters.moovsmart.domain.property.*;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.outgoing.*;
@@ -15,7 +12,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,5 +82,14 @@ public class PropertyService {
         Property property = propertyRepository.getById(active.getPropertyId());
         property.setListingStatus(ListingStatus.valueOf(active.getListingStatus()));
         propertyRepository.save(property);
+    }
+
+    public void saveToFavourites(Long propertyId, String token) {
+        User user = this.authenticationService.findUserByToken(token);
+        Property property = this.propertyRepository.getById(propertyId);
+
+        property.addToSaverUsers(user);
+
+        this.propertyRepository.save(property);
     }
 }

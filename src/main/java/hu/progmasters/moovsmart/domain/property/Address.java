@@ -32,9 +32,6 @@ public class Address {
 
     private String door;
 
-    @OneToOne(mappedBy = "address")
-    private Property property;
-
     public Address(String address) {
         if (!address.isBlank()) {
             String[] split = address.split(" ");

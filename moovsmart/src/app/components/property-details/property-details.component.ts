@@ -3,6 +3,7 @@ import {PropertyService} from "../../services/property.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-property-details',
@@ -32,7 +33,8 @@ export class PropertyDetailsComponent implements OnInit {
 
   constructor(private propertyService: PropertyService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private userService: UserService) {
   }
 
   private initMap(): void {
@@ -94,5 +96,12 @@ export class PropertyDetailsComponent implements OnInit {
 
   goBackToListPage() {
     this.router.navigate(['/property-list'], {queryParams: {city: this.property.address.split(' ')[1]}});
+  }
+
+  saveToFavourites() {
+    this.propertyService.saveToFavourites(this.propertyId).subscribe({
+      next: () => console.log('Saved to favourites'),
+      error: err => console.warn(err) ,
+    });
   }
 }

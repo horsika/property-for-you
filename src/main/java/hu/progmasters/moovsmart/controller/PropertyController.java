@@ -41,7 +41,8 @@ public class PropertyController {
     }
 
     @PostMapping
-    public ResponseEntity createProperty(@RequestBody @Valid PropertyForm propertyForm, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity createProperty(@RequestBody @Valid PropertyForm propertyForm,
+                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         propertyService.createProperty(propertyForm, token);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -60,5 +61,13 @@ public class PropertyController {
     public ResponseEntity<Void> changeActiveStatus(@RequestBody PropertyActiveToggle active){
         propertyService.changeActiveStatus(active);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/save-to-favourites")
+    public ResponseEntity<Void> saveToFavourites(@RequestBody Long propertyId,
+                                                 @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        this.propertyService.saveToFavourites(propertyId, token);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
