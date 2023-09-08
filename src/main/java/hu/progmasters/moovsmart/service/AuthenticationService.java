@@ -30,7 +30,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService {
+public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
