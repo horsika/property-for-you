@@ -1,9 +1,6 @@
 package hu.progmasters.moovsmart.controller;
 
-import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
-import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
-import hu.progmasters.moovsmart.dto.incoming.PasswordChangeForm;
-import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
+import hu.progmasters.moovsmart.dto.incoming.*;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.dto.outgoing.EmailVerificationResponse;
@@ -14,8 +11,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -38,7 +38,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-email")
-    public ResponseEntity<Void> changeEmail(@RequestBody @Valid EmailChangeForm emailChangeForm, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<Void> changeEmail(@RequestBody @Valid EmailChangeForm emailChangeForm,
+                                            @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         authenticationService.changeEmail(emailChangeForm, token);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -57,8 +58,16 @@ public class AuthenticationController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<Void> changePassword(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody @Valid PasswordChangeForm pass) {
+    public ResponseEntity<Void> changePassword(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                               @RequestBody @Valid PasswordChangeForm pass) {
         authenticationService.changePassword(token, pass);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/upload-profile-pic")
+    public ResponseEntity<Void> uploadProfilePic(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                                 @RequestParam("file") @NotBlank @NotNull CommonsMultipartFile file) {
+        authenticationService.saveProfilePic(token, file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

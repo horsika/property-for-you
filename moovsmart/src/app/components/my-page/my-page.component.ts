@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {emailIsAlreadyInUseHandler, validationHandler} from "../../utils/validationHandler";
+import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {MyAccountModel} from "../../models/my-account.model";
 import {PropertyService} from "../../services/property.service";
 import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
@@ -22,6 +22,7 @@ export class MyPageComponent implements OnInit {
   myAccount: MyAccountModel;
   myProperties: MyPropertyListItemModel[];
   password: FormGroup;
+  profilePic: FormGroup;
 
   constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder) {
     this.email = this.formBuilder.group({
@@ -31,8 +32,13 @@ export class MyPageComponent implements OnInit {
     this.password = this.formBuilder.group({
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
+
+    this.profilePic = this.formBuilder.group({
+      file: [null]
+    })
   }
 
+  // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
     this.showAccountDetails();
   }
@@ -54,6 +60,18 @@ export class MyPageComponent implements OnInit {
     )
   }
 
+  showMyProperties() {
+    this.activePage = 'MyProperties';
+    this.propertyService.getMyProperties().subscribe(response => {
+      this.myProperties = response;
+    })
+  }
+
+  showProfilePictureForm() {
+    this.activePage = 'ProfilePicture';
+  }
+
+  // ------------------- FUNCTIONS -------------------------
   changeEmail() {
     const data = this.email.value;
 
@@ -61,20 +79,13 @@ export class MyPageComponent implements OnInit {
       () => {
       },
       error => {
-        this.emailConflictMessage = emailIsAlreadyInUseHandler(error);
+        this.emailConflictMessage = errorHandler(error);
       },
       () => {
         localStorage.removeItem('token');
         this.router.navigate(['/register']);
       }
     )
-  }
-
-  showMyProperties() {
-    this.activePage = 'MyProperties';
-    this.propertyService.getMyProperties().subscribe(response => {
-      this.myProperties = response;
-    })
   }
 
   logOut() {
@@ -122,6 +133,29 @@ export class MyPageComponent implements OnInit {
       () => {
         localStorage.removeItem('token');
         this.router.navigate(['/register']);
+      })
+  }
+
+  onFileChange(event: any) {
+    if (event?.target?.files?.length > 0) {
+      const file = event.target.files[0];
+      this.profilePic.patchValue({
+        file
+      });
+    }
+  }
+
+  changeProfilePicture() {
+    const data = new FormData();
+    data.append('file', this.profilePic.get('file').value);
+    this.userService.uploadProfilePicture(data). subscribe(() => {
+
+    },
+     error => {
+      errorHandler(error);
+     },
+      () => {
+      this.showAccountDetails();
       })
   }
 }

@@ -15,6 +15,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
@@ -68,6 +71,13 @@ public class SecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
+    }
 
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getCommonsMultipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(20971520);   // 20MB
+        multipartResolver.setMaxInMemorySize(1048576);  // 1MB
+        return multipartResolver;
     }
 }

@@ -1,12 +1,12 @@
 package hu.progmasters.moovsmart.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.progmasters.moovsmart.domain.user.EmailToken;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.domain.user.UserRole;
-import hu.progmasters.moovsmart.dto.incoming.AuthenticationRequest;
-import hu.progmasters.moovsmart.dto.incoming.EmailChangeForm;
-import hu.progmasters.moovsmart.dto.incoming.PasswordChangeForm;
-import hu.progmasters.moovsmart.dto.incoming.RegisterRequest;
+import hu.progmasters.moovsmart.dto.incoming.*;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.exception.ExpiredEmailVerificationTokenException;
@@ -19,9 +19,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -33,6 +37,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmailTokenService emailTokenService;
+    private final Cloudinary cloudinary;
 
     public void register(RegisterRequest registerRequest) {
 
@@ -117,6 +122,39 @@ public class AuthenticationService {
         String processableToken = token.substring(7);
         User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
         user.setPasswordHash(passwordEncoder.encode(pass.getPassword()));
+        userRepository.save(user);
+    }
+
+    private UploadResponse storeImage(CommonsMultipartFile file, String category) {
+        Map params = ObjectUtils.asMap(
+                "folder", category,
+                "access_mode", "authenticated",
+//                "access_type", "token",
+                "overwrite", false,
+                "type", "authenticated",
+                "resource_type", "auto",
+                "use_filename", true);
+        UploadResponse uploadResponse;
+        File fileToUpload = new File(System.getProperty("java.io.tmpdir") + '/' + file.getOriginalFilename());
+        try {
+            file.transferTo(fileToUpload);
+            uploadResponse = new ObjectMapper()
+                    .convertValue(cloudinary.uploader().upload(fileToUpload, params), UploadResponse.class);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+
+        return uploadResponse;
+    }
+
+    public void saveProfilePic(String token, CommonsMultipartFile file) {
+        //ID user from token
+        String processableToken = token.substring(7);
+        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        //get cloudinary's response after uploading the pic
+        UploadResponse response = storeImage(file, "profile_pic");
+        //set into user and save
+        user.setProfilePicture(response.getUrl());
         userRepository.save(user);
     }
 }

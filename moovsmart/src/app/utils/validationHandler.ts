@@ -12,8 +12,8 @@ export function validationHandler(error: Error, form: FormGroup) {
   }
 }
 
-export function emailIsAlreadyInUseHandler(error: Error) {
-  if (error instanceof HttpErrorResponse && error.status === 409) {
+export function errorHandler(error: Error) {
+  if (error instanceof HttpErrorResponse) {
     return error.error.details;
   } else {
     return null;
