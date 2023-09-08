@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.progmasters.moovsmart.domain.property.Property;
 
 import lombok.*;
@@ -9,8 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,10 +37,12 @@ public class User implements UserDetails {
     @JoinTable(name = "account_role")
     private UserRole role;
 
-    @OneToMany(mappedBy = "saverUser")
+    @ManyToMany(mappedBy = "saverUsers")
+    @JsonIgnore
     private List<Property> savedProperties;
 
-    @OneToMany(mappedBy = "ownerUser")
+    @OneToMany(mappedBy = "ownerUser", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Property> ownedProperties;
 
     private boolean isEnabled;

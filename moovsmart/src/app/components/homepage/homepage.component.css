@@ -55,26 +55,6 @@ h1 {
    */
 }
 
-.large-search-box .search-form {
-  padding-right: 30px; /* Make room for the search icon */
-  height: 200px; /* Increase the height to make it larger */
-  border-radius: 12px; /* Increase the border radius for rounded corners */
-  border-width: 2px; /* Increase border width for a bolder border */
-  width: 100%;
-}
-
-.large-search-box .search-input {
-  height: 100%; /* Adjust the height to match the search-form height */
-}
-
-.large-search-box .search-icon {
-  right: 20px; /* Adjust this value to control the distance from the right */
-}
-
-.large-search-box .search-results {
-  top: calc(100% + 10px); /* Adjust this value for spacing */
-}
-
 
 /* horizontal scrolling */
 .container {
@@ -141,7 +121,7 @@ h1 {
   display: grid;
   grid-auto-flow: column;
   gap: 3rem; /*gap btw each element*/
-  grid-auto-columns: 16%; /* how many elements?*/
+  grid-auto-columns: 20%; /* how many elements?*/
   padding: 0;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -186,14 +166,17 @@ h1 {
 /* Property infos */
 .price {
   font-size: 1.2rem;
-  margin-bottom: 0;
-  line-height: 1;
+  margin: 0;
+  padding: 0;
+  line-height: 0.8;
 }
 
 .details-list{
   font-size: 0.8rem;
   color: lightgrey;
-  line-height: 1;
+  margin: 0;
+  padding: 0;
+  line-height: 0.8;
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide any overflow beyond the container */
   text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
@@ -202,7 +185,7 @@ h1 {
 
 .city-name{
   font-size: 1rem;
-  line-height: 1;
+  line-height: 0.8;
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide any overflow beyond the container */
   text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */

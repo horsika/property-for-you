@@ -33,3 +33,15 @@
 #map {
   height: 100%;
 }
+
+/* Custom icon */
+.custom-icon {
+  font-size: 20px; /* Adjust size as needed */
+  width: auto !important; /* Allow the icon to resize */
+  height: auto !important; /* Allow the icon to resize */
+}
+
+
+
+
+

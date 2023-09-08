@@ -69,7 +69,7 @@ export class PropertyListComponent implements OnInit {
           this.properties = this.originalProperties;
           this.commonFilteredProperties = this.originalProperties;
           this.applyCombinedFilters();
-
+          // this.propertyService.updateCommonFilteredProperties(this.commonFilteredProperties);
         });
     });
 
@@ -253,6 +253,8 @@ export class PropertyListComponent implements OnInit {
     } else {
       this.commonFilteredProperties = this.originalProperties;
     }
+
+    this.propertyService.updateCommonFilteredProperties(this.commonFilteredProperties);
 
   }
 
