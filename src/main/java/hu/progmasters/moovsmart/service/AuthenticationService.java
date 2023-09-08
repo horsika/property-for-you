@@ -82,7 +82,7 @@ public class AuthenticationService {
         String processableToken = token.substring(7);
         if(userRepository.findUserByEmail(emailChangeForm.getEmail()).isEmpty()
         && userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).isPresent()){
-           User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+           User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
            user.setEmail(emailChangeForm.getEmail());
            user.setEnabled(false);
            emailTokenService.sendVerificationEmail(user);
@@ -94,13 +94,13 @@ public class AuthenticationService {
 
     public AccountDetails getAccountDetails(String token) {
         String processableToken = token.substring(7);
-        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
         return new AccountDetails(user);
     }
 
     public User findUserByToken(String token) {
         String processableToken = token.substring(7);
-        return userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        return userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
     }
 
     public void verifyEmail(String token) {
@@ -115,7 +115,7 @@ public class AuthenticationService {
 
     public void changePassword(String token, PasswordChangeForm pass) {
         String processableToken = token.substring(7);
-        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();
+        User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
         user.setPasswordHash(passwordEncoder.encode(pass.getPassword()));
         userRepository.save(user);
     }

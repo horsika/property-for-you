@@ -1,9 +1,6 @@
 package hu.progmasters.moovsmart.service;
 
-import hu.progmasters.moovsmart.domain.property.HeatingType;
-import hu.progmasters.moovsmart.domain.property.ListingStatus;
-import hu.progmasters.moovsmart.domain.property.Property;
-import hu.progmasters.moovsmart.domain.property.PropertyType;
+import hu.progmasters.moovsmart.domain.property.*;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.outgoing.*;
@@ -90,10 +87,8 @@ public class PropertyService {
     public void saveToFavourites(Long propertyId, String token) {
         User user = this.authenticationService.findUserByToken(token);
         Property property = this.propertyRepository.getById(propertyId);
-        Set<User> usersWhoLiked = new HashSet<>(property.getSaverUsers());
-        usersWhoLiked.add(user);
 
-        property.setSaverUsers(usersWhoLiked);
+        property.addToSaverUsers(user);
 
         this.propertyRepository.save(property);
     }
