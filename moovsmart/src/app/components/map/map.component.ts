@@ -85,7 +85,7 @@ export class MapComponent implements AfterViewInit {
       // Create a custom icon
       const customIcon = L.divIcon({
         className: 'custom-icon',
-        html: '<i class="fas fa-building" style="color: #d922dd; font-size: 20px;"></i>',
+        html: '<i class="fas fa-building" style="color: #e96149; font-size: 30px;"></i>',
         iconAnchor: [12, 41], // Adjust anchor point if necessary
       });
 
