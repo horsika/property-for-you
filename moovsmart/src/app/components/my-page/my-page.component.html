@@ -103,7 +103,7 @@
 
             <div class="p-2">
               <button type="button"
-                      class="btn btn-outline-primary"
+                      class="btn btn-outline-success"
                       [disabled]="email.invalid"
                       (click)="changeEmail()"
                       (keyup.enter)="changeEmail()"
@@ -186,7 +186,7 @@
             </div>
 
             <div class="p-2">
-              <button type="button" class="btn btn-outline-primary" [disabled]="password.invalid"
+              <button type="button" class="btn btn-outline-success" [disabled]="password.invalid"
                       (click)="changePassword()"
                       (keyup.enter)="changePassword()"
               >
@@ -216,7 +216,7 @@
               Please choose a valid file!
             </small>
 
-            <button class="btn btn-outline-primary mt-3"
+            <button class="btn btn-outline-success mt-3"
                     [disabled]="profilePic.invalid"
                     (click)="changeProfilePicture()"
                     (keyup.enter)="changeProfilePicture()"

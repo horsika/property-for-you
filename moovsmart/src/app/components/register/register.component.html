@@ -145,10 +145,10 @@
     </div>
 
     <div class="card-footer">
-      <button type="button" class="btn btn-primary" [disabled]="user.invalid" (click)="onRegister()" *ngIf="toggle">
+      <button type="button" class="btn btn-outline-success" [disabled]="user.invalid" (click)="onRegister()" *ngIf="toggle">
         Register
       </button>
-      <button type="button" class="btn btn-primary" [disabled]="auth.invalid" (click)="onLogin()" *ngIf="!toggle">Login
+      <button type="button" class="btn btn-outline-success" [disabled]="auth.invalid" (click)="onLogin()" *ngIf="!toggle">Login
       </button>
     </div>
   </div>
