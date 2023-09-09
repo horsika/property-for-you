@@ -124,4 +124,7 @@ public class Property {
     public void addToSaverUsers(User userToAdd) {
         this.saverUsers.add(userToAdd);
     }
+    public void removeFromSaverUsers(User userToRemove) {
+        saverUsers.remove(userToRemove);
+    }
 }

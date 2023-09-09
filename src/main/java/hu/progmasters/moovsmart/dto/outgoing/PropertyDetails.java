@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.dto.outgoing;
 
 import hu.progmasters.moovsmart.domain.property.Property;
+import hu.progmasters.moovsmart.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,27 @@ public class PropertyDetails {
     private String address;
     private Double latitude;
     private Double longitude;
+    private boolean savedByUser;
+
+    public PropertyDetails(Property property, User user) {
+        this.id = property.getPropertyId();
+        this.name = property.getName();
+        this.numberOfBedrooms = property.getNumberOfBedrooms();
+        this.numberOfBathrooms = property.getNumberOfBathrooms();
+        this.priceHistory = property.getPriceHistory();
+        this.floorArea = property.getFloorArea();
+        this.airConditioning = property.isAirConditioning();
+        this.images = property.getImages();
+        this.description = property.getDescription();
+        this.propertyType = property.getPropertyType().getDisplayName();
+        this.heatingType = property.getHeatingType().getDisplayName();
+        this.listingStatus = property.getListingStatus().getDisplayName();
+        this.listingType = property.getListingType().getDisplayName();
+        this.address = property.getAddress().toString();
+        this.latitude = property.getLatitude();
+        this.longitude = property.getLongitude();
+        this.savedByUser = property.getSaverUsers().contains(user);
+    }
 
     public PropertyDetails(Property property) {
         this.id = property.getPropertyId();
@@ -44,5 +66,6 @@ public class PropertyDetails {
         this.address = property.getAddress().toString();
         this.latitude = property.getLatitude();
         this.longitude = property.getLongitude();
+        this.savedByUser = false;
     }
 }

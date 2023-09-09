@@ -21,6 +21,7 @@ export class MyPageComponent implements OnInit {
   emailConflictMessage: string | null = null;
   myAccount: MyAccountModel;
   myProperties: MyPropertyListItemModel[];
+  mySavedProperties: MyPropertyListItemModel[];
   password: FormGroup;
   profilePic: FormGroup;
 
@@ -69,6 +70,13 @@ export class MyPageComponent implements OnInit {
 
   showProfilePictureForm() {
     this.activePage = 'ProfilePicture';
+  }
+
+  showMySavedProperties() {
+    this.activePage = 'MySavedProperties';
+    this.propertyService.getMySavedProperties().subscribe(response => {
+      this.mySavedProperties = response;
+    })
   }
 
   // ------------------- FUNCTIONS -------------------------

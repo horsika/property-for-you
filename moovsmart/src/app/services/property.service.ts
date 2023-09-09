@@ -9,13 +9,14 @@ import {FormOptionsModel} from "../models/form-options.model";
 import {Router} from "@angular/router";
 import {MyPropertyListItemModel} from "../models/my-property-list-item.model";
 import {PropertyActiveToggleModel} from "../models/property-active-toggle.model";
+import {AddToFavsModel} from "../models/add-to-favs.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertyService {
 
-   baseUrl = environment.BASE_URL + '/api/properties';
+  baseUrl = environment.BASE_URL + '/api/properties';
 
   constructor(private httpClient: HttpClient,
               private router: Router) {
@@ -52,11 +53,16 @@ export class PropertyService {
   // passing the filtered property list
   commonFilteredPropertiesSubject = new BehaviorSubject<Array<PropertyListItemModel>>([]);
   commonFilteredProperties$: Observable<Array<PropertyListItemModel>> = this.commonFilteredPropertiesSubject.asObservable();
-  updateCommonFilteredProperties(properties: Array<PropertyListItemModel>):void{
+
+  updateCommonFilteredProperties(properties: Array<PropertyListItemModel>): void {
     this.commonFilteredPropertiesSubject.next(properties);
   }
 
-  saveToFavourites(propertyId: number) {
-    return this.httpClient.post(this.baseUrl + '/save-to-favourites', propertyId);
+  saveToFavourites(fav: AddToFavsModel) {
+    return this.httpClient.post(this.baseUrl + '/save-to-favourites', fav);
+  }
+
+  getMySavedProperties() {
+    return this.httpClient.get<Array<MyPropertyListItemModel>>(this.baseUrl + '/my-saved-properties');
   }
 }

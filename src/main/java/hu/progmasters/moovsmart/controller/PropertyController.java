@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.controller;
 
+import hu.progmasters.moovsmart.dto.incoming.AddToFavs;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.dto.outgoing.FormOptions;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/properties")
@@ -36,15 +38,20 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PropertyDetails> getPropertyDetails(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(propertyService.getPropertyDetails(id), HttpStatus.OK);
+    public ResponseEntity<PropertyDetails> getPropertyDetails(@PathVariable("id") Long id,
+                                                              @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {
+        if (token != null) {
+            return new ResponseEntity<>(propertyService.getPropertyDetails(id, token), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(propertyService.getPropertyDetails(id), HttpStatus.OK);
+        }
     }
 
     @PostMapping
-    public ResponseEntity createProperty(@RequestBody @Valid PropertyForm propertyForm,
-                                         @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<Void> createProperty(@RequestBody @Valid PropertyForm propertyForm,
+                                               @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         propertyService.createProperty(propertyForm, token);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/form-options")
@@ -58,16 +65,21 @@ public class PropertyController {
     }
 
     @PostMapping("/change-active-status")
-    public ResponseEntity<Void> changeActiveStatus(@RequestBody PropertyActiveToggle active){
+    public ResponseEntity<Void> changeActiveStatus(@RequestBody PropertyActiveToggle active) {
         propertyService.changeActiveStatus(active);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/save-to-favourites")
-    public ResponseEntity<Void> saveToFavourites(@RequestBody Long propertyId,
+    public ResponseEntity<Void> saveToFavourites(@RequestBody AddToFavs addToFavs,
                                                  @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        this.propertyService.saveToFavourites(propertyId, token);
+        this.propertyService.saveToFavourites(addToFavs, token);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/my-saved-properties")
+    public ResponseEntity<List<MyPropertyListItem>> getMySavedProperties(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return new ResponseEntity<>(propertyService.getMySavedProperties(token), HttpStatus.OK);
     }
 }

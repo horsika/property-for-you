@@ -2,6 +2,7 @@ package hu.progmasters.moovsmart.service;
 
 import hu.progmasters.moovsmart.domain.property.*;
 import hu.progmasters.moovsmart.domain.user.User;
+import hu.progmasters.moovsmart.dto.incoming.AddToFavs;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
@@ -37,7 +38,16 @@ public class PropertyService {
         return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
     }
 
+    // as a logged-in user
+    public PropertyDetails getPropertyDetails(Long id, String token) {
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        User user = authenticationService.findUserByToken(token);
 
+        return new PropertyDetails(property, user);
+    }
+
+    // as a non-logged-in user
     public PropertyDetails getPropertyDetails(Long id) {
         Property property = propertyRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
@@ -84,12 +94,20 @@ public class PropertyService {
         propertyRepository.save(property);
     }
 
-    public void saveToFavourites(Long propertyId, String token) {
+    public void saveToFavourites(AddToFavs addToFavs, String token) {
         User user = this.authenticationService.findUserByToken(token);
-        Property property = this.propertyRepository.getById(propertyId);
-
-        property.addToSaverUsers(user);
+        Property property = this.propertyRepository.getById(addToFavs.getPropertyId());
+        if(addToFavs.isAdded()) {
+            property.addToSaverUsers(user);
+        } else {
+            property.removeFromSaverUsers(user);
+        }
 
         this.propertyRepository.save(property);
+    }
+
+    public List<MyPropertyListItem> getMySavedProperties(String token) {
+        User user = authenticationService.findUserByToken(token);
+        return user.getSavedProperties().stream().map(MyPropertyListItem::new).collect(Collectors.toList());
     }
 }

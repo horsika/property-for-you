@@ -3,7 +3,7 @@ import {PropertyService} from "../../services/property.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
-import {UserService} from "../../services/user.service";
+import {AddToFavsModel} from "../../models/add-to-favs.model";
 
 @Component({
   selector: 'app-property-details',
@@ -29,12 +29,12 @@ export class PropertyDetailsComponent implements OnInit {
     propertyType: '-',
     latitude: 0,
     longitude: 0,
+    savedByUser: false
   };
 
   constructor(private propertyService: PropertyService,
               private route: ActivatedRoute,
-              private router: Router,
-              private userService: UserService) {
+              private router: Router) {
   }
 
   private initMap(): void {
@@ -94,14 +94,15 @@ export class PropertyDetailsComponent implements OnInit {
     });
   }
 
-  goBackToListPage() {
-    this.router.navigate(['/property-list'], {queryParams: {city: this.property.address.split(' ')[1]}});
-  }
-
-  saveToFavourites() {
-    this.propertyService.saveToFavourites(this.propertyId).subscribe({
-      next: () => console.log('Saved to favourites'),
-      error: err => console.warn(err) ,
-    });
+  saveToFavourites(add: boolean) {
+    if(localStorage.getItem('token')) {
+      const fav: AddToFavsModel = {propertyId: this.propertyId, added: add};
+      this.propertyService.saveToFavourites(fav).subscribe({
+        next: () => console.log(this.property.savedByUser),
+        error: err => console.warn(err)
+      });
+    } else {
+      this.router.navigate(['/register']);
+    }
   }
 }

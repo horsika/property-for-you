@@ -13,4 +13,5 @@ export interface PropertyDetailsModel {
   propertyType: string;
   latitude: number;
   longitude: number;
+  savedByUser: boolean;
 }
