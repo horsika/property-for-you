@@ -1,15 +1,15 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-md navbar bg-light sticky-top border-bottom">
   <div class="container-fluid">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
+        <li class="navbar-brand">
           <a class="nav-link" routerLink="property-form">List a property for sale/rent</a>
         </li>
       </ul>
     </div>
     <div class="mx-auto order-0">
       <div class="navbar-brand mx-auto d-inline-block">
-        <img src="assets/pfy.png" draggable="false" alt="pfy logo" style="max-height: 3rem;cursor: pointer;" routerLink="homepage">
+        <img src="assets/pfy.png" draggable="false" alt="logo" style="max-height: 3rem;cursor: pointer;" routerLink="homepage">
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse2">
         <span class="navbar-toggler-icon"></span>
@@ -21,10 +21,12 @@
           <a class="nav-link" href="#"></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link bg-black border border-success border-2 rounded-pill" routerLink="/register" *ngIf="!loggedIn">Login / Sign Up</a>
-          <a class="nav-link bg-black border border-success border-2 rounded-pill" routerLink="/my-page" *ngIf="loggedIn">My Page</a>
+          <a class="nav-link border border-success border-2 rounded-pill" routerLink="/register" *ngIf="!loggedIn">Login / Sign Up</a>
+          <a class="nav-link border border-success border-2 rounded-pill" routerLink="/my-page" *ngIf="loggedIn">My Page</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
+

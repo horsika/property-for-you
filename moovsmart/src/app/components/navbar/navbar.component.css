@@ -1,10 +1,9 @@
 .nav-link {
   padding-left: 2rem !important;
   padding-right: 2rem !important;
-  color: whitesmoke;
 }
 
 .nav-link:hover {
   font-weight: bolder;
-  color: lightgreen;
+  color: #028A0F;
 }
