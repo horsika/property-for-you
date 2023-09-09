@@ -225,6 +225,27 @@ body {
   }
 }
 
+@media (max-width: 575px) {
+  .container {
+    inline-size: 100%; /* Make the container take up the full width of the screen */
+    margin-inline: 0; /* Remove any horizontal margin */
+  }
+  .card-group.card-group-scroll {
+    overflow-x: auto !important; /* Enable horizontal scrolling on mobile */
+  }
+  .card-group.card-group-scroll::-webkit-scrollbar {
+    width: 0.1rem; /* Set the width to make the scrollbar very thin */
+  }
+  .card-group.card-group-scroll::-webkit-scrollbar-thumb {
+    background: transparent; /* Hide the scrollbar thumb */
+  }
+  .card-group.card-group-scroll > .card {
+    flex: 0 0 100%; /* Make cards take up the full width of the screen */
+    max-width: 70%; /* Prevent cards from stretching beyond the screen width */
+  }
+}
+
+
 .card-group.card-group-scroll > .card {
   flex-basis: 20%;
   margin-right: 15px;

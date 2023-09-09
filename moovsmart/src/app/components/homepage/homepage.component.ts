@@ -63,8 +63,7 @@ export class HomepageComponent implements OnInit, AfterViewInit {
       cardGroupScroller.scrollBy({ left: 300, behavior: 'smooth' }); // Adjust the scrolling amount (200) as needed
     });
 
-
-  }
+}
 
   goToDetails(id: number) {
     this.propertyService.goToPropertyDetails(id);
