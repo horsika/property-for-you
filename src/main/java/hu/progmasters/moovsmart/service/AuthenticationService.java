@@ -125,7 +125,7 @@ public class AuthenticationService {
         userRepository.save(user);
     }
 
-    private UploadResponse storeImage(CommonsMultipartFile file, String category) {
+    public UploadResponse storeImage(CommonsMultipartFile file, String category) {
         Map params = ObjectUtils.asMap(
                 "folder", category,
                 "access_mode", "authenticated",

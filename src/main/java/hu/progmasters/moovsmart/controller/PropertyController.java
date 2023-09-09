@@ -8,18 +8,13 @@ import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
-import hu.progmasters.moovsmart.validation.PropertyFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/properties")
@@ -48,8 +43,9 @@ public class PropertyController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProperty(@RequestBody @Valid PropertyForm propertyForm,
+    public ResponseEntity<Void> createProperty(@ModelAttribute PropertyForm propertyForm,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        System.out.println(propertyForm.toString());
         propertyService.createProperty(propertyForm, token);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

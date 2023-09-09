@@ -4,18 +4,17 @@ import hu.progmasters.moovsmart.domain.property.*;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.AddToFavs;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
+import hu.progmasters.moovsmart.dto.incoming.UploadResponse;
 import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,8 +59,15 @@ public class PropertyService {
         String userEmail = jwtService.extractEmail(processableToken);
         User author = authenticationService.findUserByEmail(userEmail);
         Property propertyToSave = new Property(propertyForm);
-
         propertyToSave.setOwnerUser(author);
+        //processing image files
+        List<CommonsMultipartFile> imgs = propertyForm.getImages();
+        List<String> imgUrls = new ArrayList<>();
+        for (CommonsMultipartFile img : imgs) {
+            UploadResponse response = authenticationService.storeImage(img, "property");
+            imgUrls.add(response.getUrl());
+        }
+        propertyToSave.setImages(imgUrls);
 
         propertyRepository.save(propertyToSave);
     }

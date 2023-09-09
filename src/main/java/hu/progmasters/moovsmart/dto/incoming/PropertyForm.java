@@ -3,8 +3,10 @@ package hu.progmasters.moovsmart.dto.incoming;
 import hu.progmasters.moovsmart.validation.DivisibleByHalf;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -42,7 +44,7 @@ public class PropertyForm {
 
     private double latitude;
 
-    private String images;
+    private List<CommonsMultipartFile> images;
 
     @NotNull(message = "Please enter a valid property address.")
     private String address;
@@ -59,4 +61,25 @@ public class PropertyForm {
 
     @NotNull(message = "Please enter a valid listing type.")
     private String listingType;
+
+    @Override
+    public String toString() {
+        return "PropertyForm{" +
+                "name='" + name + '\'' +
+                ", numberOfBedrooms=" + numberOfBedrooms +
+                ", numberOfBathrooms=" + numberOfBathrooms +
+                ", price=" + price +
+                ", floorArea=" + floorArea +
+                ", airConditioning=" + airConditioning +
+                ", description='" + description + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", images=" + images +
+                ", address='" + address + '\'' +
+                ", propertyType='" + propertyType + '\'' +
+                ", heatingType='" + heatingType + '\'' +
+                ", listingStatus='" + listingStatus + '\'' +
+                ", listingType='" + listingType + '\'' +
+                '}';
+    }
 }

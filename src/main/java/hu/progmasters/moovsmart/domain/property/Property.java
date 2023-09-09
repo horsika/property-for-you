@@ -1,7 +1,6 @@
 package hu.progmasters.moovsmart.domain.property;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import lombok.Data;
@@ -13,7 +12,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -112,7 +110,6 @@ public class Property {
         this.priceHistory = List.of(propertyForm.getPrice());
         this.floorArea = propertyForm.getFloorArea();
         this.airConditioning = propertyForm.isAirConditioning();
-        this.images = List.of(propertyForm.getImages().replace(" ", "").split(";"));
         this.description = propertyForm.getDescription();
         this.address = new Address(propertyForm.getAddress());
         this.propertyType = PropertyType.valueOf(propertyForm.getPropertyType());
