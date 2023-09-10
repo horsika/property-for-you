@@ -8,6 +8,8 @@ import {AuthGuard} from "./utils/auth.guard";
 import {MyPageComponent} from "./components/my-page/my-page.component";
 import {HomepageComponent} from "./components/homepage/homepage.component";
 import {InfoComponent} from "./components/info/info.component";
+import {AdminPageComponent} from "./components/admin-page/admin-page.component";
+import {AdminGuard} from "./utils/admin.guard";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -17,7 +19,8 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent},
   {path: "my-page", component: MyPageComponent, canActivate: [AuthGuard]},
   {path: "homepage", component: HomepageComponent},
-  {path: "verify-email/:token", component: InfoComponent}
+  {path: "verify-email/:token", component: InfoComponent},
+  {path: "admin-page", component: AdminPageComponent, canActivate: [AdminGuard]}
 ];
 
 @NgModule({

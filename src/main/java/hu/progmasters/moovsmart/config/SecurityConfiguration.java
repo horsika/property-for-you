@@ -41,10 +41,16 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/**"),
-                        new AntPathRequestMatcher("/api/properties/**"))
+                .antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/auth/authentication"),
+                        new AntPathRequestMatcher("/api/auth/register"),
+                        new AntPathRequestMatcher("/api/auth/{token}"),
+                        new AntPathRequestMatcher("/api/properties/{id}"),
+                        new AntPathRequestMatcher( "/api/properties", "GET"))
+                .permitAll()
+                .antMatchers("/api/admin")
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

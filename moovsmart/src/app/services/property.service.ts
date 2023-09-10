@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {PropertyListItemModel} from "../models/propertyListItem.model";
-import {PropertyFormDataModel} from "../models/propertyFormData.model";
 import {PropertyDetailsModel} from "../models/propertyDetails.model";
 import {environment} from "../../environments/environment";
 import {FormOptionsModel} from "../models/form-options.model";

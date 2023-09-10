@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.service;
 
+import hu.progmasters.moovsmart.domain.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 public class JwtService {
 
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
-    private static final int TOKEN_EXPIRATION =  3_600_000; // 1 hour
+    private static final int TOKEN_EXPIRATION =  7_200_000; // 2 hours
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -29,10 +30,10 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         HashMap<String, Object> extraClaims = new HashMap<>();
-        extraClaims.put("role", userDetails.getAuthorities());
-        return generateToken(extraClaims, userDetails);
+        extraClaims.put("role", user.getRole());
+        return generateToken(extraClaims, user);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

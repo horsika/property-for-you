@@ -18,6 +18,7 @@ import { SearchCityComponent } from './components/search-city/search-city.compon
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { MyPageComponent } from './components/my-page/my-page.component';
 import { InfoComponent } from './components/info/info.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { InfoComponent } from './components/info/info.component';
     SearchCityComponent,
     HomepageComponent,
     MyPageComponent,
-    InfoComponent
+    InfoComponent,
+    AdminPageComponent
   ],
   imports: [
     HttpClientModule,

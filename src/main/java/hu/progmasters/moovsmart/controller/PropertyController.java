@@ -45,7 +45,6 @@ public class PropertyController {
     @PostMapping
     public ResponseEntity<Void> createProperty(@ModelAttribute PropertyForm propertyForm,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        System.out.println(propertyForm.toString());
         propertyService.createProperty(propertyForm, token);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
