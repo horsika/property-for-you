@@ -30,7 +30,9 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        HashMap<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("role", userDetails.getAuthorities());
+        return generateToken(extraClaims, userDetails);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

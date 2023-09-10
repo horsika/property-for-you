@@ -47,7 +47,7 @@ public class AuthenticationService {
                 .email(registerRequest.getEmail())
                 .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
                 .profilePicture(registerRequest.getProfilePicture())
-                .role(UserRole.ROlE_USER)
+                .role(UserRole.ROLE_USER) // you can only register as a user
                 .isEnabled(false)
                 .build();
 
