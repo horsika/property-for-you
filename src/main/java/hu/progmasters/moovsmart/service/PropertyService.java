@@ -60,14 +60,20 @@ public class PropertyService {
         User author = authenticationService.findUserByEmail(userEmail);
         Property propertyToSave = new Property(propertyForm);
         propertyToSave.setOwnerUser(author);
+
         //processing image files
         List<CommonsMultipartFile> imgs = List.of(propertyForm.getImages());
-        List<String> imgUrls = new ArrayList<>();
-        for (CommonsMultipartFile img : imgs) {
-            UploadResponse response = authenticationService.storeImage(img, "property");
-            imgUrls.add(response.getUrl());
+        if (imgs.isEmpty()) {
+            //default image if none is present
+            propertyToSave.setImages(List.of("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--Y_6dyawG--/v1694286325/property/P_F_Y_1_jei6e3.png"));
+        } else {
+            List<String> imgUrls = new ArrayList<>();
+            for (CommonsMultipartFile img : imgs) {
+                UploadResponse response = authenticationService.storeImage(img, "property");
+                imgUrls.add(response.getUrl());
+            }
+            propertyToSave.setImages(imgUrls);
         }
-        propertyToSave.setImages(imgUrls);
 
         propertyRepository.save(propertyToSave);
     }
@@ -103,7 +109,7 @@ public class PropertyService {
     public void saveToFavourites(AddToFavs addToFavs, String token) {
         User user = this.authenticationService.findUserByToken(token);
         Property property = this.propertyRepository.getById(addToFavs.getPropertyId());
-        if(addToFavs.isAdded()) {
+        if (addToFavs.isAdded()) {
             property.addToSaverUsers(user);
         } else {
             property.removeFromSaverUsers(user);

@@ -18,21 +18,20 @@ export class RegisterComponent {
   toggle: boolean;
   badCredentials: string | null = null;
   emailSent: string | null = null;
-
-
+  loading: boolean = false;
   constructor(private userService: UserService,
               private adminService: AdminService,
               private formBuilder: FormBuilder,
               private router: Router) {
     this.user = this.formBuilder.group({
-      'email': ['', [Validators.email, Validators.required]],
+      'email': ['', [Validators.pattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"), Validators.required]],
       'password': ['', [Validators.minLength(6), Validators.required]],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required]
     });
 
     this.auth = this.formBuilder.group({
-      'loginEmail': ['', [Validators.email, Validators.required]],
+      'loginEmail': ['', [Validators.pattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"), Validators.required]],
       'loginPassword': ['', [Validators.required, Validators.minLength(6)]]
     });
 
@@ -41,6 +40,7 @@ export class RegisterComponent {
 
   onRegister() {
     const data = this.user.value;
+    this.loading = true;
     this.userService.registerUser(data).subscribe(
       () => {
       },
@@ -49,6 +49,7 @@ export class RegisterComponent {
       },
       () => {
         this.toggle = false;
+        this.loading = false;
         this.emailSent = "We've sent an email to you. Please click the link inside to verify yourself. Then, you may log in."
         this.router.navigate(["register"])
       }

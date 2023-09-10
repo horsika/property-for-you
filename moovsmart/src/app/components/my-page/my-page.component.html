@@ -8,25 +8,29 @@
           <button class="btn"
                   (click)="showAccountDetails()"
                   (keyup.enter)="showAccountDetails()"
-          >My Account</button>
+          >My Account
+          </button>
           <ul>
             <li>
               <button class="btn"
                       (click)="showEmailChangePage()"
                       (keyup.enter)="showEmailChangePage()"
-              >Change email</button>
+              >Change email
+              </button>
             </li>
             <li>
               <button class="btn"
                       (click)="showPasswordChangePage()"
                       (keyup.enter)="showPasswordChangePage()"
-              >Change password</button>
+              >Change password
+              </button>
             </li>
             <li>
               <button class="btn"
                       (click)="showProfilePictureForm()"
                       (keyup.enter)="showProfilePictureForm()"
-              >Profile Picture</button>
+              >Profile Picture
+              </button>
             </li>
           </ul>
         </li>
@@ -34,19 +38,22 @@
           <button class="btn"
                   (click)="showMyProperties()"
                   (keyup.enter)="showMyProperties()"
-          >My Properties</button>
+          >My Properties
+          </button>
         </li>
         <li class="list-group-item p-4">
           <button class="btn"
                   (click)="showMySavedProperties()"
                   (keyup.enter)="showMySavedProperties()"
-          >Saved Properties</button>
+          >Saved Properties
+          </button>
         </li>
         <li class="list-group-item p-4">
           <button class="btn"
                   (click)="logOut()"
                   (keyup.enter)="logOut()"
-          >Logout</button>
+          >Logout
+          </button>
         </li>
       </ul>
     </div>
@@ -59,12 +66,12 @@
         <div *ngSwitchDefault class="row" id="my-account">
           <h5>My Account Details</h5>
           <div class="col-sm-5">
-            <img [src]="myAccount.profilePicture" alt="profile picture" class="img-fluid img-thumbnail">
+            <img [src]="myAccount?.profilePicture" alt="profile picture" class="img-fluid img-thumbnail">
           </div>
           <div class="col-sm-7">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{myAccount.email}}</li>
-              <li class="list-group-item">{{myAccount.firstName}} {{myAccount.lastName}}</li>
+              <li class="list-group-item">{{myAccount?.email}}</li>
+              <li class="list-group-item">{{myAccount?.firstName}} {{myAccount?.lastName}}</li>
             </ul>
           </div>
         </div>
@@ -137,8 +144,7 @@
                         (keyup.enter)="previewProperty(p.propertyId)"
                         *ngIf="p.isActiveDisplayName === 'Active'">Preview
                 </button>
-                <button class="btn btn-outline-primary m-1"
-                        *ngIf="p.isActiveDisplayName === 'Active'">Modify
+                <button class="btn btn-outline-primary m-1">Modify
                 </button>
                 <button class="btn btn-outline-danger m-1"
                         (click)="deactivateProperty(p.propertyId)"
@@ -220,7 +226,8 @@
                     [disabled]="profilePic.invalid"
                     (click)="changeProfilePicture()"
                     (keyup.enter)="changeProfilePicture()"
-            >Submit</button>
+            >Submit
+            </button>
           </form>
         </div>
 
