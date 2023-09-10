@@ -22,7 +22,7 @@ export class PropertyService {
               private router: Router) {
   }
 
-  createProperty(propertyFormData: PropertyFormDataModel) {
+  createProperty(propertyFormData: FormData) {
     return this.httpClient.post(this.baseUrl, propertyFormData);
   }
 

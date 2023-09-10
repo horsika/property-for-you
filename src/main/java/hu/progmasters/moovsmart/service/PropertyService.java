@@ -61,7 +61,7 @@ public class PropertyService {
         Property propertyToSave = new Property(propertyForm);
         propertyToSave.setOwnerUser(author);
         //processing image files
-        List<CommonsMultipartFile> imgs = propertyForm.getImages();
+        List<CommonsMultipartFile> imgs = List.of(propertyForm.getImages());
         List<String> imgUrls = new ArrayList<>();
         for (CommonsMultipartFile img : imgs) {
             UploadResponse response = authenticationService.storeImage(img, "property");

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.constraints.*;
-import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -44,7 +43,7 @@ public class PropertyForm {
 
     private double latitude;
 
-    private List<CommonsMultipartFile> images;
+    private CommonsMultipartFile[] images;
 
     @NotNull(message = "Please enter a valid property address.")
     private String address;
@@ -74,7 +73,6 @@ public class PropertyForm {
                 ", description='" + description + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
-                ", images=" + images +
                 ", address='" + address + '\'' +
                 ", propertyType='" + propertyType + '\'' +
                 ", heatingType='" + heatingType + '\'' +

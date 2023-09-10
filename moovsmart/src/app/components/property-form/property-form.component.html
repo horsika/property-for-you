@@ -136,14 +136,7 @@
     <div class="form-group">
       <label
         for="images">Images</label>
-      <input
-        class="form-control"
-        formControlName="images"
-        id="images"
-        placeholder="Enter the urls for the images separated by ;"
-        [ngClass]="{'is-invalid': (propertyForm.get('images')?.invalid && propertyForm.get('images')?.touched)
-    || (propertyForm.get('images')?.errors?.['serverError'])}"
-      />
+      <input type="file" class="form-control" formArrayName="images" id="images" (change)="onFileChange($event)" multiple>
       <small *ngIf="propertyForm.get('images').errors?.serverError" class="text-danger">
         {{propertyForm.get('images').errors['serverError']}}
       </small>
@@ -218,6 +211,6 @@
 
 
     <br/>
-    <button class="btn btn-primary my-buttons" [disabled]="propertyForm.invalid">Save Property</button>
+    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid">Save Property</button>
   </form>
 </div>

@@ -1,5 +1,3 @@
-import {AddressModel} from "./address.model";
-
 export interface PropertyFormDataModel {
   name: string;
   numberOfBedrooms: number;
@@ -7,7 +5,7 @@ export interface PropertyFormDataModel {
   price: number;
   floorArea: number;
   description: string;
-  images: string;
+  images: File[];
   airConditioning: boolean;
   address: string;
   propertyType: string;

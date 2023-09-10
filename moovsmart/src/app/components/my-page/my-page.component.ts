@@ -7,7 +7,7 @@ import {MyAccountModel} from "../../models/my-account.model";
 import {PropertyService} from "../../services/property.service";
 import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
 import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
-import {PasswordChangeModel} from "../../services/password-change.model";
+import {PasswordChangeModel} from "../../models/password-change.model";
 
 @Component({
   selector: 'app-my-page',

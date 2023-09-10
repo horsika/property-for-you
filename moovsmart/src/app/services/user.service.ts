@@ -7,7 +7,7 @@ import {environment} from "../../environments/environment";
 import {Observable, Subject} from "rxjs";
 import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
-import {PasswordChangeModel} from "./password-change.model";
+import {PasswordChangeModel} from "../models/password-change.model";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 

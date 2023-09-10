@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PropertyService} from '../../services/property.service';
 import {Router} from '@angular/router';
 import {validationHandler} from '../../utils/validationHandler';
@@ -27,9 +27,9 @@ export class PropertyFormComponent implements OnInit {
             'numberOfBathrooms': ['', [Validators.required, Validators.min(1), validateNumberOfBathrooms]],
             'price': ['', [Validators.required, Validators.min(0.1)]],
             'floorArea': ['', [Validators.required, Validators.min(5)]],
-            'airConditioning': [],
+            'airConditioning': [false],
             'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
-            'images': [''],
+            'images': this.formBuilder.array([]),
             'address': ['', [Validators.required]],
             'propertyType': ['', Validators.required],
             'heatingType': ['', Validators.required],
@@ -48,8 +48,33 @@ export class PropertyFormComponent implements OnInit {
         })
     }
 
+  onFileChange(event: any) {
+    if (event?.target?.files?.length > 0) {
+      const images = event.target.files;
+      const imageControls = this.propertyForm.get('images') as FormArray;
+
+      for (const image of images) {
+        const fileControl = new FormControl(image);
+        imageControls.push(fileControl);
+      }
+    }
+  }
+
     submit = () => {
-        this.propertyService.createProperty(this.propertyForm.value).subscribe(
+      const formData = new FormData();
+      // Loop through the controls in your FormGroup
+      Object.keys(this.propertyForm.controls).forEach((key) => {
+        const control = this.propertyForm.get(key);
+        if (control instanceof FormControl) {
+          formData.append(key, control.value);
+        } else if(control instanceof FormArray){
+          for (const fileControl of control.controls) {
+            formData.append('images', fileControl.value);
+          }
+        }
+      });
+
+        this.propertyService.createProperty(formData).subscribe(
             () => this.router.navigate(['/property-list'], {queryParams: {city: this.getCityFromAddress()}}),
             error => validationHandler(error, this.propertyForm),
         );
