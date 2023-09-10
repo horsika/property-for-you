@@ -8,6 +8,7 @@ import {PropertyService} from "../../services/property.service";
 import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
 import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
 import {PasswordChangeModel} from "../../models/password-change.model";
+import {AdminService} from "../../services/admin.service";
 
 @Component({
   selector: 'app-my-page',
@@ -25,7 +26,7 @@ export class MyPageComponent implements OnInit {
   password: FormGroup;
   profilePic: FormGroup;
 
-  constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder, private adminService: AdminService) {
     this.email = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     })
@@ -98,6 +99,7 @@ export class MyPageComponent implements OnInit {
 
   logOut() {
     this.userService.tokenIsPresent.next(false);
+    this.adminService.isAdmin.next(false);
     localStorage.removeItem('token');
     this.router.navigate(['/homepage']);
   }

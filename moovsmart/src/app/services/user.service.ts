@@ -8,6 +8,7 @@ import {Observable, Subject} from "rxjs";
 import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
 import {PasswordChangeModel} from "../models/password-change.model";
+import {AdminService} from "./admin.service";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -18,7 +19,7 @@ export class UserService {
 
   tokenIsPresent = new Subject<boolean>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private adminService: AdminService) { }
 
   registerUser(data: RegisterRequestModel) {
     return this.http.post<AuthResponseModel>(BASE_URL + '/register', data);
@@ -31,6 +32,7 @@ export class UserService {
   removeToken() {
     localStorage.removeItem('token');
     this.tokenIsPresent.next(false);
+    this.adminService.isAdmin.next(false);
   }
 
   getMyAccountDetails(): Observable<MyAccountModel> {

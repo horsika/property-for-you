@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {validationHandler} from "../../utils/validationHandler";
 import {AuthResponseModel} from "../../models/auth-response.model";
+import {AdminService} from "../../services/admin.service";
 
 @Component({
   selector: 'app-register',
@@ -20,6 +21,7 @@ export class RegisterComponent {
 
 
   constructor(private userService: UserService,
+              private adminService: AdminService,
               private formBuilder: FormBuilder,
               private router: Router) {
     this.user = this.formBuilder.group({
@@ -60,6 +62,12 @@ export class RegisterComponent {
         const token = response.token;
         localStorage.setItem('token', token);
         this.userService.tokenIsPresent.next(true);
+
+        if(JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN'){
+          this.adminService.isAdmin.next(true);
+        } else {
+          this.adminService.isAdmin.next(false);
+        }
       },
       error => {
         this.badCredentials = 'Email or password are incorrect';
