@@ -38,18 +38,32 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit() {
+    // const prevButton = this.el.nativeElement.querySelector('#prevButton');
+    // const nextButton = this.el.nativeElement.querySelector('#nextButton');
+    // const mediaScroller = this.el.nativeElement.querySelector('.media-scroller');
+    //
+    // prevButton.addEventListener('click', () => {
+    //   mediaScroller.scrollBy({ left: -200, behavior: 'smooth' }); // Adjust the scrolling amount (-200) as needed
+    // });
+    //
+    // nextButton.addEventListener('click', () => {
+    //   mediaScroller.scrollBy({ left: 200, behavior: 'smooth' }); // Adjust the scrolling amount (200) as needed
+    // });
+
+    //new scroller
     const prevButton = this.el.nativeElement.querySelector('#prevButton');
     const nextButton = this.el.nativeElement.querySelector('#nextButton');
-    const mediaScroller = this.el.nativeElement.querySelector('.media-scroller');
+    const cardGroupScroller = this.el.nativeElement.querySelector('.card-group');
 
     prevButton.addEventListener('click', () => {
-      mediaScroller.scrollBy({ left: -200, behavior: 'smooth' }); // Adjust the scrolling amount (-200) as needed
+      cardGroupScroller.scrollBy({ left: -300, behavior: 'smooth' }); // Adjust the scrolling amount (-200) as needed
     });
 
     nextButton.addEventListener('click', () => {
-      mediaScroller.scrollBy({ left: 200, behavior: 'smooth' }); // Adjust the scrolling amount (200) as needed
+      cardGroupScroller.scrollBy({ left: 300, behavior: 'smooth' }); // Adjust the scrolling amount (200) as needed
     });
-  }
+
+}
 
   goToDetails(id: number) {
     this.propertyService.goToPropertyDetails(id);

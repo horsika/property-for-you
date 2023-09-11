@@ -33,7 +33,7 @@ public class PropertyService {
     }
 
     public List<PropertyListItem> getPropertiesActivated() {
-        List<Property> properties = propertyRepository.findAllByActivatedAtIsNotNullOrderByActivatedAtDesc();
+        List<Property> properties = propertyRepository.findAllWhereListingStatusLikeActiveOrderByActivatedAtDesc();
         return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
     }
 

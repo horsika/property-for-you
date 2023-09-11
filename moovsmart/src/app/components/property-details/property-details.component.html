@@ -15,6 +15,31 @@
           <div class="carousel-item" *ngFor="let cImage of property.images; let i = index"
                [ngClass]="{'active': i == 0 }">
             <img [src]="cImage" class="d-block w-100 img-fluid img-thumbnail" alt="property-image">
+<div class="container-fluid">
+  <div class="row p-0">
+
+    <div class="p-0 col-sm-5">
+      <div class="card">
+        <div class="card-header p-0">
+          <div class="table-responsive">
+            <table class="table border border-0">
+              <tr class="col">
+                <td class="">
+                  <img src="assets/pfy.png" draggable="false" alt="pfy logo"
+                       style="max-height: 5rem; background-color: transparent">
+                </td>
+                <td>
+                  <input id="property-save" name="property-save" class="btn btn-danger"
+                         type="button" value="💚Save"
+                         (click)="saveToFavourites()">
+                </td>
+                <td style="text-align: end">
+                  <button type="button" id="back-button" (click)="goBackToListPage()"
+                          style="background-color: transparent">
+                    <i class="fa-solid fa-arrow-left" style="background-color: transparent"></i></button>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -87,5 +112,4 @@
       </ul>
     </div>
   </div>
-
 </div>

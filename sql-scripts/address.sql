@@ -1,0 +1,16 @@
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (2, 5, 'Budapest', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (3, 13, 'Budapest', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (4, 10, 'Budapest', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (5, 5, 'Budapest', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (6, 5, 'Budapest', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (7, 10, 'Budapest', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (8, null, 'Győr', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (9, null, 'Győr', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (10, null, 'Győr', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (11, null, 'Győr', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (12, null, 'Szeged', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (13, null, 'Szeged', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (14, null, 'Szeged', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (15, null, 'Pécs', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (16, null, 'Pécs', null, null, null, null, null);
+INSERT INTO moovsmart.address (address_id, budapest_district, city, door, floor, house_number, postal_code, street_name) VALUES (17, 19, 'Budapest', null, null, 42, 1195, 'Irányi Dániel utca');
