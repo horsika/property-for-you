@@ -14,6 +14,7 @@ public class AccountDetails {
     private String firstName;
     private String lastName;
     private String profilePicture;
+    private boolean enabled;
 
     public AccountDetails(User user) {
         this.id = user.getId();
@@ -21,6 +22,8 @@ public class AccountDetails {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.profilePicture = user.getProfilePicture();
+        this.enabled = user.isEnabled();
     }
+
 
 }

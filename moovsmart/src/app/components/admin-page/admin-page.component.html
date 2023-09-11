@@ -1,1 +1,53 @@
-<p>admin-page works!</p>
+<div class="container">
+  <div class="row">
+
+    <!-- SIDEBAR -->
+    <div class="col-sm-3">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-4">
+          <button class="btn"
+                  (click)="goToAllUsers()"
+                  (keyup.enter)="goToAllUsers()">
+            Users
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="col-sm-9">
+      <div class="container-fluid p-4" [ngSwitch]="activePage">
+
+        <!-- users -->
+        <div *ngSwitchDefault>
+          <h5>Manage Users</h5>
+          <div class="row border-bottom p-4">
+            <div class="btn-group my-3" role="group">
+              <button type="button" class="btn btn-outline-success" (click)="getAllUsers()">All</button>
+              <button type="button" class="btn btn-outline-success" (click)="getEnabledUsers()">Enabled</button>
+              <button type="button" class="btn btn-outline-success" (click)="getDisabledUsers()">Disabled</button>
+            </div>
+          </div>
+
+          <div class="container-fluid border-bottom p-2" *ngFor="let user of users">
+            <div class="row">
+              <div class="col-sm-2">
+                <img class="user-img" [src]="user?.profilePicture" alt="profile picture">
+              </div>
+              <div class="col-sm-4">
+                <p class="">{{user?.email}}</p>
+              </div>
+              <div class="col-sm-4">
+                <p>{{user?.firstName}} {{user?.lastName}}</p>
+              </div>
+              <div class="col-sm-2 d-grid grid-gap-2">
+                <button class="btn btn-outline-danger" *ngIf="user?.enabled">Disable</button>
+                <button class="btn btn-outline-success" *ngIf="!user?.enabled">Enable</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

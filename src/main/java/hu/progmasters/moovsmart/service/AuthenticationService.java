@@ -96,6 +96,7 @@ public class AuthenticationService {
            User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
            user.setEmail(emailChangeForm.getEmail());
            user.setEnabled(false);
+           user.setProfilePicture("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--psq7ZxMs--/v1694451032/profile_pic/nopic_rpcebm.jpg");
            emailTokenService.sendVerificationEmail(user);
            userRepository.save(user);
         } else {
