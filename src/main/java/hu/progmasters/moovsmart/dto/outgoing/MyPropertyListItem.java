@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.dto.outgoing;
 
 import hu.progmasters.moovsmart.domain.property.Property;
+import hu.progmasters.moovsmart.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,8 @@ public class MyPropertyListItem {
 
     private String isActiveDisplayName;
 
+    private User owner;
+
     public MyPropertyListItem(Property property) {
         this.propertyId = property.getPropertyId();
         this.name = property.getName();
@@ -33,5 +36,6 @@ public class MyPropertyListItem {
         this.listingTypeDisplayName = property.getListingType().getDisplayName();
         this.price = property.getPriceHistory().get(0);
         this.isActiveDisplayName = property.getListingStatus().getDisplayName();
+        this.owner = property.getOwnerUser();
     }
 }

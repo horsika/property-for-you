@@ -25,7 +25,9 @@ import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -81,6 +83,10 @@ public class AuthenticationService {
 
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public User findUserById(Long id) {
+        return userRepository.findUserById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public void changeEmail(EmailChangeForm emailChangeForm, String token) {
@@ -157,4 +163,17 @@ public class AuthenticationService {
         user.setProfilePicture(response.getUrl());
         userRepository.save(user);
     }
+
+    public List<AccountDetails> getAccountList() {
+        return userRepository.findAllBy().stream().map(AccountDetails::new).collect(Collectors.toList());
+    }
+
+    public List<AccountDetails> getEnabledAccountList() {
+        return userRepository.findUsersByEnabledIsTrue().stream().map(AccountDetails::new).collect(Collectors.toList());
+    }
+
+    public List<AccountDetails> getDisabledAccountList() {
+        return userRepository.findUsersByEnabledIsFalse().stream().map(AccountDetails::new).collect(Collectors.toList());
+    }
+
 }

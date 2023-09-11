@@ -122,4 +122,8 @@ public class PropertyService {
         User user = authenticationService.findUserByToken(token);
         return user.getSavedProperties().stream().map(MyPropertyListItem::new).collect(Collectors.toList());
     }
+
+    public List<MyPropertyListItem> getAllProperties() {
+        return propertyRepository.findAllByOrderByActivatedAtDesc().stream().map(MyPropertyListItem::new).collect(Collectors.toList());
+    }
 }
