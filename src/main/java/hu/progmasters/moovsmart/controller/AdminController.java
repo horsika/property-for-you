@@ -1,15 +1,13 @@
 package hu.progmasters.moovsmart.controller;
 
+import hu.progmasters.moovsmart.dto.incoming.AdminPropertyFilters;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
 import hu.progmasters.moovsmart.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,8 +39,8 @@ public class AdminController {
     }
 
     @GetMapping("/all-properties")
-    public ResponseEntity<List<MyPropertyListItem>> viewAllProperties() {
-        return new ResponseEntity<>(adminService.getAllProperties(), HttpStatus.OK);
+    public ResponseEntity<List<MyPropertyListItem>> viewAllProperties(@RequestBody AdminPropertyFilters filters) {
+        return new ResponseEntity<>(adminService.getAllProperties(filters), HttpStatus.OK);
     }
 
 }

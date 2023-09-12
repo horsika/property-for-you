@@ -5,6 +5,7 @@ import {MyAccountModel} from "../../models/my-account.model";
 import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
 import {Router} from "@angular/router";
 import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-admin-page',
@@ -15,9 +16,21 @@ export class AdminPageComponent implements OnInit {
   users: MyAccountModel[];
   usersOwnedProperties: MyPropertyListItemModel[];
   allProperties: MyPropertyListItemModel[];
+  filters: FormGroup;
   activePage: string = 'TBD';
   activeUserPage: string = 'AllUsers';
-  constructor(private adminService: AdminService, private propertyService: PropertyService, private router: Router) { }
+
+  constructor(private adminService: AdminService,
+              private propertyService: PropertyService,
+              private router: Router,
+              private formBuilder: FormBuilder) {
+    this.filters = formBuilder.group({
+      timePeriod: [],
+      status: [],
+      listingType: [],
+      propertyType: []
+    })
+  }
 
 
   ngOnInit(): void {
@@ -72,6 +85,13 @@ export class AdminPageComponent implements OnInit {
   getOwnedProperties(id: number) {
     this.adminService.getUsersOwnedProperties(id).subscribe(resp => {
       this.usersOwnedProperties = resp;
+    })
+  }
+
+  getProperties() {
+    const data = this.filters.value;
+    this.adminService.getAllProperties().subscribe(resp => {
+      this.allProperties = resp;
     })
   }
 

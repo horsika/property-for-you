@@ -5,6 +5,8 @@ import hu.progmasters.moovsmart.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 public class MyPropertyListItem {
@@ -26,6 +28,7 @@ public class MyPropertyListItem {
     private String isActiveDisplayName;
 
     private User owner;
+    private LocalDateTime createdAt;
 
     public MyPropertyListItem(Property property) {
         this.propertyId = property.getPropertyId();
@@ -37,5 +40,6 @@ public class MyPropertyListItem {
         this.price = property.getPriceHistory().get(0);
         this.isActiveDisplayName = property.getListingStatus().getDisplayName();
         this.owner = property.getOwnerUser();
+        this.createdAt = property.getCreatedAt();
     }
 }
