@@ -5,18 +5,15 @@ import {tap} from "rxjs/operators";
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor() {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    if(localStorage.getItem('token') !== null) {
-      const authToken = localStorage.getItem('token');
-      const authReq = req.clone({setHeaders: {Authorization: `Bearer ${authToken}`}});
-      return next.handle(authReq).pipe(
-        tap(event => {
-          if (event instanceof HttpErrorResponse && event.error.errorCode === 'EXPIRED_TOKEN') {
-              localStorage.removeItem('token');
-            }
-        }));
+    const token = localStorage.getItem('token');
+    if (token !== null
+      && JSON.parse(atob(token.split('.')[1])).exp > Math.floor(Date.now() / 1000)) { //if expired, don't even send
+        const authReq = req.clone({setHeaders: {Authorization: `Bearer ${token}`}});
+        return next.handle(authReq);
     } else {
       return next.handle(req);
     }
