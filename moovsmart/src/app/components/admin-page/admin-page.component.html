@@ -2,20 +2,26 @@
   <div class="row">
 
     <!-- SIDEBAR -->
-    <div class="col-sm-3">
+    <div class="col-md-3">
       <ul class="list-group list-group-flush">
         <li class="list-group-item p-4">
-          <button class="btn"
+          <button class="btn btn-light"
                   (click)="goToAllUsers()"
                   (keyup.enter)="goToAllUsers()">
             Users
+          </button>
+        </li>
+        <li class="list-group-item p-4">
+          <button class="btn btn-light"
+                  (click)="goToAllProperties()">
+            Properties
           </button>
         </li>
       </ul>
     </div>
 
     <!-- CONTENT -->
-    <div class="col-sm-9">
+    <div class="col-md-9">
       <div class="container-fluid p-4" [ngSwitch]="activePage">
 
         <!-- users -->
@@ -31,20 +37,89 @@
 
           <div class="container-fluid border-bottom p-2" *ngFor="let user of users">
             <div class="row">
-              <div class="col-sm-2">
+              <div class="col-lg-2">
                 <img class="user-img" [src]="user?.profilePicture" alt="profile picture">
               </div>
-              <div class="col-sm-4">
+              <div class="col-lg-4">
                 <p class="">{{user?.email}}</p>
               </div>
-              <div class="col-sm-4">
+              <div class="col-lg-4">
                 <p>{{user?.firstName}} {{user?.lastName}}</p>
               </div>
-              <div class="col-sm-2 d-grid grid-gap-2">
-                <button class="btn btn-outline-danger" *ngIf="user?.enabled">Disable</button>
-                <button class="btn btn-outline-success" *ngIf="!user?.enabled">Enable</button>
+              <div class="col-lg-2 d-grid grid-gap-2">
+                <button class="btn btn-outline-danger mb-1" *ngIf="user?.enabled">Disable</button>
+                <button class="btn btn-outline-success mb-1" *ngIf="!user?.enabled">Enable</button>
+                <button class="btn btn-outline-primary"
+                        (click)="getOwnedProperties(user.id)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#propertyModal">
+                  Properties
+                </button>
+              </div>
+
+              <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="label" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="label">{{user?.firstName}} {{user?.lastName}}'s Properties</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="container-fluid" *ngFor="let p of usersOwnedProperties">
+                          <div class="row mb-3" id="my-properties">
+                            <div class="col-md-5">
+                              <img [src]="p.firstImage" class="img-fluid img-thumbnail" alt="property-picture">
+                            </div>
+                            <div class="col-md-4">
+                              <h5 class="d-inline">{{p.name}}</h5>
+                              <ul>
+                                <li>Property Type: {{p.propertyTypeDisplayName}}</li>
+                                <li>Price: {{p.price}} Million HUF</li>
+                                <li>City: {{p.city}}</li>
+                                <li>{{p.listingTypeDisplayName}}</li>
+                              </ul>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="d-grid gap-2">
+                                <!-- active property buttons -->
+                                <button class="btn btn-outline-success m-1"
+                                        (click)="previewProperty(p.propertyId)"
+                                        (keyup.enter)="previewProperty(p.propertyId)"
+                                        *ngIf="p.isActiveDisplayName === 'Active'"
+                                        data-bs-dismiss="modal"
+                                >Preview
+                                </button>
+                                <button class="btn btn-outline-primary m-1">Modify
+                                </button>
+                                <button class="btn btn-outline-danger m-1"
+                                        (click)="deactivateProperty(p.propertyId, user.id)"
+                                        (keyup.enter)="deactivateProperty(p.propertyId, user.id)"
+                                        *ngIf="p.isActiveDisplayName === 'Active'">Deactivate
+                                </button>
+                                <!-- inactive property button -->
+                                <button class="btn btn-outline-success m-1"
+                                        (click)="activateProperty(p.propertyId, user.id)"
+                                        (keyup.enter)="activateProperty(p.propertyId, user.id)"
+                                        *ngIf="p.isActiveDisplayName === 'Inactive' || p.isActiveDisplayName === 'Archived'">Activate
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
               </div>
             </div>
+          </div>
+
+          <!-- properties -->
+          <div *ngSwitchCase="'AllProperties'">
+
           </div>
         </div>
       </div>
