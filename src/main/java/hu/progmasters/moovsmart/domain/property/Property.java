@@ -102,6 +102,9 @@ public class Property {
     @Column
     private LocalDateTime archivedAt;
 
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private List<OpenHouse> openHouses;
+
 
     public Property(PropertyForm propertyForm) {
         this.name = propertyForm.getName();
@@ -121,6 +124,7 @@ public class Property {
     public void addToSaverUsers(User userToAdd) {
         this.saverUsers.add(userToAdd);
     }
+
     public void removeFromSaverUsers(User userToRemove) {
         saverUsers.remove(userToRemove);
     }

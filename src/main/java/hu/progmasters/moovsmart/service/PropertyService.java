@@ -126,4 +126,9 @@ public class PropertyService {
     public List<MyPropertyListItem> getAllProperties() {
         return propertyRepository.findAllByOrderByActivatedAtDesc().stream().map(MyPropertyListItem::new).collect(Collectors.toList());
     }
+
+    public Property getPropertyById (Long propertyId){
+        Optional<Property> property = propertyRepository.findById(propertyId);
+        return property.isPresent() ? property.get() : null;
+    }
 }
