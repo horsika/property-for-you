@@ -10,7 +10,7 @@ import {AdminService} from "../../services/admin.service";
 export class NavbarComponent implements OnInit {
 
   loggedIn : boolean = false;
-  admin: boolean = false;
+  admin: boolean;
   constructor(private userService: UserService, private adminService: AdminService) {
   }
 
