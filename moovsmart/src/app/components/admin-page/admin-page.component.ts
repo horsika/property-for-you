@@ -17,18 +17,17 @@ export class AdminPageComponent implements OnInit {
   usersOwnedProperties: MyPropertyListItemModel[];
   allProperties: MyPropertyListItemModel[];
   filters: FormGroup;
-  activePage: string = 'TBD';
-  activeUserPage: string = 'AllUsers';
+  activePage: string;
 
   constructor(private adminService: AdminService,
               private propertyService: PropertyService,
               private router: Router,
               private formBuilder: FormBuilder) {
     this.filters = formBuilder.group({
-      timePeriod: [],
-      status: [],
-      listingType: [],
-      propertyType: []
+      timePeriod: ['ALL'],
+      status: ['ALL'],
+      listingType: ['ALL'],
+      propertyType: ['ALL']
     })
   }
 
@@ -41,21 +40,8 @@ export class AdminPageComponent implements OnInit {
   goToUsers() {
     this.activePage = 'Users';
   }
-
-  goToEnabledUsers() {
-    this.activeUserPage = 'EnabledUsers';
-  }
-
-  goToDisabledUsers() {
-    this.activeUserPage = 'DisabledUsers';
-  }
-
-  goToAllUsers() {
-    this.activeUserPage = 'AllUsers';
-  }
-
-  goToAllProperties() {
-    this.activePage = 'AllProperties';
+  goToProperties() {
+    this.activePage = 'Properties';
   }
 
   previewProperty(id: number) {
@@ -90,7 +76,7 @@ export class AdminPageComponent implements OnInit {
 
   getProperties() {
     const data = this.filters.value;
-    this.adminService.getAllProperties().subscribe(resp => {
+    this.adminService.getAllProperties(data).subscribe(resp => {
       this.allProperties = resp;
     })
   }
@@ -109,6 +95,18 @@ export class AdminPageComponent implements OnInit {
     )
   }
 
+  activatePropertyNoUser(id: number) {
+    const data: PropertyActiveToggleModel = {propertyId: id, listingStatus: 'ACTIVE'}
+    this.propertyService.setListingStatus(data).subscribe(() => {
+      },
+      () => {
+      },
+      () => {
+        this.getProperties();
+      }
+    )
+  }
+
   deactivateProperty(id: number, userId:number) {
     const data: PropertyActiveToggleModel = {propertyId: id, listingStatus: 'INACTIVE'}
     this.propertyService.setListingStatus(data).subscribe(() => {
@@ -117,6 +115,18 @@ export class AdminPageComponent implements OnInit {
       },
       () => {
         this.getOwnedProperties(userId)
+      }
+    )
+  }
+
+  deactivatePropertyNoUser(id: number) {
+    const data: PropertyActiveToggleModel = {propertyId: id, listingStatus: 'INACTIVE'}
+    this.propertyService.setListingStatus(data).subscribe(() => {
+      },
+      () => {
+      },
+      () => {
+        this.getProperties();
       }
     )
   }

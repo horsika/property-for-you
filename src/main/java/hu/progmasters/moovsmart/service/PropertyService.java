@@ -14,6 +14,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,7 @@ public class PropertyService {
         User author = authenticationService.findUserByEmail(userEmail);
         Property propertyToSave = new Property(propertyForm);
         propertyToSave.setOwnerUser(author);
+        propertyToSave.setCreatedAt(LocalDateTime.now());
 
         //processing image files
         List<CommonsMultipartFile> imgs = List.of(propertyForm.getImages());

@@ -4,6 +4,7 @@ import {Subject} from "rxjs";
 import {environment} from "../../environments/environment";
 import {MyAccountModel} from "../models/my-account.model";
 import {MyPropertyListItemModel} from "../models/my-property-list-item.model";
+import {AdminPropertyFiltersModel} from "../models/admin-property-filters.model";
 
 
   const BASE_URL = environment.BASE_URL + '/api/admin';
@@ -31,8 +32,8 @@ export class AdminService {
     return this.http.get<MyPropertyListItemModel[]>(BASE_URL + '/created-properties/' + id);
   }
 
-  getAllProperties() {
-    return this.http.get<MyPropertyListItemModel[]>(BASE_URL + '/all-properties');
+  getAllProperties(data: AdminPropertyFiltersModel) {
+    return this.http.post<MyPropertyListItemModel[]>(BASE_URL + '/all-properties', data);
   }
 
 }

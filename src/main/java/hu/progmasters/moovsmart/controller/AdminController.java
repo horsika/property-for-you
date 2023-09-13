@@ -38,9 +38,11 @@ public class AdminController {
         return new ResponseEntity<>(adminService.getUsersCreatedProperties(id), HttpStatus.OK);
     }
 
-    @GetMapping("/all-properties")
+    @PostMapping("/all-properties")
     public ResponseEntity<List<MyPropertyListItem>> viewAllProperties(@RequestBody AdminPropertyFilters filters) {
         return new ResponseEntity<>(adminService.getAllProperties(filters), HttpStatus.OK);
     }
+
+
 
 }
