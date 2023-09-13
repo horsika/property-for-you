@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {MyAccountModel} from "../../models/my-account.model";
 import {PropertyService} from "../../services/property.service";
@@ -9,6 +9,9 @@ import {MyPropertyListItemModel} from "../../models/my-property-list-item.model"
 import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
 import {PasswordChangeModel} from "../../models/password-change.model";
 import {AdminService} from "../../services/admin.service";
+import {OpenHouseService} from "../../services/open-house.service";
+import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
+import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
 
 @Component({
   selector: 'app-my-page',
@@ -25,8 +28,19 @@ export class MyPageComponent implements OnInit {
   mySavedProperties: MyPropertyListItemModel[];
   password: FormGroup;
   profilePic: FormGroup;
+  openHouse: FormGroup;
+  selectedPropertyId: number | null = null;
+  emailSent: string | null = null;
+  loading: boolean = false;
+  openHouseList: OpenHouseListItemModel[];
 
-  constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder, private adminService: AdminService) {
+  constructor(private userService: UserService,
+              private propertyService: PropertyService,
+              private router: Router,
+              private formBuilder: FormBuilder,
+              private adminService: AdminService,
+              private openHouseService: OpenHouseService,
+              private route: ActivatedRoute) {
     this.email = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     })
@@ -38,10 +52,27 @@ export class MyPageComponent implements OnInit {
     this.profilePic = this.formBuilder.group({
       file: [null]
     })
+
+    this.openHouse = this.formBuilder.group({
+      propertyId: new FormControl(this.selectedPropertyId),
+      fromTime: ['', [Validators.required, this.dateValidator()]],
+      toTime: ['', [Validators.required, this.dateValidator()]],
+      maxParticipants: [1, [Validators.required, Validators.min(1), Validators.max(20)]],
+    })
+    this.openHouse.get('propertyId').valueChanges.subscribe((newPropertyId) => {
+    });
   }
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
+    this.openHouseService.getActivePage().subscribe((activePage) => {
+      this.activePage = activePage;
+      console.log(this.activePage);
+    });
+    this.route.params.subscribe((params) => {
+      const propertyId = params['propertyId'];
+      this.showOpenHouseList(propertyId);
+    });
     this.showAccountDetails();
   }
 
@@ -78,6 +109,20 @@ export class MyPageComponent implements OnInit {
     this.propertyService.getMySavedProperties().subscribe(response => {
       this.mySavedProperties = response;
     })
+  }
+
+  showOpenHouseForm(propertyId: number) {
+    this.activePage = 'OpenHouse';
+    this.selectedPropertyId = propertyId;
+    this.openHouse.get('propertyId').setValue(this.selectedPropertyId);
+  }
+
+  showOpenHouseList(propertyId: number) {
+    this.activePage = 'OpenHouseList';
+    this.selectedPropertyId = propertyId;
+    this.openHouseService.getActiveOpenHouseList().subscribe(response => {
+      this.openHouseList = response;
+    });
   }
 
   // ------------------- FUNCTIONS -------------------------
@@ -138,7 +183,7 @@ export class MyPageComponent implements OnInit {
 
       },
       error => {
-          validationHandler(error, this.password)
+        validationHandler(error, this.password)
       },
       () => {
         localStorage.removeItem('token');
@@ -158,14 +203,70 @@ export class MyPageComponent implements OnInit {
   changeProfilePicture() {
     const data = new FormData();
     data.append('file', this.profilePic.get('file').value);
-    this.userService.uploadProfilePicture(data). subscribe(() => {
+    this.userService.uploadProfilePicture(data).subscribe(() => {
 
-    },
-     error => {
-      errorHandler(error);
-     },
+      },
+      error => {
+        errorHandler(error);
+      },
       () => {
-      this.showAccountDetails();
+        this.showAccountDetails();
       })
   }
+
+
+  // creating new open house
+  getSelectedPropertyName() {
+    const selectedProperty = this.myProperties.find(
+      (property) => property.propertyId === this.selectedPropertyId
+    );
+
+    if (selectedProperty && selectedProperty.name) {
+      return selectedProperty.name;
+    } else {
+      return '---Choose your property!---';
+    }
+  }
+
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const selectedDate = new Date(control.value);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      if (selectedDate < tomorrow) {
+        return {dateInPast: true};
+      }
+
+      return null;
+    };
+  }
+
+
+  createOpenHouse() {
+    const data: OpenHouseFormDataModel = this.openHouse.value;
+    this.loading = true;
+    this.openHouseService.createOpenHouse(data).subscribe({
+      next: () => {
+      },
+      error: err => {
+        validationHandler(err, this.openHouse)
+      },
+      complete: () => {
+        this.emailSent = "We've sent an email to you confirming the creation of your Open House event."
+
+        setTimeout(() => {
+          this.loading = false;
+          this.openHouse.reset();
+          this.showMyProperties();
+        }, 1000)
+
+      }
+    })
+  }
+
+  bookATour(openHouseId: number) {
+    //TODO: write method
+  }
+
 }

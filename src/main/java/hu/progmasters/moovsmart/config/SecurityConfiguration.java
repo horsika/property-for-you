@@ -47,7 +47,8 @@ public class SecurityConfiguration {
                         new AntPathRequestMatcher("/api/auth/register"),
                         new AntPathRequestMatcher("/api/auth/{token}"),
                         new AntPathRequestMatcher("/api/properties/{id}"),
-                        new AntPathRequestMatcher( "/api/properties", "GET"))
+                        new AntPathRequestMatcher( "/api/properties", "GET"),
+                        new AntPathRequestMatcher("/api/openhouse")) //kiszedni majd
                 .permitAll()
                 .antMatchers("/api/admin")
                 .hasRole("ADMIN")

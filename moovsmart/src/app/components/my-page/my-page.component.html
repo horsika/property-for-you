@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
   <div class="row">
 
     <!-- SIDEBAR -->
@@ -146,6 +146,9 @@
                 </button>
                 <button class="btn btn-outline-primary m-1">Modify
                 </button>
+                <button class="btn btn-outline-info m-1"
+                        (click)="showOpenHouseForm(p.propertyId)">+OpenHouse
+                </button>
                 <button class="btn btn-outline-danger m-1"
                         (click)="deactivateProperty(p.propertyId)"
                         (keyup.enter)="deactivateProperty(p.propertyId)"
@@ -254,11 +257,150 @@
                         (keyup.enter)="previewProperty(ps.propertyId)"
                 >Preview
                 </button>
+                <button class="btn btn-outline-info m-1"
+                        (click)="showOpenHouseList(ps.propertyId)"
+                        (keyup.enter)="showOpenHouseList(ps.propertyId)"
+                >ShowTours
+                </button>
 
               </div>
             </div>
           </div>
         </div>
+
+        <!-- create a new open house  -->
+        <div *ngSwitchCase="'OpenHouse'" class="p-4">
+          <form [formGroup]="openHouse">
+            <label for="property-id">
+              Property name
+            </label>
+            <select class="form-control" id="property-id" formControlName="propertyId">
+              <option value="" selected disabled>{{getSelectedPropertyName()}}</option>
+              <option *ngFor="let property of myProperties" [value]="property.propertyId">
+                {{ property.name }}
+              </option>
+            </select>
+
+
+            <br>
+            <label for="from-time">
+              Start date and time
+            </label>
+            <input type="datetime-local" class="form-control" id="from-time"
+                   formControlName="fromTime"
+                   [ngClass]="{
+                    'is-invalid': openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched || openHouse.get('fromTime').errors?.serverError} ">
+            <small *ngIf="openHouse.get('fromTime').errors?.serverError">
+              {{openHouse.get('fromTime').errors['serverError']}}
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched && !openHouse.get('fromTime').errors?.serverError  && !openHouse.get('fromTime').hasError('dateInPast')"
+            >
+              Please enter a date and time!
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('fromTime').hasError('dateInPast') && openHouse.get('fromTime').touched">
+              The start date cannot be earlier than same time tomorrow.
+            </small>
+
+            <br>
+            <label for="to-time">
+              End date and time
+            </label>
+            <input type="datetime-local" class="form-control" id="to-time"
+                   formControlName="toTime"
+                   [ngClass]="{
+                    'is-invalid': openHouse.get('toTime').invalid && openHouse.get('toTime').touched || openHouse.get('toTime').errors?.serverError}">
+            <small *ngIf="openHouse.get('toTime').errors?.serverError">
+              {{openHouse.get('toTime').errors['serverError']}}
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('toTime').invalid && openHouse.get('toTime').touched && !openHouse.get('toTime').errors?.serverError && !openHouse.get('toTime').hasError('dateInPast')"
+            >
+              Please enter a date and time!
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('toTime').hasError('dateInPast') && openHouse.get('toTime').touched">
+              The start date cannot be earlier than same time tomorrow.
+            </small>
+
+            <br>
+            <label for="max-participants">
+              Maximum number of participants
+            </label>
+            <input type="number" class="form-control" id="max-participants"
+                   formControlName="maxParticipants"
+                   [ngClass]="{
+                    'is-invalid': openHouse.get('maxParticipants').invalid && openHouse.get('maxParticipants').touched || openHouse.get('maxParticipants').errors?.serverError}">
+            <small *ngIf="openHouse.get('maxParticipants').errors?.serverError">
+              {{openHouse.get('maxParticipants').errors['serverError']}}
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('maxParticipants').invalid && openHouse.get('maxParticipants').touched && !openHouse.get('maxParticipants').errors?.serverError"
+            >
+              Please enter a number between 1-20!
+            </small>
+
+            <button class="btn btn-outline-success mt-3"
+                    (click)="createOpenHouse()"
+                    (keyup.enter)="createOpenHouse()"
+            >Add
+            </button>
+          </form>
+
+          <div class="text-info-emphasis justify-content-center" *ngIf="emailSent">
+            {{emailSent}}
+          </div>
+
+        </div>
+
+        <!-- show open house list  -->
+        <div class="container-fluid">
+          <div *ngSwitchCase="'OpenHouseList'" class="p-4">
+            <h6 class="text-left">A property neve</h6>
+            <hr>
+            <table class="table" style="font-size: 0.9rem;">
+              <thead>
+              <tr class="table">
+                <th scope="col" class="w-25">From</th>
+                <th scope="col" class="w-25">To</th>
+                <th scope="col">Free Places</th>
+                <th scope="col">Places to book</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let o of openHouseList">
+                <td>{{o.fromTime}}</td>
+                <td>{{o.toTime}}</td>
+                <td>{{o.maxParticipants - o.currentParticipants}}</td>
+                <td>
+                  <form>
+                    <input type="number" class="form-control" id="places-to-book"
+                           formControlName="placesToBook">
+                  </form>
+                </td>
+                <td>
+                    <button class="btn btn-outline-info" (click)="bookATour(o.openHouseId)">Book</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

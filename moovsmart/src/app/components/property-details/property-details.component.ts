@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
 import {AddToFavsModel} from "../../models/add-to-favs.model";
+import {OpenHouseService} from "../../services/open-house.service";
 
 @Component({
   selector: 'app-property-details',
@@ -34,7 +35,8 @@ export class PropertyDetailsComponent implements OnInit {
 
   constructor(private propertyService: PropertyService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private openHouseService: OpenHouseService) {
   }
 
   private initMap(): void {
@@ -95,7 +97,7 @@ export class PropertyDetailsComponent implements OnInit {
   }
 
   saveToFavourites(add: boolean) {
-    if(localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       const fav: AddToFavsModel = {propertyId: this.propertyId, added: add};
       this.propertyService.saveToFavourites(fav).subscribe({
         next: () => console.log(this.property.savedByUser),
@@ -104,5 +106,10 @@ export class PropertyDetailsComponent implements OnInit {
     } else {
       this.router.navigate(['/register']);
     }
+  }
+
+  showOpenHouseList(propertyId: number, add:boolean) {
+    this.saveToFavourites(add);
+    this.router.navigate(['/my-page']); //a listára kellene navigélni, ezt még ki kell dolgozni
   }
 }
