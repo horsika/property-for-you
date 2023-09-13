@@ -19,7 +19,7 @@ export class MyPageComponent implements OnInit {
 
   activePage: string = "";
   email: FormGroup;
-  emailConflictMessage: string | null = null;
+  errorMessage: string | null = null;
   myAccount: MyAccountModel;
   myProperties: MyPropertyListItemModel[];
   mySavedProperties: MyPropertyListItemModel[];
@@ -47,10 +47,12 @@ export class MyPageComponent implements OnInit {
 
   showEmailChangePage() {
     this.activePage = 'EmailChange';
+    this.errorMessage = null;
   }
 
   showPasswordChangePage() {
     this.activePage = 'PasswordChange';
+    this.errorMessage = null;
   }
 
   showAccountDetails() {
@@ -60,6 +62,7 @@ export class MyPageComponent implements OnInit {
         this.myAccount = response;
       }
     )
+    this.errorMessage = null;
   }
 
   showMyProperties() {
@@ -67,10 +70,12 @@ export class MyPageComponent implements OnInit {
     this.propertyService.getMyProperties().subscribe(response => {
       this.myProperties = response;
     })
+    this.errorMessage = null;
   }
 
   showProfilePictureForm() {
     this.activePage = 'ProfilePicture';
+    this.errorMessage = null;
   }
 
   showMySavedProperties() {
@@ -78,6 +83,7 @@ export class MyPageComponent implements OnInit {
     this.propertyService.getMySavedProperties().subscribe(response => {
       this.mySavedProperties = response;
     })
+    this.errorMessage = null;
   }
 
   // ------------------- FUNCTIONS -------------------------
@@ -88,7 +94,7 @@ export class MyPageComponent implements OnInit {
       () => {
       },
       error => {
-        this.emailConflictMessage = errorHandler(error);
+        this.errorMessage = errorHandler(error);
       },
       () => {
         localStorage.removeItem('token');
@@ -138,11 +144,12 @@ export class MyPageComponent implements OnInit {
 
       },
       error => {
-          validationHandler(error, this.password)
+        validationHandler(error, this.password)
       },
       () => {
         localStorage.removeItem('token');
         this.router.navigate(['/register']);
+
       })
   }
 
@@ -158,14 +165,14 @@ export class MyPageComponent implements OnInit {
   changeProfilePicture() {
     const data = new FormData();
     data.append('file', this.profilePic.get('file').value);
-    this.userService.uploadProfilePicture(data). subscribe(() => {
+    this.userService.uploadProfilePicture(data).subscribe(() => {
 
-    },
-     error => {
-      errorHandler(error);
-     },
+      },
+      error => {
+        this.errorMessage = errorHandler(error);
+      },
       () => {
-      this.showAccountDetails();
+        this.showAccountDetails();
       })
   }
 }

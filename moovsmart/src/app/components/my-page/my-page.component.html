@@ -100,8 +100,8 @@
                 Please enter a valid email!
               </small>
               <small class="text-danger"
-                     *ngIf="emailConflictMessage">
-                {{emailConflictMessage}}
+                     *ngIf="errorMessage">
+                {{errorMessage}}
               </small>
               <p>Once you hit "Change Email", we will send a verification email to you. Verify your email address by
                 clicking on the link in the email.
@@ -185,8 +185,9 @@
               >
                 Please enter a valid password!
               </small>
-              <small *ngIf="password.get('password').errors?.serverError" class="text-danger">
-                {{password.get('password').errors['serverError']}}
+              <small class="text-danger"
+                     *ngIf="errorMessage">
+                {{errorMessage}}
               </small>
               <p>Changing your password will require you to log in again!</p>
             </div>
@@ -208,20 +209,13 @@
             <label for="profile-pic">
               Upload a new profile picture
             </label>
-            <input type="file" class="form-control" id="profile-pic" (change)="onFileChange($event)"
-                   [ngClass]="{
-                    'is-invalid': profilePic.get('file').invalid && profilePic.get('file').touched || profilePic.get('file').errors?.serverError}">
-            <small *ngIf="profilePic.get('file').errors?.serverError">
-              {{profilePic.get('file').errors['serverError']}}
-            </small>
+            <input type="file" class="form-control" id="profile-pic" (change)="onFileChange($event)">
 
-            <small
-              class="text-danger"
-              *ngIf="profilePic.get('file').invalid && profilePic.get('file').touched && !profilePic.get('file').errors?.serverError"
-            >
-              Please choose a valid file!
+            <small class="text-danger"
+                   *ngIf="errorMessage">
+              {{errorMessage}}
             </small>
-
+            <br>
             <button class="btn btn-outline-success mt-3"
                     [disabled]="profilePic.invalid"
                     (click)="changeProfilePicture()"

@@ -9,6 +9,7 @@ package hu.progmasters.moovsmart.exception;/*
  * Any dispute or claim arising out of the breach of these provisions shall be governed by and construed in accordance with the laws of Hungary.
  */
 
+import com.cloudinary.Api;
 import com.fasterxml.jackson.core.JsonParseException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.List;
 import java.util.Locale;
@@ -119,6 +121,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> tokenExpiredHandler(ExpiredJwtException e) {
         ApiError body = new ApiError("EXPIRED_TOKEN", "Your time has expired. Please log in again!", e.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExtensionNotAllowedException.class)
+    public ResponseEntity<ApiError> extensionNotAllowedHandler(ExtensionNotAllowedException e) {
+        ApiError body = new ApiError("EXTENSION_FORBIDDEN", "This file extension is not allowed.", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ApiError> fileTooBig(MaxUploadSizeExceededException e) {
+        ApiError body = new ApiError("FILES_TOO_BIG", "This file is too big.", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 
 

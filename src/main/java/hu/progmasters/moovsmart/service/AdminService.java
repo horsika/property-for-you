@@ -1,7 +1,10 @@
 package hu.progmasters.moovsmart.service;
 
+import hu.progmasters.moovsmart.domain.property.ListingStatus;
+import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.AdminPropertyFilters;
+import hu.progmasters.moovsmart.dto.incoming.UserActiveStatus;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +67,15 @@ public class AdminService {
                 return LocalDate.now().minusYears(1);
             default:
                 return LocalDate.EPOCH;
+        }
+    }
+
+    public void changeUserStatus(UserActiveStatus userActiveStatus) {
+        User user = authenticationService.findUserById(userActiveStatus.getUserId());
+        user.setEnabled(userActiveStatus.isUserStatus());
+        if(!userActiveStatus.isUserStatus()) {
+            user.getOwnedProperties()
+                    .forEach(ownedProperty -> ownedProperty.setListingStatus(ListingStatus.INACTIVE));
         }
     }
 

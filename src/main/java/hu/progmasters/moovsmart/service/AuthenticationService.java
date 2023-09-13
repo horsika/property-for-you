@@ -10,8 +10,11 @@ import hu.progmasters.moovsmart.dto.incoming.*;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.AuthResponse;
 import hu.progmasters.moovsmart.exception.ExpiredEmailVerificationTokenException;
+import hu.progmasters.moovsmart.exception.ExtensionNotAllowedException;
 import hu.progmasters.moovsmart.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.compress.utils.FileNameUtils;
+import org.apache.commons.fileupload.InvalidFileNameException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.DisabledException;
@@ -26,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -155,6 +159,13 @@ public class AuthenticationService {
     }
 
     public void saveProfilePic(String token, CommonsMultipartFile file) {
+        //filtering for extension
+        String extension = FileNameUtils.getExtension(file.getOriginalFilename());
+        List<String> allowedExtensions = List.of("png", "jpg", "jpeg", "heic", "gif", "tiff");
+        assert extension != null;
+        if(!allowedExtensions.contains(extension.toLowerCase())) {
+            throw new ExtensionNotAllowedException("This file extension is not allowed.");
+        }
         //ID user from token
         String processableToken = token.substring(7);
         User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow();

@@ -6,6 +6,7 @@ import {MyPropertyListItemModel} from "../../models/my-property-list-item.model"
 import {Router} from "@angular/router";
 import {PropertyActiveToggleModel} from "../../models/property-active-toggle.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {UserActiveStatusModel} from "../../models/user-active-status.model";
 
 @Component({
   selector: 'app-admin-page',
@@ -129,6 +130,16 @@ export class AdminPageComponent implements OnInit {
         this.getProperties();
       }
     )
+  }
+
+  changeUserStatus(status: boolean, userId: number) {
+    const data: UserActiveStatusModel = {userId: userId, userStatus: status};
+    this.adminService.changeUserStatus(data).subscribe(
+      () => {},
+      () => {},
+      () => {
+        this.getAllUsers();
+      });
   }
 
 
