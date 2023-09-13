@@ -46,8 +46,8 @@
                 <p>{{user?.firstName}} {{user?.lastName}}</p>
               </div>
               <div class="col-lg-2 d-grid grid-gap-2">
-                <button class="btn btn-outline-danger mb-1" *ngIf="user?.enabled">Disable</button>
-                <button class="btn btn-outline-success mb-1" *ngIf="!user?.enabled">Enable</button>
+                <button class="btn btn-outline-danger mb-1" *ngIf="user?.enabled" (click)="changeUserStatus(false, user.id)">Disable</button>
+                <button class="btn btn-outline-success mb-1" *ngIf="!user?.enabled" (click)="changeUserStatus(true, user.id)">Enable</button>
                 <button class="btn btn-outline-primary"
                         (click)="getOwnedProperties(user.id)"
                         data-bs-toggle="modal"

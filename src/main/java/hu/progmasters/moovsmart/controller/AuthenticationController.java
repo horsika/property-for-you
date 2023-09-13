@@ -7,6 +7,7 @@ import hu.progmasters.moovsmart.dto.outgoing.EmailVerificationResponse;
 import hu.progmasters.moovsmart.service.AuthenticationService;
 import hu.progmasters.moovsmart.validation.AuthValidator;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.compress.utils.FileNameUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +71,8 @@ public class AuthenticationController {
         authenticationService.saveProfilePic(token, file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 
 }

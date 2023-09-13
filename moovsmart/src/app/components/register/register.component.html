@@ -96,6 +96,12 @@
             Please enter a your last name!
           </small>
         </div>
+
+        <small class="text-danger"
+               *ngIf="errorMessage">
+          {{errorMessage}}
+        </small>
+
       </form>
 
 

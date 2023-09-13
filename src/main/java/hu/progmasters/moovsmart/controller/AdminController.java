@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.controller;
 
 import hu.progmasters.moovsmart.dto.incoming.AdminPropertyFilters;
+import hu.progmasters.moovsmart.dto.incoming.UserActiveStatus;
 import hu.progmasters.moovsmart.dto.outgoing.AccountDetails;
 import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
 import hu.progmasters.moovsmart.service.AdminService;
@@ -43,6 +44,10 @@ public class AdminController {
         return new ResponseEntity<>(adminService.getAllProperties(filters), HttpStatus.OK);
     }
 
-
+    @PostMapping("/change-user-status")
+    public ResponseEntity<Void> changeUserStatus(@RequestBody UserActiveStatus userActiveStatus) {
+        adminService.changeUserStatus(userActiveStatus);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

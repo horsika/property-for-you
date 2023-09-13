@@ -22,7 +22,7 @@ export class MyPageComponent implements OnInit {
 
   activePage: string = "";
   email: FormGroup;
-  emailConflictMessage: string | null = null;
+  errorMessage: string | null = null;
   myAccount: MyAccountModel;
   myProperties: MyPropertyListItemModel[];
   mySavedProperties: MyPropertyListItemModel[];
@@ -78,10 +78,12 @@ export class MyPageComponent implements OnInit {
 
   showEmailChangePage() {
     this.activePage = 'EmailChange';
+    this.errorMessage = null;
   }
 
   showPasswordChangePage() {
     this.activePage = 'PasswordChange';
+    this.errorMessage = null;
   }
 
   showAccountDetails() {
@@ -91,6 +93,7 @@ export class MyPageComponent implements OnInit {
         this.myAccount = response;
       }
     )
+    this.errorMessage = null;
   }
 
   showMyProperties() {
@@ -98,10 +101,12 @@ export class MyPageComponent implements OnInit {
     this.propertyService.getMyProperties().subscribe(response => {
       this.myProperties = response;
     })
+    this.errorMessage = null;
   }
 
   showProfilePictureForm() {
     this.activePage = 'ProfilePicture';
+    this.errorMessage = null;
   }
 
   showMySavedProperties() {
@@ -109,6 +114,7 @@ export class MyPageComponent implements OnInit {
     this.propertyService.getMySavedProperties().subscribe(response => {
       this.mySavedProperties = response;
     })
+    this.errorMessage = null;
   }
 
   showOpenHouseForm(propertyId: number) {
@@ -133,7 +139,7 @@ export class MyPageComponent implements OnInit {
       () => {
       },
       error => {
-        this.emailConflictMessage = errorHandler(error);
+        this.errorMessage = errorHandler(error);
       },
       () => {
         localStorage.removeItem('token');
@@ -207,7 +213,7 @@ export class MyPageComponent implements OnInit {
 
       },
       error => {
-        errorHandler(error);
+        this.errorMessage = errorHandler(error);
       },
       () => {
         this.showAccountDetails();
