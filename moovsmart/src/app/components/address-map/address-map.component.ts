@@ -29,7 +29,6 @@ export class AddressMapComponent implements OnInit {
   initializeMap (map: Map) {
     this.map = map;
     this.createMarker();
-    console.log('init ' + this.lastLayer)
   }
 
   getAddress (result: NominatimResponseModel) {
@@ -43,7 +42,7 @@ export class AddressMapComponent implements OnInit {
 
   private initializeMapOptions () {
     this.options = {
-      zoom: 12,
+      zoom: 10,
       layers: [
         tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: 'OSM'})
       ],
@@ -78,7 +77,6 @@ export class AddressMapComponent implements OnInit {
     const mapIcon = this.getDefaultIcon();
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
     this.lastLayer = new L.Marker(coordinates).setIcon(mapIcon).addTo(this.map);
-    console.log('create marker ' + this.lastLayer);
     this.map.setView(coordinates, this.map.getZoom());
   }
 
@@ -91,7 +89,6 @@ export class AddressMapComponent implements OnInit {
   }
 
   private clearMap () {
-    console.log('clear map ' + this.lastLayer);
     if (this.lastLayer != undefined && this.map.hasLayer(this.lastLayer)) {
       this.map.removeLayer(this.lastLayer);
     }

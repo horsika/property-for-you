@@ -18,7 +18,6 @@ export class GeocodingComponent {
   }
 
   addressLookup(address: string) {
-    console.log(address);
     if (address.length > 3) {
       this.nominatimService.addressLookup(address).subscribe(results => {
         this.searchResults = results;
@@ -28,7 +27,4 @@ export class GeocodingComponent {
     }
     this.onSearch.emit(this.searchResults);
   }
-
-
-  protected readonly event = event;
 }
