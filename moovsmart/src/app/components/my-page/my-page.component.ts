@@ -29,6 +29,7 @@ export class MyPageComponent implements OnInit {
   profilePic: FormGroup;
   openHouse: FormGroup;
   selectedPropertyId: number  | null = null;
+  emailSent: string | null = null;
 
   constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder, private adminService: AdminService, private openHouseService: OpenHouseService) {
     this.email = this.formBuilder.group({
@@ -205,10 +206,10 @@ export class MyPageComponent implements OnInit {
     const data: OpenHouseFormDataModel = this.openHouse.value;
     this.openHouseService.createOpenHouse(data).subscribe({
       next: () => {
-        console.log('Open house is created.');
       },
       error: err => validationHandler(err, this.openHouse),
       complete: () => {
+        this.emailSent = "We've sent an email to you confirming the creation of your Open House event."
         this.showMyProperties()
       }
     })
