@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {validationHandler} from "../../utils/validationHandler";
+import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {AuthResponseModel} from "../../models/auth-response.model";
 import {AdminService} from "../../services/admin.service";
 
@@ -19,6 +19,7 @@ export class RegisterComponent {
   badCredentials: string | null = null;
   emailSent: string | null = null;
   loading: boolean = false;
+  errorMessage: string | null = null;
   constructor(private userService: UserService,
               private adminService: AdminService,
               private formBuilder: FormBuilder,
@@ -45,7 +46,9 @@ export class RegisterComponent {
       () => {
       },
       error => {
-        validationHandler(error, this.user)
+        validationHandler(error, this.user);
+        this.errorMessage = errorHandler(error);
+        this.loading = false;
       },
       () => {
         this.toggle = false;
