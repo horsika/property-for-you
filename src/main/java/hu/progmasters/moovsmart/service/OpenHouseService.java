@@ -4,6 +4,7 @@ import hu.progmasters.moovsmart.domain.property.OpenHouse;
 import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.OpenHouseForm;
+import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.repository.OpenHouseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -49,6 +52,11 @@ public class OpenHouseService {
         email.setText("An Open House event at your " + propertyName + " from " + fromTime + " to " + toTime + " has been created!");
         mailSender.send(email);
     }
+
+    public List<OpenHouseListItem> getOpenHouseList(){
+        return openHouseRepository.findAllByActiveTrueOrderByFromTimeAsc().stream().map(OpenHouseListItem::new).collect(Collectors.toList());
+    }
+
 
 
 }

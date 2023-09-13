@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 public class OpenHouseForm {
 
     private Long propertyId;
+
     private LocalDateTime fromTime;
+
     private LocalDateTime toTime;
     private int maxParticipants;
     private int currentParticipants;

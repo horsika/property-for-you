@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {MyAccountModel} from "../../models/my-account.model";
@@ -11,7 +11,7 @@ import {PasswordChangeModel} from "../../models/password-change.model";
 import {AdminService} from "../../services/admin.service";
 import {OpenHouseService} from "../../services/open-house.service";
 import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
-import {control} from "leaflet";
+import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
 
 @Component({
   selector: 'app-my-page',
@@ -32,8 +32,15 @@ export class MyPageComponent implements OnInit {
   selectedPropertyId: number | null = null;
   emailSent: string | null = null;
   loading: boolean = false;
+  openHouseList: OpenHouseListItemModel[];
 
-  constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder, private adminService: AdminService, private openHouseService: OpenHouseService) {
+  constructor(private userService: UserService,
+              private propertyService: PropertyService,
+              private router: Router,
+              private formBuilder: FormBuilder,
+              private adminService: AdminService,
+              private openHouseService: OpenHouseService,
+              private route: ActivatedRoute) {
     this.email = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     })
@@ -58,6 +65,14 @@ export class MyPageComponent implements OnInit {
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
+    this.openHouseService.getActivePage().subscribe((activePage) => {
+      this.activePage = activePage;
+      console.log(this.activePage);
+    });
+    this.route.params.subscribe((params) => {
+      const propertyId = params['propertyId'];
+      this.showOpenHouseList(propertyId);
+    });
     this.showAccountDetails();
   }
 
@@ -100,6 +115,14 @@ export class MyPageComponent implements OnInit {
     this.activePage = 'OpenHouse';
     this.selectedPropertyId = propertyId;
     this.openHouse.get('propertyId').setValue(this.selectedPropertyId);
+  }
+
+  showOpenHouseList(propertyId: number) {
+    this.activePage = 'OpenHouseList';
+    this.selectedPropertyId = propertyId;
+    this.openHouseService.getActiveOpenHouseList().subscribe(response => {
+      this.openHouseList = response;
+    });
   }
 
   // ------------------- FUNCTIONS -------------------------
@@ -240,6 +263,10 @@ export class MyPageComponent implements OnInit {
 
       }
     })
+  }
+
+  bookATour(openHouseId: number) {
+    //TODO: write method
   }
 
 }

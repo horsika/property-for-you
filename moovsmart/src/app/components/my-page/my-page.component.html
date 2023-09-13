@@ -257,6 +257,11 @@
                         (keyup.enter)="previewProperty(ps.propertyId)"
                 >Preview
                 </button>
+                <button class="btn btn-outline-info m-1"
+                        (click)="showOpenHouseList(ps.propertyId)"
+                        (keyup.enter)="showOpenHouseList(ps.propertyId)"
+                >ShowTours
+                </button>
 
               </div>
             </div>
@@ -357,6 +362,43 @@
             {{emailSent}}
           </div>
 
+        </div>
+
+        <!-- show open house list  -->
+        <div class="container-fluid">
+          <div *ngSwitchCase="'OpenHouseList'" class="p-4">
+            <h6 class="text-left">A property neve</h6>
+            <hr>
+            <table class="table" style="font-size: 0.9rem;">
+              <thead>
+              <tr class="table">
+                <th scope="col" class="w-25">From</th>
+                <th scope="col" class="w-25">To</th>
+                <th scope="col">Free Places</th>
+                <th scope="col">Places to book</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let o of openHouseList">
+                <td>{{o.fromTime}}</td>
+                <td>{{o.toTime}}</td>
+                <td>{{o.maxParticipants - o.currentParticipants}}</td>
+                <td>
+                  <form>
+                    <input type="number" class="form-control" id="places-to-book"
+                           formControlName="placesToBook">
+                  </form>
+                </td>
+                <td>
+                    <button class="btn btn-outline-info" (click)="bookATour(o.openHouseId)">Book</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+
+          </div>
         </div>
 
       </div>

@@ -34,6 +34,7 @@ public class OpenHouse {
 
     @Column
     private LocalDateTime createdAt;
+    private Boolean isActive;
 
 
     public OpenHouse(OpenHouseForm openHouseForm, Property property) {
@@ -43,5 +44,6 @@ public class OpenHouse {
         this.maxParticipants = openHouseForm.getMaxParticipants();
         this.currentParticipants = 0;
         this.createdAt = LocalDateTime.now();
+        this.isActive = true;
     }
 }
