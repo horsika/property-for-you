@@ -279,26 +279,32 @@
 
             <br>
             <label for="from-time">
-              Starting date and time
+              Start date and time
             </label>
             <input type="datetime-local" class="form-control" id="from-time"
                    formControlName="fromTime"
                    [ngClass]="{
-                    'is-invalid': openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched || openHouse.get('fromTime').errors?.serverError}">
+                    'is-invalid': openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched || openHouse.get('fromTime').errors?.serverError} ">
             <small *ngIf="openHouse.get('fromTime').errors?.serverError">
               {{openHouse.get('fromTime').errors['serverError']}}
             </small>
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched && !openHouse.get('fromTime').errors?.serverError"
+              *ngIf="openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched && !openHouse.get('fromTime').errors?.serverError  && !openHouse.get('fromTime').hasError('dateInPast')"
             >
               Please enter a date and time!
             </small>
 
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('fromTime').hasError('dateInPast') && openHouse.get('fromTime').touched">
+              The start date cannot be earlier than same time tomorrow.
+            </small>
+
             <br>
             <label for="to-time">
-              Ending date and time
+              End date and time
             </label>
             <input type="datetime-local" class="form-control" id="to-time"
                    formControlName="toTime"
@@ -310,9 +316,15 @@
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('toTime').invalid && openHouse.get('toTime').touched && !openHouse.get('toTime').errors?.serverError"
+              *ngIf="openHouse.get('toTime').invalid && openHouse.get('toTime').touched && !openHouse.get('toTime').errors?.serverError && !openHouse.get('toTime').hasError('dateInPast')"
             >
               Please enter a date and time!
+            </small>
+
+            <small
+              class="text-danger"
+              *ngIf="openHouse.get('toTime').hasError('dateInPast') && openHouse.get('toTime').touched">
+              The start date cannot be earlier than same time tomorrow.
             </small>
 
             <br>
@@ -340,6 +352,11 @@
             >Add
             </button>
           </form>
+
+          <div class="text-info-emphasis justify-content-center" *ngIf="emailSent">
+            {{emailSent}}
+          </div>
+
         </div>
 
       </div>

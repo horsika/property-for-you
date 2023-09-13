@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {MyAccountModel} from "../../models/my-account.model";
 import {PropertyService} from "../../services/property.service";
@@ -11,6 +11,7 @@ import {PasswordChangeModel} from "../../models/password-change.model";
 import {AdminService} from "../../services/admin.service";
 import {OpenHouseService} from "../../services/open-house.service";
 import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
+import {control} from "leaflet";
 
 @Component({
   selector: 'app-my-page',
@@ -28,8 +29,9 @@ export class MyPageComponent implements OnInit {
   password: FormGroup;
   profilePic: FormGroup;
   openHouse: FormGroup;
-  selectedPropertyId: number  | null = null;
+  selectedPropertyId: number | null = null;
   emailSent: string | null = null;
+  loading: boolean = false;
 
   constructor(private userService: UserService, private propertyService: PropertyService, private router: Router, private formBuilder: FormBuilder, private adminService: AdminService, private openHouseService: OpenHouseService) {
     this.email = this.formBuilder.group({
@@ -46,9 +48,9 @@ export class MyPageComponent implements OnInit {
 
     this.openHouse = this.formBuilder.group({
       propertyId: new FormControl(this.selectedPropertyId),
-      fromTime: ['', Validators.required],
-      toTime:['', Validators.required],
-      maxParticipants: [1, [Validators.required, Validators.min(1), Validators.max(20) ]],
+      fromTime: ['', [Validators.required, this.dateValidator()]],
+      toTime: ['', [Validators.required, this.dateValidator()]],
+      maxParticipants: [1, [Validators.required, Validators.min(1), Validators.max(20)]],
     })
     this.openHouse.get('propertyId').valueChanges.subscribe((newPropertyId) => {
     });
@@ -158,7 +160,7 @@ export class MyPageComponent implements OnInit {
 
       },
       error => {
-          validationHandler(error, this.password)
+        validationHandler(error, this.password)
       },
       () => {
         localStorage.removeItem('token');
@@ -178,18 +180,19 @@ export class MyPageComponent implements OnInit {
   changeProfilePicture() {
     const data = new FormData();
     data.append('file', this.profilePic.get('file').value);
-    this.userService.uploadProfilePicture(data). subscribe(() => {
+    this.userService.uploadProfilePicture(data).subscribe(() => {
 
-    },
-     error => {
-      errorHandler(error);
-     },
+      },
+      error => {
+        errorHandler(error);
+      },
       () => {
-      this.showAccountDetails();
+        this.showAccountDetails();
       })
   }
 
 
+  // creating new open house
   getSelectedPropertyName() {
     const selectedProperty = this.myProperties.find(
       (property) => property.propertyId === this.selectedPropertyId
@@ -202,16 +205,41 @@ export class MyPageComponent implements OnInit {
     }
   }
 
-  createOpenHouse(){
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const selectedDate = new Date(control.value);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      if (selectedDate < tomorrow) {
+        return {dateInPast: true};
+      }
+
+      return null;
+    };
+  }
+
+
+  createOpenHouse() {
     const data: OpenHouseFormDataModel = this.openHouse.value;
+    this.loading = true;
     this.openHouseService.createOpenHouse(data).subscribe({
       next: () => {
       },
-      error: err => validationHandler(err, this.openHouse),
+      error: err => {
+        validationHandler(err, this.openHouse)
+      },
       complete: () => {
         this.emailSent = "We've sent an email to you confirming the creation of your Open House event."
-        this.showMyProperties()
+
+        setTimeout(() => {
+          this.loading = false;
+          this.openHouse.reset();
+          this.showMyProperties();
+        }, 1000)
+
       }
     })
   }
+
 }
