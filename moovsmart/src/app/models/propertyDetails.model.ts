@@ -3,7 +3,7 @@ export interface PropertyDetailsModel {
   name: string;
   numberOfBedrooms: number;
   numberOfBathrooms: number;
-  priceHistory: number[];
+  price: number;
   floorArea: number;
   airConditioning: boolean;
   images: string[];

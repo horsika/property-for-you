@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PropertyService} from '../../services/property.service';
 import {Router} from '@angular/router';
-import {validationHandler} from '../../utils/validationHandler';
+import {errorHandler, validationHandler} from '../../utils/validationHandler';
 import {PropertyTypeFormListItemModel} from "../../models/property-type-form-list-item.model";
 import {HeatingTypeFormListItemModel} from "../../models/heating-type-form-list-item.model";
 import {validateNumberOfBathrooms} from "../../utils/custom.validators";
+import {MapPointModel} from "../../models/map-point.model";
 
 @Component({
   selector: 'app-property-form',
