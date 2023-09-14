@@ -65,16 +65,8 @@
               class="fa-solid fa-temperature-arrow-down"></i> AC: <i class="fa-solid fa-xmark"
                                                                      style="color: red;"></i>
             </li>
-            <li class="list-group-item"><i class="fa-solid fa-money-bill-transfer"></i> Price
-              history:
+            <li class="list-group-item"><i class="fa-solid fa-money-bill-transfer"></i> Price: HUF {{property.price}} Million
             </li>
-
-            <!-- price history -->
-            <ul class="list-group">
-              <li class="mx-0 list-group-item"
-                  *ngFor="let price of property.priceHistory">{{price}}
-              </li>
-            </ul>
           </ul>
         </li>
 

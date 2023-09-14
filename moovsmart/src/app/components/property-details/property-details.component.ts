@@ -20,7 +20,7 @@ export class PropertyDetailsComponent implements OnInit {
     name: '-',
     numberOfBedrooms: -1,
     numberOfBathrooms: -1,
-    priceHistory: [],
+    price: 0,
     floorArea: -1,
     airConditioning: false,
     images: [],
@@ -100,7 +100,7 @@ export class PropertyDetailsComponent implements OnInit {
     if (localStorage.getItem('token')) {
       const fav: AddToFavsModel = {propertyId: this.propertyId, added: add};
       this.propertyService.saveToFavourites(fav).subscribe({
-        next: () => console.log(this.property.savedByUser),
+        next: () => {},
         error: err => console.warn(err)
       });
     } else {
