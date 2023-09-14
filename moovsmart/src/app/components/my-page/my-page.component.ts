@@ -69,7 +69,6 @@ export class MyPageComponent implements OnInit {
   ngOnInit() {
     this.openHouseService.getActivePage().subscribe((activePage) => {
       this.activePage = activePage;
-      console.log(this.activePage);
     });
     this.route.params.subscribe((params) => {
       const propertyId = params['propertyId'];
@@ -188,7 +187,6 @@ export class MyPageComponent implements OnInit {
   onPasswordChange() {
     let pass1 = this.password.get('password').value;
     let pass2 = this.password.get('password2').value;
-    console.log(pass1, pass2, pass1 === pass2);
     this.passwordsMatch =  (pass1 === pass2);
   }
 

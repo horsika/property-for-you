@@ -44,7 +44,6 @@ export class RegisterComponent {
   onPasswordChange() {
     let pass1 = this.user.get('password').value;
     let pass2 = this.user.get('password2').value;
-    console.log(pass1, pass2, pass1 === pass2);
     this.passwordsMatch =  (pass1 === pass2);
   }
 
