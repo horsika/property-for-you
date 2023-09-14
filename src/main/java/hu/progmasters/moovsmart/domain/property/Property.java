@@ -116,6 +116,8 @@ public class Property {
         this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
         this.listingStatus = ListingStatus.INACTIVE;
         this.listingType = ListingType.getNameFromDisplayName(propertyForm.getListingType());
+        this.latitude = propertyForm.getLatitude();
+        this.longitude = propertyForm.getLongitude();
     }
 
     public void addToSaverUsers(User userToAdd) {

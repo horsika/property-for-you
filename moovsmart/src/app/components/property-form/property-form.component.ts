@@ -35,8 +35,9 @@ export class PropertyFormComponent implements OnInit {
       'address': [{value: '', disabled: true}, [Validators.required]],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
-      'listingStatus': [''],
       'listingType': ['', Validators.required],
+      'latitude': ['', Validators.required],
+      'longitude': ['', Validators.required],
     });
   }
 
@@ -89,7 +90,8 @@ export class PropertyFormComponent implements OnInit {
 
   loadMapPoint(mapPointIncoming: MapPointModel) {
     this.mapPoint = mapPointIncoming;
-    console.log(this.mapPoint.address);
     this.propertyForm.get('address').setValue(this.mapPoint.address);
+    this.propertyForm.get('latitude').setValue(this.mapPoint.latitude);
+    this.propertyForm.get('longitude').setValue(this.mapPoint.longitude);
   }
 }
