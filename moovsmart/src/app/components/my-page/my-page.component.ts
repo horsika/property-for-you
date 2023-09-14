@@ -12,8 +12,8 @@ import {AdminService} from "../../services/admin.service";
 import {OpenHouseService} from "../../services/open-house.service";
 import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
 import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
-import {BookingFormDataModel} from "../../models/booking-form-data.model";
 import {BookingService} from "../../services/booking.service";
+import {BookingFormDataModel} from "../../models/booking-form-data.model";
 
 @Component({
   selector: 'app-my-page',
@@ -35,7 +35,7 @@ export class MyPageComponent implements OnInit {
   emailSent: string | null = null;
   loading: boolean = false;
   openHouseList: OpenHouseListItemModel[];
-  bookingForm: FormGroup | null = null;
+  bookingForms: FormGroup[] = [];
   selectedOpenHouseId: number | null = null;
 
   constructor(private userService: UserService,
@@ -68,31 +68,17 @@ export class MyPageComponent implements OnInit {
     this.openHouseForm.get('propertyId').valueChanges.subscribe((newPropertyId) => {
     });
 
-
-    this.bookingForm = this.formBuilder.group({
-      openHouseId: new FormControl(this.selectedOpenHouseId),
-      placesToBook: [1, [Validators.required, Validators.min(1)]]
-    });
-    this.bookingForm.get('openHouseId').valueChanges.subscribe(newOpenHouseId => {
-    });
-    // this.openHouseForm.get('currentParticipants').valueChanges.subscribe(newCurrentParticipants => {
-    //   this.updatePlacesValidation(newCurrentParticipants);
-    // });
-
-
   }
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
-    this.openHouseService.getActivePage().subscribe((activePage) => {
-      this.activePage = activePage;
-      console.log(this.activePage);
-    });
-    this.route.params.subscribe((params) => {
-      const propertyId = params['propertyId'];
-      this.showOpenHouseList(propertyId);
-    });
-
+    // this.openHouseService.getActivePage().subscribe((activePage) => {
+    //   this.activePage = activePage;
+    // });
+    // this.route.params.subscribe((params) => {
+    //   const propertyId = params['propertyId'];
+    //   this.showOpenHouseList(propertyId);
+    // });
     this.showAccountDetails();
   }
 
@@ -148,16 +134,24 @@ export class MyPageComponent implements OnInit {
     this.selectedPropertyId = propertyId;
     this.openHouseService.getActiveOpenHouseList().subscribe(response => {
       this.openHouseList = response.filter(openHouse => openHouse.propertyId === propertyId);
+      console.log('lista: ', this.openHouseList);
+      console.log('propertyId: ', propertyId);
+      if (this.openHouseList) {
+        this.openHouseList.forEach((openHouse) => {
+          const freePlaces = openHouse.freePlaces;
+          console.log('openHOuseId log: ', openHouse.openHouseId);
+          const form = this.formBuilder.group({
+
+            openHouseId: new FormControl(openHouse.openHouseId),
+            placesToBook: ['', [Validators.required, Validators.min(1), Validators.max(freePlaces)]],
+          });
+          console.log('openHOuseId log 2: ', openHouse.openHouseId);
+          this.bookingForms.push(form);
+        });
+      }
     });
-
-
   }
 
-  showBookingForm(openHouseId: number) {
-    this.activePage = 'OpenHouseList';
-    this.selectedOpenHouseId = openHouseId;
-    this.bookingForm.get('openHouseId').setValue(this.selectedOpenHouseId);
-  }
 
   // ------------------- FUNCTIONS -------------------------
   changeEmail() {
@@ -299,41 +293,50 @@ export class MyPageComponent implements OnInit {
     })
   }
 
-  //TODO: validation still not working...:(
-  private updatePlacesValidation(newCurrentParticipants: number): void {
-    const freePlaces = this.openHouseForm.value.maxParticipants - newCurrentParticipants;
-    const placesControl = this.bookingForm.get('places');
+  // //TODO: validation still not working...:(
+  // private updatePlacesValidation(newCurrentParticipants: number): void {
+  //   const freePlaces = this.openHouseForm.value.maxParticipants - newCurrentParticipants;
+  //   const placesControl = this.bookingForm.get('places');
+  //
+  //   placesControl.setValidators([
+  //     Validators.required,
+  //     Validators.min(1),
+  //     Validators.max(freePlaces), // Set the maximum value based on freePlaces
+  //   ]);
+  //
+  //   placesControl.updateValueAndValidity();
+  //
+  // }
 
-    placesControl.setValidators([
-      Validators.required,
-      Validators.min(1),
-      Validators.max(freePlaces), // Set the maximum value based on freePlaces
-    ]);
 
-    placesControl.updateValueAndValidity();
+  bookATour(index: number) {
+    const form = this.bookingForms[index];
+    if (form.valid) {
+      const data: BookingFormDataModel = form.value;
+      console.log('book: ', data);
+      this.loading = true;
+      this.bookingService.createBooking(data).subscribe({
+        next: () => {
+          console.log('next');
+        },
+        error: err => {
+          this.errorMessage = errorHandler(err)
+        },
+        complete: () => {
+          this.emailSent = "We've sent an email to you confirming the booking to this Open House event."
+          console.log('complete');
+          setTimeout(() => {
+            this.loading = false;
+            form.reset();
+            this.showMySavedProperties();
+          }, 1000)
 
+        }
+      })
+    } else {
+
+    }
   }
 
-  bookATour(){
-    const data: BookingFormDataModel = this.bookingForm.value;
-    this.loading = true;
-    this.bookingService.createBooking(data).subscribe({
-      next: () => {
-      },
-      error: err => {
-        validationHandler(err, this.bookingForm)
-      },
-      complete: () => {
-        this.emailSent = "We've sent an email to you confirming the booking to this Open House event."
-
-        setTimeout(() => {
-          this.loading = false;
-          this.bookingForm.reset();
-          this.showMySavedProperties();
-        }, 1000)
-
-      }
-    })
-  }
 
 }

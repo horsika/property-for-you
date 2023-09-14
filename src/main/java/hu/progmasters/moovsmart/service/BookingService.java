@@ -4,6 +4,7 @@ import hu.progmasters.moovsmart.domain.property.Booking;
 import hu.progmasters.moovsmart.domain.property.OpenHouse;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.BookingForm;
+import hu.progmasters.moovsmart.exception.BookingFailedException;
 import hu.progmasters.moovsmart.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -35,13 +36,14 @@ public class BookingService {
         String userEmail = jwtService.extractEmail(processableToken);
         User user = authenticationService.findUserByEmail(userEmail);
 
-        try {
-            openHouseService.addBooking(openHouse.getOpenHouseId(), bookingForm.getPlacesToBook());
+        if (openHouse.getMaxParticipants() - openHouse.getCurrentParticipants() >= bookingForm.getPlacesToBook()) {
+            openHouse.setCurrentParticipants(openHouse.getCurrentParticipants() + bookingForm.getPlacesToBook());
             Booking booking = new Booking(user, openHouse);
             bookingRepository.save(booking);
             sendConfirmationEmailOfBooking(user, openHouse.getFromTime(), openHouse.getToTime(), openHouse.getProperty().getName());
-        } catch (Exception e){
+        } else {
             sendUserNotification(user);
+            throw new BookingFailedException("Booking failed.");
         }
 
     }

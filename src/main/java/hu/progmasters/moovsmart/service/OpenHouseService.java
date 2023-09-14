@@ -64,14 +64,4 @@ public class OpenHouseService {
         return openHouse.isPresent() ? openHouse.get() : null;
     }
 
-    public void addBooking(Long openHouseId, int placesToBook) {
-        OpenHouse openHouse = openHouseRepository.findById(openHouseId)
-                .orElseThrow(() -> new NoSuchElementException("OpenHouse with ID " + openHouseId + " not found"));
-        if (openHouse.getMaxParticipants() < openHouse.getCurrentParticipants() - placesToBook) {
-            openHouse.setCurrentParticipants(openHouse.getCurrentParticipants() + placesToBook);
-        } else {
-            throw new IllegalStateException("Not enough available places for booking");
-        }
-
-    }
 }

@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.progmasters.moovsmart.domain.property.Booking;
 import hu.progmasters.moovsmart.domain.property.Property;
 
 import lombok.*;
@@ -46,6 +47,10 @@ public class User implements UserDetails {
     private List<Property> ownedProperties;
 
     private boolean isEnabled;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Booking> bookings;
 
 
     @Override

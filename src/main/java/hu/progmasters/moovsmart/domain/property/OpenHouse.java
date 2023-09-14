@@ -5,6 +5,8 @@ import hu.progmasters.moovsmart.dto.incoming.OpenHouseForm;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,6 +21,9 @@ public class OpenHouse {
     @ManyToOne
     @JoinColumn(name = "property_id")
     private Property property;
+
+    @OneToMany(mappedBy = "openHouse", fetch = FetchType.LAZY)
+    private List<Booking> bookings;
 
     @Column
     private LocalDateTime fromTime;
@@ -45,5 +50,6 @@ public class OpenHouse {
         this.currentParticipants = 0;
         this.createdAt = LocalDateTime.now();
         this.isActive = true;
+        this.bookings = new ArrayList<>();
     }
 }

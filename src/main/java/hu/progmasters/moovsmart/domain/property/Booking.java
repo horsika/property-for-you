@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.domain.property;
 
 import hu.progmasters.moovsmart.domain.user.User;
+import hu.progmasters.moovsmart.service.OpenHouseService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,13 +18,17 @@ public class Booking {
     @Column(name = "booking_id")
     private Long bookingId;
 
-    @Column(name = "user_id")
-    private Long userId;
-    @Column(name = "openHouse_id")
-    private Long openHouseId;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+
+    @ManyToOne
+    @JoinColumn(name="openHouse_id")
+    private OpenHouse openHouse;
 
     public Booking(User user, OpenHouse openHouse) {
-        this.userId = user.getId();
-        this.openHouseId = openHouse.getOpenHouseId();
+        this.user = user;
+        this.openHouse = openHouse;
     }
 }

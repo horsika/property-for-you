@@ -135,6 +135,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(BookingFailedException.class)
+    public ResponseEntity<ApiError> bookingFailed(BookingFailedException e) {
+        ApiError body = new ApiError("BOOKING_FAILED", "This booking failed.", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.I_AM_A_TEAPOT);
+    }
+
+
 
 
 }

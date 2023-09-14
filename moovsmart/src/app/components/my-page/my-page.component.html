@@ -377,33 +377,33 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let openHouse of openHouseList">
+              <tr *ngFor="let openHouse of openHouseList; let i = index">
                 <td>{{openHouse.fromTime}}</td>
                 <td>{{openHouse.toTime}}</td>
                 <td class="text-center"
                     style="padding-top: 0.5rem;">{{openHouse.freePlaces}}</td>
                 <td style="padding: 0.5rem;">
 
-                  <form [formGroup]="bookingForm">
-                    <input class="hidden" formControlName="openHouseId">
+                  <form [formGroup]="bookingForms[i]">
+                    <input class="hidden" formControlName="openHouseId" style="display: none;">
                     <input type="number" class="form-control" id="places-to-book"
                            formControlName="placesToBook"
                            [ngClass]="{
-                    'is-invalid': bookingForm.get('placesToBook').invalid && bookingForm.get('placesToBook').touched || bookingForm.get('placesToBook').errors?.serverError}">
-                    <small *ngIf="bookingForm.get('placesToBook').errors?.serverError">
-                      {{bookingForm.get('placesToBook').errors['serverError']}}
+                    'is-invalid': bookingForms[i].get('placesToBook').invalid && bookingForms[i].get('placesToBook').touched || bookingForms[i].get('placesToBook').errors?.serverError}">
+                    <small *ngIf="bookingForms[i].get('placesToBook').errors?.serverError">
+                      {{bookingForms[i].get('placesToBook').errors['serverError']}}
                     </small>
 
                     <small
                       class="text-danger"
-                      *ngIf="bookingForm.get('placesToBook').invalid && bookingForm.get('placesToBook').touched && !bookingForm.get('placesToBook').errors?.serverError"
+                      *ngIf="bookingForms[i].get('placesToBook').invalid && bookingForms[i].get('placesToBook').touched && !bookingForms[i].get('placesToBook').errors?.serverError"
                     >
                       You can book places up to the number of free places!
                     </small>
                   </form>
                 </td>
                 <td>
-                  <button class="btn btn-outline-info" (click)="bookATour()">Book</button>
+                  <button class="btn btn-outline-info" (click)="bookATour(i)">Book</button>
                 </td>
               </tr>
               </tbody>
