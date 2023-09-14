@@ -20,7 +20,7 @@ export class PropertyDetailsComponent implements OnInit {
     name: '-',
     numberOfBedrooms: -1,
     numberOfBathrooms: -1,
-    priceHistory: [],
+    price: 0,
     floorArea: -1,
     airConditioning: false,
     images: [],

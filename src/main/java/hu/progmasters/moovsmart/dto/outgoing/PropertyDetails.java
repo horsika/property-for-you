@@ -15,7 +15,7 @@ public class PropertyDetails {
     private String name;
     private Integer numberOfBedrooms;
     private double numberOfBathrooms;
-    private List<Double> priceHistory;
+    private Double price;
     private double floorArea;
     private boolean airConditioning;
     private List<String> images;
@@ -34,7 +34,7 @@ public class PropertyDetails {
         this.name = property.getName();
         this.numberOfBedrooms = property.getNumberOfBedrooms();
         this.numberOfBathrooms = property.getNumberOfBathrooms();
-        this.priceHistory = property.getPriceHistory();
+        this.price = property.getPrice();
         this.floorArea = property.getFloorArea();
         this.airConditioning = property.isAirConditioning();
         this.images = property.getImages();
@@ -54,7 +54,7 @@ public class PropertyDetails {
         this.name = property.getName();
         this.numberOfBedrooms = property.getNumberOfBedrooms();
         this.numberOfBathrooms = property.getNumberOfBathrooms();
-        this.priceHistory = property.getPriceHistory();
+        this.price = property.getPrice();
         this.floorArea = property.getFloorArea();
         this.airConditioning = property.isAirConditioning();
         this.images = property.getImages();
