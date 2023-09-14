@@ -19,6 +19,7 @@ export class AdminPageComponent implements OnInit {
   allProperties: MyPropertyListItemModel[];
   filters: FormGroup;
   activePage: string;
+  currentUser: MyAccountModel;
 
   constructor(private adminService: AdminService,
               private propertyService: PropertyService,
@@ -70,6 +71,7 @@ export class AdminPageComponent implements OnInit {
   }
 
   getOwnedProperties(id: number) {
+    this.whoIsTheCurrentUser(id);
     this.adminService.getUsersOwnedProperties(id).subscribe(resp => {
       this.usersOwnedProperties = resp;
     })
@@ -80,6 +82,10 @@ export class AdminPageComponent implements OnInit {
     this.adminService.getAllProperties(data).subscribe(resp => {
       this.allProperties = resp;
     })
+  }
+
+  whoIsTheCurrentUser(userId: number) {
+      this.currentUser = this.users.find((user) => user.id === userId);
   }
 
   // ------ DO STUFF --------
