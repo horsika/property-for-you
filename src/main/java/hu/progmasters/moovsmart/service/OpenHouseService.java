@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -53,10 +54,12 @@ public class OpenHouseService {
         mailSender.send(email);
     }
 
-    public List<OpenHouseListItem> getOpenHouseList(){
+    public List<OpenHouseListItem> getOpenHouseList() {
         return openHouseRepository.findAllByActiveTrueOrderByFromTimeAsc().stream().map(OpenHouseListItem::new).collect(Collectors.toList());
     }
 
-
-
+    public OpenHouse getOpenHouseById(Long openHouseId) {
+        Optional<OpenHouse> openHouse = openHouseRepository.findById(openHouseId);
+        return openHouse.isPresent() ? openHouse.get() : null;
+    }
 }
