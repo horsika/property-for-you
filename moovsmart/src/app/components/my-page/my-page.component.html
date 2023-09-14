@@ -168,17 +168,20 @@
         <!-- change password -->
         <div *ngSwitchCase="'PasswordChange'" id="password-change">
           <form [formGroup]="password" class="p-4">
-            <div class="form-group p-2">
-              <label for="email"
+            <div class="form-group  mb-4">
+              <label for="pass"
                      [ngClass]="{
-                    'text-danger': password.get('password').invalid && password.get('password').touched || password.get('password').errors?.serverError
-                }">
-                New password
-              </label>
+                    'text-danger': password.get('password').invalid && password.get('password').touched
+                    || password.get('password').errors?.serverError
+                    || (password.get('password').touched && password.get('password2').touched && !passwordsMatch)
+                }">Password</label>
               <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password"
                      [ngClass]="{
-                    'is-invalid': password.get('password').invalid && password.get('password').touched || password.get('password').errors?.serverError
-                }">
+                    'is-invalid': password.get('password').invalid && password.get('password').touched
+                    || password.get('password').errors?.serverError
+                    || (password.get('password').touched && password.get('password2').touched && !passwordsMatch)
+                }"
+              >
               <small *ngIf="password.get('password').errors?.serverError" class="text-danger">
                 {{password.get('password').errors['serverError']}}
               </small>
@@ -188,12 +191,29 @@
               >
                 Please enter a valid password!
               </small>
+            </div>
+
+            <div class="form-group  mb-4">
+              <label for="pass2"
+                     [ngClass]="{'text-danger': !passwordsMatch && password.get('password2').touched}">Password (once more)</label>
+              <input type="password" class="form-control" id="pass2" placeholder="Password" formControlName="password2"
+                     [ngClass]="{'is-invalid': !passwordsMatch && password.get('password2').touched}"
+                     (change)="onPasswordChange()"
+              >
+              <small
+                class="text-danger"
+                *ngIf="!passwordsMatch && password.get('password2').touched"
+              > The given passwords do not match!
+              </small>
+            </div>
+
+
               <small class="text-danger"
                      *ngIf="errorMessage">
                 {{errorMessage}}
               </small>
               <p>Changing your password will require you to log in again!</p>
-            </div>
+
 
             <div class="p-2">
               <button type="button" class="btn btn-outline-success" [disabled]="password.invalid"
