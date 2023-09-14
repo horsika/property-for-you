@@ -2,8 +2,8 @@ export interface OpenHouseListItemModel {
 
   openHouseId: number;
   propertyId: number;
+  propertyName: string;
   fromTime: Date;
   toTime: Date;
-  maxParticipants: number;
-  currentParticipants: number;
+  freePlaces: number;
 }

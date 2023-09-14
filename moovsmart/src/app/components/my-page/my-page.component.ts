@@ -33,6 +33,8 @@ export class MyPageComponent implements OnInit {
   emailSent: string | null = null;
   loading: boolean = false;
   openHouseList: OpenHouseListItemModel[];
+  placesToBook: FormGroup | null = null;
+
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -58,9 +60,21 @@ export class MyPageComponent implements OnInit {
       fromTime: ['', [Validators.required, this.dateValidator()]],
       toTime: ['', [Validators.required, this.dateValidator()]],
       maxParticipants: [1, [Validators.required, Validators.min(1), Validators.max(20)]],
+      currentParticipants: [0],
     })
     this.openHouse.get('propertyId').valueChanges.subscribe((newPropertyId) => {
     });
+
+
+    this.placesToBook = this.formBuilder.group({
+      places: [1, [Validators.required, Validators.min(1)]]
+    });
+    this.openHouse.get('currentParticipants').valueChanges.subscribe(newCurrentParticipants => {
+      this.updatePlacesValidation(newCurrentParticipants);
+    });
+
+
+
   }
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
@@ -73,6 +87,7 @@ export class MyPageComponent implements OnInit {
       const propertyId = params['propertyId'];
       this.showOpenHouseList(propertyId);
     });
+
     this.showAccountDetails();
   }
 
@@ -127,7 +142,7 @@ export class MyPageComponent implements OnInit {
     this.activePage = 'OpenHouseList';
     this.selectedPropertyId = propertyId;
     this.openHouseService.getActiveOpenHouseList().subscribe(response => {
-      this.openHouseList = response;
+      this.openHouseList = response.filter(openHouse => openHouse.propertyId === propertyId);
     });
   }
 
@@ -271,7 +286,27 @@ export class MyPageComponent implements OnInit {
     })
   }
 
-  bookATour(openHouseId: number) {
+  //TODO: validation still not working...
+  private updatePlacesValidation(newCurrentParticipants: number): void {
+    const freePlaces = this.openHouse.value.maxParticipants - newCurrentParticipants;
+    const placesControl = this.placesToBook.get('places');
+
+    placesControl.setValidators([
+      Validators.required,
+      Validators.min(1),
+      Validators.max(freePlaces), // Set the maximum value based on freePlaces
+    ]);
+
+    placesControl.updateValueAndValidity();
+
+  }
+
+
+
+  bookATour(openHouseId
+              :
+              number
+  ) {
     //TODO: write method
   }
 

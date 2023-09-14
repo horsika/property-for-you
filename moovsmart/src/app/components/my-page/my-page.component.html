@@ -345,6 +345,8 @@
               Please enter a number between 1-20!
             </small>
 
+            <input type="hidden" formControlName="currentParticipants"/>
+
             <button class="btn btn-outline-success mt-3"
                     (click)="createOpenHouse()"
                     (keyup.enter)="createOpenHouse()"
@@ -361,31 +363,46 @@
         <!-- show open house list  -->
         <div class="container-fluid">
           <div *ngSwitchCase="'OpenHouseList'" class="p-4">
-            <h6 class="text-left">A property neve</h6>
+            <h6 class="text-left">
+              {{ openHouseList.length > 0 ? openHouseList[0].propertyName : 'No Property Name Available' }}</h6>
             <hr>
             <table class="table" style="font-size: 0.9rem;">
               <thead>
               <tr class="table">
                 <th scope="col" class="w-25">From</th>
                 <th scope="col" class="w-25">To</th>
-                <th scope="col">Free Places</th>
-                <th scope="col">Places to book</th>
+                <th scope="col" class="w-10">Free Places</th>
+                <th scope="col" class="w-10">Places to book</th>
                 <th scope="col"></th>
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let o of openHouseList">
-                <td>{{o.fromTime}}</td>
-                <td>{{o.toTime}}</td>
-                <td>{{o.maxParticipants - o.currentParticipants}}</td>
-                <td>
-                  <form>
+              <tr *ngFor="let openHouse of openHouseList">
+                <td>{{openHouse.fromTime}}</td>
+                <td>{{openHouse.toTime}}</td>
+                <td class="text-center"
+                    style="padding-top: 0.5rem;">{{openHouse.freePlaces}}</td>
+                <td style="padding: 0.5rem;">
+
+                  <form [formGroup]="placesToBook">
                     <input type="number" class="form-control" id="places-to-book"
-                           formControlName="placesToBook">
+                           formControlName="places"
+                           [ngClass]="{
+                    'is-invalid': placesToBook.get('places').invalid && placesToBook.get('places').touched || placesToBook.get('places').errors?.serverError}">
+                    <small *ngIf="placesToBook.get('places').errors?.serverError">
+                      {{placesToBook.get('places').errors['serverError']}}
+                    </small>
+
+                    <small
+                      class="text-danger"
+                      *ngIf="placesToBook.get('places').invalid && placesToBook.get('places').touched && !placesToBook.get('places').errors?.serverError"
+                    >
+                      You can book places up to the number of free places!
+                    </small>
                   </form>
                 </td>
                 <td>
-                    <button class="btn btn-outline-info" (click)="bookATour(o.openHouseId)">Book</button>
+                  <button class="btn btn-outline-info" (click)="bookATour(openHouse.openHouseId)">Book</button>
                 </td>
               </tr>
               </tbody>

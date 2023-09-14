@@ -18,17 +18,18 @@ public class OpenHouseListItem {
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime toTime;
-    private int maxParticipants;
-    private int currentParticipants;
+    private int freePlaces;
 
     private Long propertyId;
+    private String propertyName;
+
 
     public OpenHouseListItem(OpenHouse openHouse) {
         this.openHouseId = openHouse.getOpenHouseId();
         this.fromTime = openHouse.getFromTime();
         this.toTime = openHouse.getToTime();
-        this.maxParticipants = openHouse.getMaxParticipants();
-        this.currentParticipants = openHouse.getCurrentParticipants();
+        this.freePlaces = openHouse.getMaxParticipants() - openHouse.getCurrentParticipants();
         this.propertyId = openHouse.getProperty().getPropertyId();
+        this.propertyName = openHouse.getProperty().getName();
     }
 }
