@@ -35,24 +35,36 @@ public class BookingService {
         String userEmail = jwtService.extractEmail(processableToken);
         User user = authenticationService.findUserByEmail(userEmail);
 
-        Booking booking = new Booking(user, openHouse);
-
-        bookingRepository.save(booking);
-        sendConfirmationEmail(user, openHouse.getFromTime(), openHouse.getToTime(), openHouse.getProperty().getName());
+        try {
+            openHouseService.addBooking(openHouse.getOpenHouseId(), bookingForm.getPlacesToBook());
+            Booking booking = new Booking(user, openHouse);
+            bookingRepository.save(booking);
+            sendConfirmationEmailOfBooking(user, openHouse.getFromTime(), openHouse.getToTime(), openHouse.getProperty().getName());
+        } catch (Exception e){
+            sendUserNotification(user);
+        }
 
     }
 
-    private void sendConfirmationEmail(User user,
-                                       LocalDateTime fromTime, LocalDateTime toTime,
-                                       String propertyName) {
+    private void sendConfirmationEmailOfBooking(User user,
+                                                LocalDateTime fromTime, LocalDateTime toTime,
+                                                String propertyName) {
 
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(user.getEmail());
-        email.setSubject("Email confirmation");
+        email.setSubject("Email confirmation of booking");
         email.setText("You have successfully booked a tour at " + propertyName + " from " + fromTime + " to " + toTime + "!");
         mailSender.send(email);
     }
 
+    private void sendUserNotification(User user) {
+
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(user.getEmail());
+        email.setSubject("Email confirmation of booking");
+        email.setText("An error occurred while processing your booking. Please try again later.");
+        mailSender.send(email);
+    }
 
 
 

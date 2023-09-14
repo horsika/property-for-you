@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class BookingForm {
 
-    private Long bookingId;
-    private Long userId;
     private Long openHouseId;
+    private int placesToBook;
 
 
 }

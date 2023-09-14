@@ -264,7 +264,7 @@
 
         <!-- create a new open house  -->
         <div *ngSwitchCase="'OpenHouse'" class="p-4">
-          <form [formGroup]="openHouse">
+          <form [formGroup]="openHouseForm">
             <label for="property-id">
               Property name
             </label>
@@ -283,21 +283,21 @@
             <input type="datetime-local" class="form-control" id="from-time"
                    formControlName="fromTime"
                    [ngClass]="{
-                    'is-invalid': openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched || openHouse.get('fromTime').errors?.serverError} ">
-            <small *ngIf="openHouse.get('fromTime').errors?.serverError">
-              {{openHouse.get('fromTime').errors['serverError']}}
+                    'is-invalid': openHouseForm.get('fromTime').invalid && openHouseForm.get('fromTime').touched || openHouseForm.get('fromTime').errors?.serverError} ">
+            <small *ngIf="openHouseForm.get('fromTime').errors?.serverError">
+              {{openHouseForm.get('fromTime').errors['serverError']}}
             </small>
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('fromTime').invalid && openHouse.get('fromTime').touched && !openHouse.get('fromTime').errors?.serverError  && !openHouse.get('fromTime').hasError('dateInPast')"
+              *ngIf="openHouseForm.get('fromTime').invalid && openHouseForm.get('fromTime').touched && !openHouseForm.get('fromTime').errors?.serverError  && !openHouseForm.get('fromTime').hasError('dateInPast')"
             >
               Please enter a date and time!
             </small>
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('fromTime').hasError('dateInPast') && openHouse.get('fromTime').touched">
+              *ngIf="openHouseForm.get('fromTime').hasError('dateInPast') && openHouseForm.get('fromTime').touched">
               The start date cannot be earlier than same time tomorrow.
             </small>
 
@@ -308,21 +308,21 @@
             <input type="datetime-local" class="form-control" id="to-time"
                    formControlName="toTime"
                    [ngClass]="{
-                    'is-invalid': openHouse.get('toTime').invalid && openHouse.get('toTime').touched || openHouse.get('toTime').errors?.serverError}">
-            <small *ngIf="openHouse.get('toTime').errors?.serverError">
-              {{openHouse.get('toTime').errors['serverError']}}
+                    'is-invalid': openHouseForm.get('toTime').invalid && openHouseForm.get('toTime').touched || openHouseForm.get('toTime').errors?.serverError}">
+            <small *ngIf="openHouseForm.get('toTime').errors?.serverError">
+              {{openHouseForm.get('toTime').errors['serverError']}}
             </small>
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('toTime').invalid && openHouse.get('toTime').touched && !openHouse.get('toTime').errors?.serverError && !openHouse.get('toTime').hasError('dateInPast')"
+              *ngIf="openHouseForm.get('toTime').invalid && openHouseForm.get('toTime').touched && !openHouseForm.get('toTime').errors?.serverError && !openHouseForm.get('toTime').hasError('dateInPast')"
             >
               Please enter a date and time!
             </small>
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('toTime').hasError('dateInPast') && openHouse.get('toTime').touched">
+              *ngIf="openHouseForm.get('toTime').hasError('dateInPast') && openHouseForm.get('toTime').touched">
               The start date cannot be earlier than same time tomorrow.
             </small>
 
@@ -333,14 +333,14 @@
             <input type="number" class="form-control" id="max-participants"
                    formControlName="maxParticipants"
                    [ngClass]="{
-                    'is-invalid': openHouse.get('maxParticipants').invalid && openHouse.get('maxParticipants').touched || openHouse.get('maxParticipants').errors?.serverError}">
-            <small *ngIf="openHouse.get('maxParticipants').errors?.serverError">
-              {{openHouse.get('maxParticipants').errors['serverError']}}
+                    'is-invalid': openHouseForm.get('maxParticipants').invalid && openHouseForm.get('maxParticipants').touched || openHouseForm.get('maxParticipants').errors?.serverError}">
+            <small *ngIf="openHouseForm.get('maxParticipants').errors?.serverError">
+              {{openHouseForm.get('maxParticipants').errors['serverError']}}
             </small>
 
             <small
               class="text-danger"
-              *ngIf="openHouse.get('maxParticipants').invalid && openHouse.get('maxParticipants').touched && !openHouse.get('maxParticipants').errors?.serverError"
+              *ngIf="openHouseForm.get('maxParticipants').invalid && openHouseForm.get('maxParticipants').touched && !openHouseForm.get('maxParticipants').errors?.serverError"
             >
               Please enter a number between 1-20!
             </small>
@@ -384,25 +384,26 @@
                     style="padding-top: 0.5rem;">{{openHouse.freePlaces}}</td>
                 <td style="padding: 0.5rem;">
 
-                  <form [formGroup]="placesToBook">
+                  <form [formGroup]="bookingForm">
+                    <input class="hidden" formControlName="openHouseId">
                     <input type="number" class="form-control" id="places-to-book"
-                           formControlName="places"
+                           formControlName="placesToBook"
                            [ngClass]="{
-                    'is-invalid': placesToBook.get('places').invalid && placesToBook.get('places').touched || placesToBook.get('places').errors?.serverError}">
-                    <small *ngIf="placesToBook.get('places').errors?.serverError">
-                      {{placesToBook.get('places').errors['serverError']}}
+                    'is-invalid': bookingForm.get('placesToBook').invalid && bookingForm.get('placesToBook').touched || bookingForm.get('placesToBook').errors?.serverError}">
+                    <small *ngIf="bookingForm.get('placesToBook').errors?.serverError">
+                      {{bookingForm.get('placesToBook').errors['serverError']}}
                     </small>
 
                     <small
                       class="text-danger"
-                      *ngIf="placesToBook.get('places').invalid && placesToBook.get('places').touched && !placesToBook.get('places').errors?.serverError"
+                      *ngIf="bookingForm.get('placesToBook').invalid && bookingForm.get('placesToBook').touched && !bookingForm.get('placesToBook').errors?.serverError"
                     >
                       You can book places up to the number of free places!
                     </small>
                   </form>
                 </td>
                 <td>
-                  <button class="btn btn-outline-info" (click)="bookATour(openHouse.openHouseId)">Book</button>
+                  <button class="btn btn-outline-info" (click)="bookATour()">Book</button>
                 </td>
               </tr>
               </tbody>

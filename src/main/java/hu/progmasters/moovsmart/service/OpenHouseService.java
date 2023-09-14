@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -61,5 +62,16 @@ public class OpenHouseService {
     public OpenHouse getOpenHouseById(Long openHouseId) {
         Optional<OpenHouse> openHouse = openHouseRepository.findById(openHouseId);
         return openHouse.isPresent() ? openHouse.get() : null;
+    }
+
+    public void addBooking(Long openHouseId, int placesToBook) {
+        OpenHouse openHouse = openHouseRepository.findById(openHouseId)
+                .orElseThrow(() -> new NoSuchElementException("OpenHouse with ID " + openHouseId + " not found"));
+        if (openHouse.getMaxParticipants() < openHouse.getCurrentParticipants() - placesToBook) {
+            openHouse.setCurrentParticipants(openHouse.getCurrentParticipants() + placesToBook);
+        } else {
+            throw new IllegalStateException("Not enough available places for booking");
+        }
+
     }
 }

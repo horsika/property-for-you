@@ -12,6 +12,8 @@ import {AdminService} from "../../services/admin.service";
 import {OpenHouseService} from "../../services/open-house.service";
 import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
 import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
+import {BookingFormDataModel} from "../../models/booking-form-data.model";
+import {BookingService} from "../../services/booking.service";
 
 @Component({
   selector: 'app-my-page',
@@ -28,13 +30,13 @@ export class MyPageComponent implements OnInit {
   mySavedProperties: MyPropertyListItemModel[];
   password: FormGroup;
   profilePic: FormGroup;
-  openHouse: FormGroup;
+  openHouseForm: FormGroup;
   selectedPropertyId: number | null = null;
   emailSent: string | null = null;
   loading: boolean = false;
   openHouseList: OpenHouseListItemModel[];
-  placesToBook: FormGroup | null = null;
-
+  bookingForm: FormGroup | null = null;
+  selectedOpenHouseId: number | null = null;
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -42,7 +44,8 @@ export class MyPageComponent implements OnInit {
               private formBuilder: FormBuilder,
               private adminService: AdminService,
               private openHouseService: OpenHouseService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private bookingService: BookingService) {
     this.email = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     })
@@ -55,24 +58,26 @@ export class MyPageComponent implements OnInit {
       file: [null]
     })
 
-    this.openHouse = this.formBuilder.group({
+    this.openHouseForm = this.formBuilder.group({
       propertyId: new FormControl(this.selectedPropertyId),
       fromTime: ['', [Validators.required, this.dateValidator()]],
       toTime: ['', [Validators.required, this.dateValidator()]],
       maxParticipants: [1, [Validators.required, Validators.min(1), Validators.max(20)]],
       currentParticipants: [0],
     })
-    this.openHouse.get('propertyId').valueChanges.subscribe((newPropertyId) => {
+    this.openHouseForm.get('propertyId').valueChanges.subscribe((newPropertyId) => {
     });
 
 
-    this.placesToBook = this.formBuilder.group({
-      places: [1, [Validators.required, Validators.min(1)]]
+    this.bookingForm = this.formBuilder.group({
+      openHouseId: new FormControl(this.selectedOpenHouseId),
+      placesToBook: [1, [Validators.required, Validators.min(1)]]
     });
-    this.openHouse.get('currentParticipants').valueChanges.subscribe(newCurrentParticipants => {
-      this.updatePlacesValidation(newCurrentParticipants);
+    this.bookingForm.get('openHouseId').valueChanges.subscribe(newOpenHouseId => {
     });
-
+    // this.openHouseForm.get('currentParticipants').valueChanges.subscribe(newCurrentParticipants => {
+    //   this.updatePlacesValidation(newCurrentParticipants);
+    // });
 
 
   }
@@ -135,7 +140,7 @@ export class MyPageComponent implements OnInit {
   showOpenHouseForm(propertyId: number) {
     this.activePage = 'OpenHouse';
     this.selectedPropertyId = propertyId;
-    this.openHouse.get('propertyId').setValue(this.selectedPropertyId);
+    this.openHouseForm.get('propertyId').setValue(this.selectedPropertyId);
   }
 
   showOpenHouseList(propertyId: number) {
@@ -144,6 +149,14 @@ export class MyPageComponent implements OnInit {
     this.openHouseService.getActiveOpenHouseList().subscribe(response => {
       this.openHouseList = response.filter(openHouse => openHouse.propertyId === propertyId);
     });
+
+
+  }
+
+  showBookingForm(openHouseId: number) {
+    this.activePage = 'OpenHouseList';
+    this.selectedOpenHouseId = openHouseId;
+    this.bookingForm.get('openHouseId').setValue(this.selectedOpenHouseId);
   }
 
   // ------------------- FUNCTIONS -------------------------
@@ -265,20 +278,20 @@ export class MyPageComponent implements OnInit {
 
 
   createOpenHouse() {
-    const data: OpenHouseFormDataModel = this.openHouse.value;
+    const data: OpenHouseFormDataModel = this.openHouseForm.value;
     this.loading = true;
     this.openHouseService.createOpenHouse(data).subscribe({
       next: () => {
       },
       error: err => {
-        validationHandler(err, this.openHouse)
+        validationHandler(err, this.openHouseForm)
       },
       complete: () => {
         this.emailSent = "We've sent an email to you confirming the creation of your Open House event."
 
         setTimeout(() => {
           this.loading = false;
-          this.openHouse.reset();
+          this.openHouseForm.reset();
           this.showMyProperties();
         }, 1000)
 
@@ -286,10 +299,10 @@ export class MyPageComponent implements OnInit {
     })
   }
 
-  //TODO: validation still not working...
+  //TODO: validation still not working...:(
   private updatePlacesValidation(newCurrentParticipants: number): void {
-    const freePlaces = this.openHouse.value.maxParticipants - newCurrentParticipants;
-    const placesControl = this.placesToBook.get('places');
+    const freePlaces = this.openHouseForm.value.maxParticipants - newCurrentParticipants;
+    const placesControl = this.bookingForm.get('places');
 
     placesControl.setValidators([
       Validators.required,
@@ -301,13 +314,26 @@ export class MyPageComponent implements OnInit {
 
   }
 
+  bookATour(){
+    const data: BookingFormDataModel = this.bookingForm.value;
+    this.loading = true;
+    this.bookingService.createBooking(data).subscribe({
+      next: () => {
+      },
+      error: err => {
+        validationHandler(err, this.bookingForm)
+      },
+      complete: () => {
+        this.emailSent = "We've sent an email to you confirming the booking to this Open House event."
 
+        setTimeout(() => {
+          this.loading = false;
+          this.bookingForm.reset();
+          this.showMySavedProperties();
+        }, 1000)
 
-  bookATour(openHouseId
-              :
-              number
-  ) {
-    //TODO: write method
+      }
+    })
   }
 
 }
