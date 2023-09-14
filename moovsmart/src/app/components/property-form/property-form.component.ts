@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PropertyService} from '../../services/property.service';
 import {Router} from '@angular/router';
-import {errorHandler, validationHandler} from '../../utils/validationHandler';
+import {validationHandler} from '../../utils/validationHandler';
 import {PropertyTypeFormListItemModel} from "../../models/property-type-form-list-item.model";
 import {HeatingTypeFormListItemModel} from "../../models/heating-type-form-list-item.model";
 import {validateNumberOfBathrooms} from "../../utils/custom.validators";
@@ -18,6 +18,7 @@ export class PropertyFormComponent implements OnInit {
   propertyTypeList: PropertyTypeFormListItemModel[];
   heatingTypeList: HeatingTypeFormListItemModel[];
   errorMessage: string | null = null;
+  mapPoint: MapPointModel;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -31,11 +32,12 @@ export class PropertyFormComponent implements OnInit {
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
       'images': this.formBuilder.array([]),
-      'address': ['', [Validators.required]],
+      'address': [{value: '', disabled: true}, [Validators.required]],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
-      'listingStatus': [''],
       'listingType': ['', Validators.required],
+      'latitude': ['', Validators.required],
+      'longitude': ['', Validators.required],
     });
   }
 
@@ -88,5 +90,12 @@ export class PropertyFormComponent implements OnInit {
 
   getCityFromAddress() {
     return this.propertyForm.get('address').value.split(' ')[1];
+  }
+
+  loadMapPoint(mapPointIncoming: MapPointModel) {
+    this.mapPoint = mapPointIncoming;
+    this.propertyForm.get('address').setValue(this.mapPoint.address);
+    this.propertyForm.get('latitude').setValue(this.mapPoint.latitude);
+    this.propertyForm.get('longitude').setValue(this.mapPoint.longitude);
   }
 }
