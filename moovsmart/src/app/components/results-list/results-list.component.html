@@ -1,6 +1,6 @@
 <div id="results-list">
   <h6>Address search results:</h6>
-  <div id="results">
+  <div id="results" style="cursor: pointer;">
     <ul>
       <li *ngFor="let result of results" (click)="selectResult(result)">
         {{ result.displayName }}

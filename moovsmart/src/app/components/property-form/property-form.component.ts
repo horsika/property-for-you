@@ -18,6 +18,7 @@ export class PropertyFormComponent implements OnInit {
   propertyForm: FormGroup;
   propertyTypeList: PropertyTypeFormListItemModel[];
   heatingTypeList: HeatingTypeFormListItemModel[];
+  mapPoint: MapPointModel;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -31,7 +32,7 @@ export class PropertyFormComponent implements OnInit {
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
       'images': this.formBuilder.array([]),
-      'address': ['', [Validators.required]],
+      'address': [{value: '', disabled: true}, [Validators.required]],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
       'listingStatus': [''],
@@ -86,7 +87,9 @@ export class PropertyFormComponent implements OnInit {
     return this.propertyForm.get('address').value.split(' ')[1];
   }
 
-  //------------------------------------------------------------------------------------------------------------------
-
-
+  loadMapPoint(mapPointIncoming: MapPointModel) {
+    this.mapPoint = mapPointIncoming;
+    console.log(this.mapPoint.address);
+    this.propertyForm.get('address').setValue(this.mapPoint.address);
+  }
 }

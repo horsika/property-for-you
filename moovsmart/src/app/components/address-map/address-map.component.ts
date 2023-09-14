@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NominatimResponseModel} from "../../models/nominatimResponse.model";
-import {icon, latLng, MapOptions, marker, Map, tileLayer, LeafletMouseEvent, Marker} from 'leaflet';
+import * as L from 'leaflet';
+import {icon, latLng, LeafletMouseEvent, Map, MapOptions, Marker, tileLayer} from 'leaflet';
 import {MapPointModel} from "../../models/map-point.model";
-import * as L from "leaflet";
+import {NominatimService} from "../../services/nominatim.service";
 
 @Component({
   selector: 'app-address-map',
@@ -17,30 +18,32 @@ export class AddressMapComponent implements OnInit {
 
   results: NominatimResponseModel[];
 
-  constructor () {
+  @Output() mapPointUpdated = new EventEmitter<MapPointModel>();
+
+  constructor(private nominatimService: NominatimService) {
 
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
   }
 
-  initializeMap (map: Map) {
+  initializeMap(map: Map) {
     this.map = map;
     this.createMarker();
   }
 
-  getAddress (result: NominatimResponseModel) {
+  getAddress(result: NominatimResponseModel) {
     this.updateMapPoint(result.latitude, result.longitude, result.displayName);
     this.createMarker();
   }
 
-  refreshSearchList (results: NominatimResponseModel[]) {
+  refreshSearchList(results: NominatimResponseModel[]) {
     this.results = results;
   }
 
-  private initializeMapOptions () {
+  private initializeMapOptions() {
     this.options = {
       zoom: 10,
       layers: [
@@ -50,9 +53,9 @@ export class AddressMapComponent implements OnInit {
     }
   }
 
-  private initializeDefaultMapPoint () {
+  private initializeDefaultMapPoint() {
     this.mapPoint = {
-      name: 'Hello',
+      address: '',
       latitude: 47.49791200,
       longitude: 19.04023500
     };
@@ -64,15 +67,25 @@ export class AddressMapComponent implements OnInit {
     this.createMarker();
   }
 
-  private updateMapPoint (latitude: number, longitude: number, name?: string) {
-    this.mapPoint = {
-      latitude: latitude,
-      longitude: longitude,
-      name: name ? name : this.mapPoint.name
-    };
+  private updateMapPoint(latitude: number, longitude: number, name?: string) {
+    this.mapPoint.latitude = latitude;
+    this.mapPoint.longitude = longitude;
+
+    this.nominatimService.coordLookup(latitude, longitude).subscribe({
+      next: address => {
+        this.mapPoint.address = address.postcode + ' ' + address.city + ' ' + address.road + ' ' + address.house_number;
+        while (this.mapPoint.address.includes('undefined')) {
+          this.mapPoint.address = this.mapPoint.address.replace('undefined', '');
+        }
+      },
+      error: err => console.warn(err),
+      complete: () => {
+        this.mapPointUpdated.emit(this.mapPoint);
+      }
+    });
   }
 
-  private createMarker () {
+  private createMarker() {
     this.clearMap();
     const mapIcon = this.getDefaultIcon();
     const coordinates = latLng([this.mapPoint.latitude, this.mapPoint.longitude]);
@@ -80,7 +93,7 @@ export class AddressMapComponent implements OnInit {
     this.map.setView(coordinates, this.map.getZoom());
   }
 
-  private getDefaultIcon () {
+  private getDefaultIcon() {
     return icon({
       iconSize: [25, 41],
       iconAnchor: [13, 41],
@@ -88,7 +101,7 @@ export class AddressMapComponent implements OnInit {
     });
   }
 
-  private clearMap () {
+  private clearMap() {
     if (this.lastLayer != undefined && this.map.hasLayer(this.lastLayer)) {
       this.map.removeLayer(this.lastLayer);
     }

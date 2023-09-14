@@ -100,7 +100,7 @@
       </small>
     </div>
 
-    <app-address-map></app-address-map>
+    <app-address-map (mapPointUpdated)="loadMapPoint($event)"></app-address-map>
 
     <div class="form-group">
       <label for="from">Address</label>
