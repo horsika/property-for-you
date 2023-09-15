@@ -1,7 +1,9 @@
 <div class="container-fluid custom-container">
   <div class="background-image-container">
     <img class="background-image"
-         src="https://d32ijn7u0aqfv4.cloudfront.net/wp/wp-content/uploads/raw/couple-man-woman-movingboxes-newhome_SOMG19009_1147468190_is_780x440.jpg">
+         src="https://d32ijn7u0aqfv4.cloudfront.net/wp/wp-content/uploads/raw/couple-man-woman-movingboxes-newhome_SOMG19009_1147468190_is_780x440.jpg"
+         alt="background image"
+    >
     <div class="search-heading">
       <h1>Search for a home</h1>
     </div>
@@ -28,9 +30,9 @@
           <img src="{{property.images[0]}}" class="card-img-top"
                alt="Property image"/>
           <div class="card-body">
-            <h5 class="card-title"><span>HUF</span> {{property.price  | number:'1.0-0'}}</h5>
+            <h5 class="card-title"><span>HUF</span> {{property.price  | number:'1.0-0'}} Million</h5>
             <p class="card-text">
-              {{property.floorArea | number:'1.0-0'}} sqft |
+              {{property.floorArea | number:'1.0-0'}} sqm |
               {{property.numberOfBedrooms}} bdr |
               {{property.numberOfBathrooms}} ba |
               {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}

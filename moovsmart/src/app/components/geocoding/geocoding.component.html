@@ -1,0 +1,4 @@
+<div class="address-lookup">
+  <input type="text" placeholder="Search..." value="" class="leaflet-control"
+         (change)="addressLookup($any($event.target).value)" (click)="$event.stopPropagation()"/>
+</div>

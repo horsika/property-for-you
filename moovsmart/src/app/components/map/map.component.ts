@@ -75,8 +75,8 @@ export class MapComponent implements AfterViewInit {
     <div>
       <img src="${property.images[0]}" alt="${property.name}" style="max-width: 80%; max-height: 45%;">
       <p>${this.formatPrice(property.price)}</p>
-      <p>${property.floorArea} sqft</p>
-      <p>${property.name} sqft</p>
+      <p>${property.floorArea} sqm</p>
+      <p>${property.name} sqm</p>
     </div>
   `;
 

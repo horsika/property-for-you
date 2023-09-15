@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {PropertyFormComponent} from './components/property-form/property-form.component';
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
@@ -19,6 +19,11 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { MyPageComponent } from './components/my-page/my-page.component';
 import { InfoComponent } from './components/info/info.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
+import { GeocodingComponent } from './components/geocoding/geocoding.component';
+import { AddressMapComponent } from './components/address-map/address-map.component';
+import { ResultsListComponent } from './components/results-list/results-list.component';
+import { MapPointFormComponent } from './components/map-point-form/map-point-form.component';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 
 @NgModule({
   declarations: [
@@ -35,13 +40,19 @@ import { AdminPageComponent } from './components/admin-page/admin-page.component
     HomepageComponent,
     MyPageComponent,
     InfoComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    GeocodingComponent,
+    AddressMapComponent,
+    ResultsListComponent,
+    MapPointFormComponent
   ],
   imports: [
     HttpClientModule,
     ReactiveFormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    LeafletModule,
   ],
   providers: [
     {

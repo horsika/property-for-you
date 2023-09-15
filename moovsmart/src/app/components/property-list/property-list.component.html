@@ -137,9 +137,9 @@
                 <li><a class="dropdown-item" href="#" (click)="sortByPriceAscending($event); closeDropdown()">Price
                   (Low to High)</a></li>
                 <li><a class="dropdown-item" href="#"
-                       (click)="sortByFloorAreaDescending($event); closeDropdown()">Sqft(Large to Small)</a></li>
+                       (click)="sortByFloorAreaDescending($event); closeDropdown()">Sqm(Large to Small)</a></li>
                 <li><a class="dropdown-item" href="#"
-                       (click)="sortByFloorAreaAscending($event); closeDropdown()">Sqft (Small to Large)</a></li>
+                       (click)="sortByFloorAreaAscending($event); closeDropdown()">Sqm (Small to Large)</a></li>
                 <li><a class="dropdown-item" href="#"
                        (click)="sortByBedroomsDescending($event); closeDropdown()">Bedrooms</a></li>
               </ul>
@@ -161,12 +161,12 @@
             <div class="card-body">
               <h5>
                 <span class="currency">HUF</span>
-                <span class="price">{{property.price  | number:'1.0-0'}}</span>
-                <span class="per-sqft"> (HUF {{ (property.price / property.floorArea) | number:'1.0-0' }}/sqft)</span>
+                <span class="price">{{property.price  | number:'1.0-0'}} Million</span>
+                <span class="per-sqm"> (HUF {{ ((property.price / property.floorArea) * 1000000) | number:'1.0-0' }}/sqm)</span>
               </h5>
               <div class="activated-at"> {{property.formattedActivatedAt}}</div>
               <div class="details-list">
-                {{property.floorArea | number:'1.0-0'}} sqft |
+                {{property.floorArea | number:'1.0-0'}} sqm |
                 {{property.numberOfBedrooms}} bdr |
                 {{property.numberOfBathrooms}} ba |
                 {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}

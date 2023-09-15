@@ -37,7 +37,7 @@ public class MyPropertyListItem {
         this.firstImage = property.getImages().get(0);
         this.city = property.getAddress().getCity();
         this.listingTypeDisplayName = property.getListingType().getDisplayName();
-        this.price = property.getPriceHistory().get(0);
+        this.price = property.getPrice();
         this.isActiveDisplayName = property.getListingStatus().getDisplayName();
         this.owner = property.getOwnerUser();
         this.createdAt = property.getCreatedAt();

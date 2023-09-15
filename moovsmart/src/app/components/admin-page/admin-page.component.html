@@ -46,7 +46,7 @@
                 <p>{{user?.firstName}} {{user?.lastName}}</p>
               </div>
               <div class="col-lg-2 d-grid grid-gap-2">
-                <button class="btn btn-outline-danger mb-1" *ngIf="user?.enabled" (click)="changeUserStatus(false, user.id)">Disable</button>
+                <button class="btn btn-outline-danger mb-1" *ngIf="user?.enabled" (click)="whoIsTheCurrentUser(user.id)" data-bs-toggle="modal" data-bs-target="#disableUserModal">Disable</button>
                 <button class="btn btn-outline-success mb-1" *ngIf="!user?.enabled" (click)="changeUserStatus(true, user.id)">Enable</button>
                 <button class="btn btn-outline-primary"
                         (click)="getOwnedProperties(user.id)"
@@ -56,11 +56,32 @@
                 </button>
               </div>
 
+              <!-- Disable User modal -->
+              <div class="modal fade" id="disableUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Disable User</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Are you sure you want to disable {{currentUser?.firstName}} {{currentUser?.lastName}}?
+                        This action will deactivate ALL of {{currentUser?.firstName}} {{currentUser?.lastName}}'s owned properties. </p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="changeUserStatus(false, currentUser?.id)">Disable User</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!--- Users owned properties modal -->
               <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="label" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="label">{{user?.firstName}} {{user?.lastName}}'s Properties</h1>
+                      <h1 class="modal-title fs-5" id="label">{{currentUser?.firstName}} {{currentUser?.lastName}}'s Properties</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -92,14 +113,14 @@
                                 <button class="btn btn-outline-primary m-1">Modify
                                 </button>
                                 <button class="btn btn-outline-danger m-1"
-                                        (click)="deactivateProperty(p.propertyId, user.id)"
-                                        (keyup.enter)="deactivateProperty(p.propertyId, user.id)"
+                                        (click)="deactivateProperty(p.propertyId, currentUser?.id)"
+                                        (keyup.enter)="deactivateProperty(p.propertyId, currentUser?.id)"
                                         *ngIf="p.isActiveDisplayName === 'Active'">Deactivate
                                 </button>
                                 <!-- inactive property button -->
                                 <button class="btn btn-outline-success m-1"
-                                        (click)="activateProperty(p.propertyId, user.id)"
-                                        (keyup.enter)="activateProperty(p.propertyId, user.id)"
+                                        (click)="activateProperty(p.propertyId, currentUser?.id)"
+                                        (keyup.enter)="activateProperty(p.propertyId, currentUser?.id)"
                                         *ngIf="p.isActiveDisplayName === 'Inactive' || p.isActiveDisplayName === 'Archived'">
                                   Activate
                                 </button>
@@ -114,6 +135,7 @@
                 </div>
 
               </div>
+
             </div>
           </div>
         </div>

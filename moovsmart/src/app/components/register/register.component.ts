@@ -20,6 +20,7 @@ export class RegisterComponent {
   emailSent: string | null = null;
   loading: boolean = false;
   errorMessage: string | null = null;
+  passwordsMatch: boolean;
   constructor(private userService: UserService,
               private adminService: AdminService,
               private formBuilder: FormBuilder,
@@ -27,6 +28,7 @@ export class RegisterComponent {
     this.user = this.formBuilder.group({
       'email': ['', [Validators.pattern("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"), Validators.required]],
       'password': ['', [Validators.minLength(6), Validators.required]],
+      'password2': [''],
       'firstName': ['', Validators.required],
       'lastName': ['', Validators.required]
     });
@@ -37,6 +39,12 @@ export class RegisterComponent {
     });
 
     this.toggle = true; //true: Register tab is active
+  }
+
+  onPasswordChange() {
+    let pass1 = this.user.get('password').value;
+    let pass2 = this.user.get('password2').value;
+    this.passwordsMatch =  (pass1 === pass2);
   }
 
   onRegister() {

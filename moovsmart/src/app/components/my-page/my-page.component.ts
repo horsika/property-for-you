@@ -34,6 +34,7 @@ export class MyPageComponent implements OnInit {
   selectedPropertyId: number | null = null;
   emailSent: string | null = null;
   loading: boolean = false;
+  passwordsMatch: boolean;
   openHouseList: OpenHouseListItemModel[];
   bookingForms: FormGroup[] = [];
 
@@ -50,7 +51,8 @@ export class MyPageComponent implements OnInit {
     })
 
     this.password = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      password2: []
     })
 
     this.profilePic = this.formBuilder.group({
@@ -150,7 +152,6 @@ export class MyPageComponent implements OnInit {
 
   }
 
-
   // ------------------- FUNCTIONS -------------------------
   changeEmail() {
     const data = this.email.value;
@@ -201,6 +202,12 @@ export class MyPageComponent implements OnInit {
         this.showMyProperties();
       }
     )
+  }
+
+  onPasswordChange() {
+    let pass1 = this.password.get('password').value;
+    let pass2 = this.password.get('password2').value;
+    this.passwordsMatch =  (pass1 === pass2);
   }
 
   changePassword() {

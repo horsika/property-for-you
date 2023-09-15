@@ -39,12 +39,17 @@
         <div class="form-group  mb-4">
           <label for="pass"
                  [ngClass]="{
-                    'text-danger': user.get('password').invalid && user.get('password').touched || user.get('password').errors?.serverError
+                    'text-danger': user.get('password').invalid && user.get('password').touched
+                    || user.get('password').errors?.serverError
+                    || (user.get('password').touched && user.get('password2').touched && !passwordsMatch)
                 }">Password</label>
           <input type="password" class="form-control" id="pass" placeholder="Password" formControlName="password"
                  [ngClass]="{
-                    'is-invalid': user.get('password').invalid && user.get('password').touched || user.get('password').errors?.serverError
-                }">
+                    'is-invalid': user.get('password').invalid && user.get('password').touched
+                    || user.get('password').errors?.serverError
+                    || (user.get('password').touched && user.get('password2').touched && !passwordsMatch)
+                }"
+          >
           <small *ngIf="user.get('password').errors?.serverError" class="text-danger">
             {{user.get('password').errors['serverError']}}
           </small>
@@ -53,6 +58,20 @@
             *ngIf="user.get('password').invalid && user.get('password').touched && !user.get('password').errors?.serverError"
           >
             Please enter a valid password!
+          </small>
+        </div>
+
+        <div class="form-group  mb-4">
+          <label for="pass2"
+                 [ngClass]="{'text-danger': !passwordsMatch && user.get('password2').touched}">Password (once more)</label>
+          <input type="password" class="form-control" id="pass2" placeholder="Password" formControlName="password2"
+                 [ngClass]="{'is-invalid': !passwordsMatch && user.get('password2').touched}"
+                 (change)="onPasswordChange()"
+          >
+          <small
+            class="text-danger"
+            *ngIf="!passwordsMatch && user.get('password2').touched"
+          > The given passwords do not match!
           </small>
         </div>
 

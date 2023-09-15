@@ -35,9 +35,7 @@ public class Property {
     @Column(name = "number_of_bedrooms")
     private Integer numberOfBedrooms;
 
-    @ElementCollection
-    @CollectionTable(name = "price_history")
-    private List<Double> priceHistory;
+    private Double price;
 
     @Column(name = "floor_area")
     private double floorArea;
@@ -110,7 +108,7 @@ public class Property {
         this.name = propertyForm.getName();
         this.numberOfBathrooms = propertyForm.getNumberOfBathrooms();
         this.numberOfBedrooms = propertyForm.getNumberOfBedrooms();
-        this.priceHistory = List.of(propertyForm.getPrice());
+        this.price = propertyForm.getPrice();
         this.floorArea = propertyForm.getFloorArea();
         this.airConditioning = propertyForm.isAirConditioning();
         this.description = propertyForm.getDescription();
@@ -119,6 +117,8 @@ public class Property {
         this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
         this.listingStatus = ListingStatus.INACTIVE;
         this.listingType = ListingType.getNameFromDisplayName(propertyForm.getListingType());
+        this.latitude = propertyForm.getLatitude();
+        this.longitude = propertyForm.getLongitude();
     }
 
     public void addToSaverUsers(User userToAdd) {
