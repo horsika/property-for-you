@@ -130,26 +130,33 @@ export class MyPageComponent implements OnInit {
   }
 
   showOpenHouseList(propertyId: number) {
+
+
     this.activePage = 'OpenHouseList';
     this.selectedPropertyId = propertyId;
-    this.openHouseService.getActiveOpenHouseList().subscribe(response => {
+    this.openHouseService.getActiveOpenHouseListGroupedByPropertyId().subscribe(response => {
       this.openHouseList = response.filter(openHouse => openHouse.propertyId === propertyId);
       console.log('lista: ', this.openHouseList);
       console.log('propertyId: ', propertyId);
       if (this.openHouseList) {
+        console.log('bookingForms if 1: ', this.bookingForms);
+        this.bookingForms = [];
+        console.log('bookingForms if 2: ', this.bookingForms);
+
         this.openHouseList.forEach((openHouse) => {
           const freePlaces = openHouse.freePlaces;
           console.log('openHOuseId log: ', openHouse.openHouseId);
           const form = this.formBuilder.group({
-
             openHouseId: new FormControl(openHouse.openHouseId),
             placesToBook: ['', [Validators.required, Validators.min(1), Validators.max(freePlaces)]],
           });
           console.log('openHOuseId log 2: ', openHouse.openHouseId);
           this.bookingForms.push(form);
+          console.log('bookingForms 3: ', this.bookingForms);
         });
       }
     });
+
   }
 
 
@@ -293,28 +300,13 @@ export class MyPageComponent implements OnInit {
     })
   }
 
-  // //TODO: validation still not working...:(
-  // private updatePlacesValidation(newCurrentParticipants: number): void {
-  //   const freePlaces = this.openHouseForm.value.maxParticipants - newCurrentParticipants;
-  //   const placesControl = this.bookingForm.get('places');
-  //
-  //   placesControl.setValidators([
-  //     Validators.required,
-  //     Validators.min(1),
-  //     Validators.max(freePlaces), // Set the maximum value based on freePlaces
-  //   ]);
-  //
-  //   placesControl.updateValueAndValidity();
-  //
-  // }
 
-
-  bookATour(index: number) {
+  bookATour(index: number, openHouseId: number) {
     const form = this.bookingForms[index];
+    console.log('bookATour, this.bookingForms: ', this.bookingForms);
     if (form.valid) {
       const data: BookingFormDataModel = form.value;
-      console.log('book: ', data);
-      this.loading = true;
+      console.log('bookATour gomb form.value: ', data);
       this.bookingService.createBooking(data).subscribe({
         next: () => {
           console.log('next');
@@ -326,16 +318,16 @@ export class MyPageComponent implements OnInit {
           this.emailSent = "We've sent an email to you confirming the booking to this Open House event."
           console.log('complete');
           setTimeout(() => {
-            this.loading = false;
             form.reset();
             this.showMySavedProperties();
-          }, 1000)
+          }, 500)
 
         }
       })
     } else {
 
     }
+
   }
 
 

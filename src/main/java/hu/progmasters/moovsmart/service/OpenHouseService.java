@@ -59,9 +59,23 @@ public class OpenHouseService {
         return openHouseRepository.findAllByActiveTrueOrderByFromTimeAsc().stream().map(OpenHouseListItem::new).collect(Collectors.toList());
     }
 
+    public List<OpenHouseListItem> getOpenHouseListGroupedByPropertyId() {
+        return openHouseRepository.findAllByActiveTrueGroupByPropertyIdOrderByFromTimeAsc().stream().map(OpenHouseListItem::new).collect(Collectors.toList());
+    }
+
     public OpenHouse getOpenHouseById(Long openHouseId) {
         Optional<OpenHouse> openHouse = openHouseRepository.findById(openHouseId);
         return openHouse.isPresent() ? openHouse.get() : null;
     }
 
+    public void expireOpenHouses() {
+        LocalDateTime now = LocalDateTime.now();
+        List<OpenHouse> expiredOpenHouses = openHouseRepository.findExpiredOpenHouses(now);
+
+        for (OpenHouse expiredOpenHouse : expiredOpenHouses) {
+            expiredOpenHouse.setIsActive(false);
+        }
+
+        openHouseRepository.saveAll(expiredOpenHouses);
+    }
 }

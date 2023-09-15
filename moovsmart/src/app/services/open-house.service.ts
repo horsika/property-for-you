@@ -19,7 +19,7 @@ export class OpenHouseService {
     return this.http.post(BASE_URL, data);
   }
 
-  getActiveOpenHouseList(): Observable<Array<OpenHouseListItemModel>>{
+  getActiveOpenHouseListGroupedByPropertyId(): Observable<Array<OpenHouseListItemModel>>{
     return this.http.get<Array<OpenHouseListItemModel>>(BASE_URL);
   }
 

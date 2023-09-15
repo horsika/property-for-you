@@ -38,7 +38,7 @@ public class BookingService {
 
         if (openHouse.getMaxParticipants() - openHouse.getCurrentParticipants() >= bookingForm.getPlacesToBook()) {
             openHouse.setCurrentParticipants(openHouse.getCurrentParticipants() + bookingForm.getPlacesToBook());
-            Booking booking = new Booking(user, openHouse);
+            Booking booking = new Booking(user, openHouse, bookingForm.getPlacesToBook());
             bookingRepository.save(booking);
             sendConfirmationEmailOfBooking(user, openHouse.getFromTime(), openHouse.getToTime(), openHouse.getProperty().getName());
         } else {

@@ -28,8 +28,8 @@ public class OpenHouseController {
     }
 
     @GetMapping
-    public ResponseEntity <List<OpenHouseListItem>> getOpenHouseList() {
-        return new ResponseEntity<>(openHouseService.getOpenHouseList(), HttpStatus.OK);
+    public ResponseEntity <List<OpenHouseListItem>> getOpenHouseListGroupedByPropertyId() {
+        return new ResponseEntity<>(openHouseService.getOpenHouseListGroupedByPropertyId(), HttpStatus.OK);
     }
 
 

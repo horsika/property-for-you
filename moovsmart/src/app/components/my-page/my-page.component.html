@@ -364,7 +364,7 @@
         <div class="container-fluid">
           <div *ngSwitchCase="'OpenHouseList'" class="p-4">
             <h6 class="text-left">
-              {{ openHouseList.length > 0 ? openHouseList[0].propertyName : 'No Property Name Available' }}</h6>
+              {{ openHouseList?.length > 0 ? openHouseList[0]?.propertyName : 'No Property Name Available' }}</h6>
             <hr>
             <table class="table" style="font-size: 0.9rem;">
               <thead>
@@ -403,7 +403,7 @@
                   </form>
                 </td>
                 <td>
-                  <button class="btn btn-outline-info" (click)="bookATour(i)">Book</button>
+                  <button class="btn btn-outline-info" (click)="bookATour(i, openHouse.openHouseId)">Book</button>
                 </td>
               </tr>
               </tbody>

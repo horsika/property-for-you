@@ -12,8 +12,7 @@ export class BookingService {
   constructor(private http: HttpClient) { }
 
   createBooking(data: BookingFormDataModel) {
-    console.log('service: ', data);
-;    return this.http.post(BASE_URL, data);
+    return this.http.post(BASE_URL, data);
   }
 
 

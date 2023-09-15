@@ -27,8 +27,12 @@ public class Booking {
     @JoinColumn(name="openHouse_id")
     private OpenHouse openHouse;
 
-    public Booking(User user, OpenHouse openHouse) {
+    @Column
+    private int placesToBook;
+
+    public Booking(User user, OpenHouse openHouse, int placesToBook) {
         this.user = user;
         this.openHouse = openHouse;
+        this.placesToBook = placesToBook;
     }
 }
