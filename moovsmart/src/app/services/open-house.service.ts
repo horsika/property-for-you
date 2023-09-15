@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {OpenHouseFormDataModel} from "../models/open-house-form-data.model";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {OpenHouseListItemModel} from "../models/open-house-list-item.model";
 
 const BASE_URL = environment.BASE_URL + '/api/openhouses';
@@ -25,12 +25,12 @@ export class OpenHouseService {
 
 
   //navigating to my-page, activePage
-  setActivePage(activePage: string) {
-    this.activePageSubject.next(activePage);
-  }
+  private selectedPropertyIdSubject = new BehaviorSubject<number | null>(null);
+  selectedPropertyId$ = this.selectedPropertyIdSubject.asObservable();
 
-  getActivePage(): Observable<string> {
-    return this.activePageSubject.asObservable();
+  setSelectedPropertyId(propertyId: number) {
+    console.log(propertyId);
+    this.selectedPropertyIdSubject.next(propertyId);
   }
 
 

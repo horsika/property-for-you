@@ -108,8 +108,10 @@ export class PropertyDetailsComponent implements OnInit {
     }
   }
 
-  showOpenHouseList(propertyId: number, add:boolean) {
+  bookATour(propertyId: number, add: boolean) {
     this.saveToFavourites(add);
-    this.router.navigate(['/my-page']); //a listára kellene navigélni, ezt még ki kell dolgozni
+    this.openHouseService.setSelectedPropertyId(propertyId);
+    console.log(propertyId);
+    this.router.navigate(['/my-page']);
   }
 }

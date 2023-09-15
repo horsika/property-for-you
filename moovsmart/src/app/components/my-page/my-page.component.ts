@@ -36,7 +36,6 @@ export class MyPageComponent implements OnInit {
   loading: boolean = false;
   openHouseList: OpenHouseListItemModel[];
   bookingForms: FormGroup[] = [];
-  selectedOpenHouseId: number | null = null;
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -72,14 +71,13 @@ export class MyPageComponent implements OnInit {
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
-    // this.openHouseService.getActivePage().subscribe((activePage) => {
-    //   this.activePage = activePage;
-    // });
-    // this.route.params.subscribe((params) => {
-    //   const propertyId = params['propertyId'];
-    //   this.showOpenHouseList(propertyId);
-    // });
-    this.showAccountDetails();
+    this.openHouseService.selectedPropertyId$.subscribe((propertyId) => {
+      if (propertyId !== null) {
+        this.showOpenHouseList(propertyId);
+      } else {
+        this.showAccountDetails();
+      }
+    });
   }
 
   showEmailChangePage() {
@@ -130,8 +128,6 @@ export class MyPageComponent implements OnInit {
   }
 
   showOpenHouseList(propertyId: number) {
-
-
     this.activePage = 'OpenHouseList';
     this.selectedPropertyId = propertyId;
     this.openHouseService.getActiveOpenHouseListGroupedByPropertyId().subscribe(response => {
@@ -154,6 +150,7 @@ export class MyPageComponent implements OnInit {
           this.bookingForms.push(form);
           console.log('bookingForms 3: ', this.bookingForms);
         });
+
       }
     });
 
@@ -320,14 +317,10 @@ export class MyPageComponent implements OnInit {
           setTimeout(() => {
             form.reset();
             this.showMySavedProperties();
-          }, 500)
-
+          }, 200)
         }
       })
-    } else {
-
     }
-
   }
 
 
