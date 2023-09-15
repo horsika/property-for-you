@@ -301,24 +301,20 @@ export class MyPageComponent implements OnInit {
 
   bookATour(index: number, openHouseId: number) {
     const form = this.bookingForms[index];
-    console.log('bookATour, this.bookingForms: ', this.bookingForms);
     if (form.valid) {
       const data: BookingFormDataModel = form.value;
-      console.log('bookATour gomb form.value: ', data);
       this.bookingService.createBooking(data).subscribe({
         next: () => {
-          console.log('next');
         },
         error: err => {
           this.errorMessage = errorHandler(err)
         },
         complete: () => {
           this.emailSent = "We've sent an email to you confirming the booking to this Open House event."
-          console.log('complete');
           setTimeout(() => {
             form.reset();
             this.showMySavedProperties();
-          }, 200)
+          }, 1500)
         }
       })
     }

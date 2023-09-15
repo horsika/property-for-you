@@ -111,7 +111,6 @@ export class PropertyDetailsComponent implements OnInit {
   bookATour(propertyId: number, add: boolean) {
     this.saveToFavourites(add);
     this.openHouseService.setSelectedPropertyId(propertyId);
-    console.log(propertyId);
     this.router.navigate(['/my-page']);
   }
 }

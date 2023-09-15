@@ -29,7 +29,6 @@ export class OpenHouseService {
   selectedPropertyId$ = this.selectedPropertyIdSubject.asObservable();
 
   setSelectedPropertyId(propertyId: number) {
-    console.log(propertyId);
     this.selectedPropertyIdSubject.next(propertyId);
   }
 
