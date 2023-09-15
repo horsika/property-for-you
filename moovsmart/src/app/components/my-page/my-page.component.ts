@@ -132,23 +132,17 @@ export class MyPageComponent implements OnInit {
     this.selectedPropertyId = propertyId;
     this.openHouseService.getActiveOpenHouseListGroupedByPropertyId().subscribe(response => {
       this.openHouseList = response.filter(openHouse => openHouse.propertyId === propertyId);
-      console.log('lista: ', this.openHouseList);
-      console.log('propertyId: ', propertyId);
       if (this.openHouseList) {
-        console.log('bookingForms if 1: ', this.bookingForms);
+
         this.bookingForms = [];
-        console.log('bookingForms if 2: ', this.bookingForms);
 
         this.openHouseList.forEach((openHouse) => {
           const freePlaces = openHouse.freePlaces;
-          console.log('openHOuseId log: ', openHouse.openHouseId);
           const form = this.formBuilder.group({
             openHouseId: new FormControl(openHouse.openHouseId),
             placesToBook: ['', [Validators.required, Validators.min(1), Validators.max(freePlaces)]],
           });
-          console.log('openHOuseId log 2: ', openHouse.openHouseId);
           this.bookingForms.push(form);
-          console.log('bookingForms 3: ', this.bookingForms);
         });
 
       }
