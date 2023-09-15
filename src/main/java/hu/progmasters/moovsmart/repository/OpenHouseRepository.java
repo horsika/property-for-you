@@ -16,10 +16,11 @@ public interface OpenHouseRepository extends JpaRepository<OpenHouse, Long> {
     @Query("select o from OpenHouse o where o.isActive = true order by o.fromTime asc")
     List<OpenHouse> findAllByActiveTrueOrderByFromTimeAsc();
 
-    @Query("select o from OpenHouse o where o.isActive = true order by o.property.propertyId, o.fromTime asc")
+    @Query("select o from OpenHouse o where o.isActive = true and o.maxParticipants > o.currentParticipants order by o.property.propertyId, o.fromTime asc")
     List<OpenHouse> findAllByActiveTrueGroupByPropertyIdOrderByFromTimeAsc();
 
     @Query("SELECT o FROM OpenHouse o WHERE o.isActive = true AND o.fromTime < :now")
     List<OpenHouse> findExpiredOpenHouses(@Param("now") LocalDateTime currentDateTime);
+
 
 }

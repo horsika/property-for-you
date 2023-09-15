@@ -10,71 +10,6 @@
     </div>
   </div>
 
-<!--  <div class="container">-->
-
-<!--    <div class="media-scroller-container">-->
-<!--      <h5 class="section-title">Homes For You</h5>-->
-<!--      <div class="media-scroller-controls">-->
-<!--        <button class="prev-button" id="prevButton">-->
-<!--          <i class="fas fa-chevron-left"></i>-->
-<!--        </button>-->
-<!--        <button class="next-button" id="nextButton">-->
-<!--          <i class="fas fa-chevron-right"></i>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="media-scroller with-overscroll snaps-inline snaps&#45;&#45;individual" id="media-scroller">-->
-<!--        <div class="media-element" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">-->
-<!--          <img src="{{property.images[0]}}" alt="">-->
-<!--          <div>-->
-<!--            HUF <span class="price">{{property.price  | number:'1.0-0'}}</span>-->
-<!--          </div>-->
-<!--          <div class="details-list">-->
-<!--            {{property.floorArea | number:'1.0-0'}} sqft |-->
-<!--            {{property.numberOfBedrooms}} bdr |-->
-<!--            {{property.numberOfBathrooms}} ba |-->
-<!--            {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}-->
-<!--          </div>-->
-<!--          <div class="city-name">{{property.city}}, {{property.name}}</div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-
-  <!--  New scroller-->
-<!--  <div class="container-scroller">-->
-
-<!--    <h5 class="section-title">Homes For You</h5>-->
-
-<!--    <div class="scroller-controls">-->
-<!--      <button class="prev-button2" id="prevButton2">-->
-<!--        <i class="fas fa-chevron-left"></i>-->
-<!--      </button>-->
-<!--      <button class="next-button2" id="nextButton2">-->
-<!--        <i class="fas fa-chevron-right"></i>-->
-<!--      </button>-->
-<!--    </div>-->
-
-<!--    <div class="card-group card-group-scroll" id="card-group-scroller">-->
-<!--      <div class="card rounded shadow" *ngFor="let property of properties">-->
-<!--        <img src="{{property.images[0]}}" class="card-img-top"-->
-<!--             alt="Property image"/>-->
-<!--        <div class="card-body">-->
-<!--          <h5 class="card-title"><span>HUF</span> {{property.price  | number:'1.0-0'}}</h5>-->
-<!--          <p class="card-text">-->
-<!--            {{property.floorArea | number:'1.0-0'}} sqft |-->
-<!--            {{property.numberOfBedrooms}} bdr |-->
-<!--            {{property.numberOfBathrooms}} ba |-->
-<!--            {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}-->
-<!--          </p>-->
-<!--        </div>-->
-<!--        <div class="card-footer">-->
-<!--          <small class="text-muted">{{property.city}}, {{property.name}}</small>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-
   <div class="container">
 
     <div class="media-scroller-container">
@@ -88,24 +23,8 @@
         </button>
       </div>
 
-<!--      <div class="media-scroller with-overscroll snaps-inline snaps&#45;&#45;individual" id="media-scroller">-->
-<!--        <div class="media-element" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">-->
-<!--          <img src="{{property.images[0]}}" alt="">-->
-<!--          <div>-->
-<!--            HUF <span class="price">{{property.price  | number:'1.0-0'}}</span>-->
-<!--          </div>-->
-<!--          <div class="details-list">-->
-<!--            {{property.floorArea | number:'1.0-0'}} sqft |-->
-<!--            {{property.numberOfBedrooms}} bdr |-->
-<!--            {{property.numberOfBathrooms}} ba |-->
-<!--            {{property.propertyTypeDisplayName}} {{property.listingTypeDisplayName.toLowerCase()}}-->
-<!--          </div>-->
-<!--          <div class="city-name">{{property.city}}, {{property.name}}</div>-->
-<!--        </div>-->
-<!--      </div>-->
-
       <div class="card-group card-group-scroll d-flex flex-nowrap" id="card-group-scroller">
-        <div class="card rounded shadow" *ngFor="let property of properties">
+        <div class="card rounded shadow" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">
           <img src="{{property.images[0]}}" class="card-img-top"
                alt="Property image"/>
           <div class="card-body">
@@ -126,15 +45,5 @@
     </div>
   </div>
 
-
-
-
-
-
-
-
-
-
-  <!--  </div>-->
 
 </div>
