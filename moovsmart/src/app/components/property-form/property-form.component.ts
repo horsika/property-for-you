@@ -99,21 +99,12 @@ export class PropertyFormComponent implements OnInit {
   loadMapPoint(mapPointIncoming: MapPointModel) {
     this.mapPoint = mapPointIncoming;
     if (this.mapPoint.address.house_number) {
-      // this.propertyForm.get('address').setValue(
-      //   this.mapPoint.address.postcode + ' ' +
-      //   this.mapPoint.address.city + ' ' +
-      //   this.mapPoint.address.road + ' ' +
-      //   this.mapPoint.address.house_number);
       this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
       this.propertyForm.get('city').setValue(this.mapPoint.address.city);
       this.propertyForm.get('road').setValue(this.mapPoint.address.road);
       this.propertyForm.get('house_number').setValue(this.mapPoint.address.house_number);
     }
     else {
-      // this.propertyForm.get('address').setValue(
-      //   this.mapPoint.address.postcode + ' ' +
-      //   this.mapPoint.address.city + ' ' +
-      //   this.mapPoint.address.road);
       this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
       this.propertyForm.get('city').setValue(this.mapPoint.address.city);
       this.propertyForm.get('road').setValue(this.mapPoint.address.road);
