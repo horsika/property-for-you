@@ -21,6 +21,7 @@ export class PropertyFormComponent implements OnInit {
   errorMessage: string | null = null;
   mapPoint: MapPointModel;
   urls: string[] = [];
+  loading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -64,7 +65,7 @@ export class PropertyFormComponent implements OnInit {
         imageControls.push(fileControl);
       }
 
-    this.displayPropertyImages(images);
+      this.displayPropertyImages(images);
     }
   }
 
@@ -76,7 +77,7 @@ export class PropertyFormComponent implements OnInit {
       reader.readAsDataURL(image);
 
       reader.onload = () => {
-        if(reader.result instanceof ArrayBuffer) {
+        if (reader.result instanceof ArrayBuffer) {
           //do not preview
         } else {
           let url = reader.result
@@ -102,14 +103,20 @@ export class PropertyFormComponent implements OnInit {
       }
     });
 
+    this.loading = true;
+
     this.propertyService.createProperty(formData).subscribe(
-      () => this.router.navigate(['/property-list'], {queryParams: {city: this.getCityFromAddress()}}),
+      () => {
+        this.router.navigate(['/property-list'], {queryParams: {city: this.getCityFromAddress()}})
+      },
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
+        this.loading = false
       },
       () => {
         this.router.navigate(['/my-page'], {queryParams: {showMyProperties: true}});
+        this.loading = false;
       }
     );
 

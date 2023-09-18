@@ -253,14 +253,17 @@ export class MyPageComponent implements OnInit, OnDestroy {
   changeProfilePicture() {
     const data = new FormData();
     data.append('file', this.profilePic.get('file').value);
+    this.loading =true;
     this.userService.uploadProfilePicture(data).subscribe(() => {
 
       },
       error => {
         this.errorMessage = errorHandler(error);
+        this.loading = false;
       },
       () => {
         this.showAccountDetails();
+        this.loading = false;
       })
   }
 
@@ -301,6 +304,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
       },
       error: err => {
         validationHandler(err, this.openHouseForm)
+        this.loading = false;
       },
       complete: () => {
         this.emailSent = "We've sent an email to you confirming the creation of your Open House event."
