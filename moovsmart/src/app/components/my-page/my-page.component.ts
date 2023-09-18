@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
@@ -14,13 +14,14 @@ import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
 import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
 import {BookingService} from "../../services/booking.service";
 import {BookingFormDataModel} from "../../models/booking-form-data.model";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-my-page',
   templateUrl: './my-page.component.html',
   styleUrls: ['./my-page.component.css']
 })
-export class MyPageComponent implements OnInit {
+export class MyPageComponent implements OnInit, OnDestroy {
 
   activePage: string = "";
   email: FormGroup;
@@ -37,6 +38,9 @@ export class MyPageComponent implements OnInit {
   passwordsMatch: boolean;
   openHouseList: OpenHouseListItemModel[];
   bookingForms: FormGroup[] = [];
+  //subscriptions
+  openHousePropertySubscription: Subscription;
+  newPropertySubscription: Subscription;
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -56,7 +60,7 @@ export class MyPageComponent implements OnInit {
     })
 
     this.profilePic = this.formBuilder.group({
-      file: [null]
+      file: [null, [Validators.required]]
     })
 
     this.openHouseForm = this.formBuilder.group({
@@ -73,14 +77,27 @@ export class MyPageComponent implements OnInit {
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
-    this.openHouseService.selectedPropertyId$.subscribe((propertyId) => {
+    this.openHousePropertySubscription = this.openHouseService.selectedPropertyId$.subscribe((propertyId) => {
       if (propertyId !== null) {
         this.showOpenHouseList(propertyId);
       } else {
         this.showAccountDetails();
       }
     });
+
+    this.newPropertySubscription = this.route.queryParams.subscribe(params => {
+      if(params.showMyProperties) {
+        this.showMyProperties();
+      }
+    })
+
   }
+
+  ngOnDestroy() {
+    this.openHousePropertySubscription.unsubscribe();
+    this.newPropertySubscription.unsubscribe();
+  }
+
 
   showEmailChangePage() {
     this.activePage = 'EmailChange';
@@ -171,8 +188,8 @@ export class MyPageComponent implements OnInit {
 
   logOut() {
     this.userService.tokenIsPresent.next(false);
-    this.adminService.isAdmin.next(false);
     localStorage.removeItem('token');
+    this.adminService.decideIfAdmin();
     this.router.navigate(['/homepage']);
   }
 

@@ -74,12 +74,7 @@ export class RegisterComponent {
         const token = response.token;
         localStorage.setItem('token', token);
         this.userService.tokenIsPresent.next(true);
-
-        if(JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN'){
-          this.adminService.isAdmin.next(true);
-        } else {
-          this.adminService.isAdmin.next(false);
-        }
+        this.adminService.decideIfAdmin();
       },
       error => {
         this.badCredentials = 'Email or password are incorrect';

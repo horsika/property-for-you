@@ -20,6 +20,7 @@ export class PropertyFormComponent implements OnInit {
   heatingTypeList: HeatingTypeFormListItemModel[];
   errorMessage: string | null = null;
   mapPoint: MapPointModel;
+  urls: string[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -32,7 +33,7 @@ export class PropertyFormComponent implements OnInit {
       'floorArea': ['', [Validators.required, Validators.min(5)]],
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
-      'images': this.formBuilder.array([]),
+      'images': this.formBuilder.array([Validators.required]),
       'address': [{value: '', disabled: true}, [Validators.required]],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
@@ -62,7 +63,29 @@ export class PropertyFormComponent implements OnInit {
         const fileControl = new FormControl(image);
         imageControls.push(fileControl);
       }
+
+    this.displayPropertyImages(images);
     }
+  }
+
+  displayPropertyImages(images: Array<File>) {
+    this.urls = [];
+    for (let image of images) {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = () => {
+        if(reader.result instanceof ArrayBuffer) {
+          //do not preview
+        } else {
+          let url = reader.result
+          this.urls.push(url);
+        }
+      }
+
+    }
+
   }
 
   submit = () => {
@@ -85,6 +108,9 @@ export class PropertyFormComponent implements OnInit {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
       },
+      () => {
+        this.router.navigate(['/my-page'], {queryParams: {showMyProperties: true}});
+      }
     );
 
   };

@@ -32,7 +32,7 @@ export class UserService {
   removeToken() {
     localStorage.removeItem('token');
     this.tokenIsPresent.next(false);
-    this.adminService.isAdmin.next(false);
+    this.adminService.decideIfAdmin();
   }
 
   getMyAccountDetails(): Observable<MyAccountModel> {
