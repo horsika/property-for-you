@@ -121,6 +121,23 @@
       <div id="map"></div>
     </div>
 
+    <div class="form-group" *ngIf="!mapPoint || !mapPoint.address.house_number">
+      <label
+        for="house_number">House number</label>
+      <input
+        class="form-control"
+        formControlName="house_number"
+        id="house_number"
+        placeholder="Enter the house number"
+        type="number"
+        [ngClass]="{'is-invalid': (propertyForm.get('price')?.invalid && propertyForm.get('price')?.touched)
+    || (propertyForm.get('price')?.errors?.['serverError'])}"
+      />
+      <small *ngIf="propertyForm.get('price').errors?.serverError" class="text-danger">
+        {{propertyForm.get('price').errors['serverError']}}
+      </small>
+    </div>
+
     <div class="form-group">
       <label
         for="floorArea">Floor area</label>

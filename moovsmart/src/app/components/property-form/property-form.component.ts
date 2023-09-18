@@ -39,6 +39,9 @@ export class PropertyFormComponent implements OnInit {
       'listingType': ['', Validators.required],
       'latitude': ['', Validators.required],
       'longitude': ['', Validators.required],
+      'house_number': ['', Validators.min(1)],
+      'floor': ['', Validators.min(1)],
+      'door': [''],
     });
   }
 
@@ -95,7 +98,19 @@ export class PropertyFormComponent implements OnInit {
 
   loadMapPoint(mapPointIncoming: MapPointModel) {
     this.mapPoint = mapPointIncoming;
-    this.propertyForm.get('address').setValue(this.mapPoint.address);
+    if (this.mapPoint.address.house_number) {
+      this.propertyForm.get('address').setValue(
+        this.mapPoint.address.postcode + ' ' +
+        this.mapPoint.address.city + ' ' +
+        this.mapPoint.address.road + ' ' +
+        this.mapPoint.address.house_number);
+    }
+    else {
+      this.propertyForm.get('address').setValue(
+        this.mapPoint.address.postcode + ' ' +
+        this.mapPoint.address.city + ' ' +
+        this.mapPoint.address.road);
+    }
     this.propertyForm.get('latitude').setValue(this.mapPoint.latitude);
     this.propertyForm.get('longitude').setValue(this.mapPoint.longitude);
   }

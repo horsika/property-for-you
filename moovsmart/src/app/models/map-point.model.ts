@@ -1,5 +1,7 @@
+import {AddressModel} from "./address.model";
+
 export class MapPointModel {
-  address: string;
+  address: AddressModel;
   latitude: number;
   longitude: number;
 }
