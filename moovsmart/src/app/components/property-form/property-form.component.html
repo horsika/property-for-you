@@ -103,28 +103,78 @@
     <div style="border: lightgreen 2px solid" class="p-1">
       <app-address-map (mapPointUpdated)="loadMapPoint($event)"></app-address-map>
 
-      <div class="form-group">
-        <label for="from">Address</label>
-        <input
-          class="form-control"
-          formControlName="address"
-          id="address"
-          name="address"
-          placeholder="Enter the address of the property"
-          [ngClass]="{'is-invalid': (propertyForm.get('address')?.invalid && propertyForm.get('address')?.touched)
-    || (propertyForm.get('address')?.errors?.['serverError'])}"
-        />
-        <small *ngIf="propertyForm.get('address').errors?.serverError" class="text-danger">
-          {{propertyForm.get('address').errors['serverError']}}
-        </small>
-
-        <div id="results"></div>
-        <div id="map"></div>
-      </div>
-
       <div class="row">
+<!--        <div class="form-group">-->
+<!--          <label for="from">Address</label>-->
+<!--          <input-->
+<!--            class="form-control"-->
+<!--            formControlName="address"-->
+<!--            id="address"-->
+<!--            name="address"-->
+<!--            placeholder="Enter the address of the property"-->
+<!--            [ngClass]="{'is-invalid': (propertyForm.get('address')?.invalid && propertyForm.get('address')?.touched)-->
+<!--    || (propertyForm.get('address')?.errors?.['serverError'])}"-->
+<!--          />-->
+<!--          <small *ngIf="propertyForm.get('address').errors?.serverError" class="text-danger">-->
+<!--            {{propertyForm.get('address').errors['serverError']}}-->
+<!--          </small>-->
 
-        <div class="form-group col-4" *ngIf="!mapPoint || !mapPoint.address.house_number">
+<!--          <div id="results"></div>-->
+<!--          <div id="map"></div>-->
+<!--        </div>-->
+
+        <div class="form-group col-3">
+          <label
+            for="postcode">Postcode</label>
+          <input
+            class="form-control"
+            formControlName="postcode"
+            id="postcode"
+            placeholder="Enter the postcode"
+            type="number"
+            [ngClass]="{'is-invalid': (propertyForm.get('postcode')?.invalid && propertyForm.get('postcode')?.touched)
+    || (propertyForm.get('postcode')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('city').errors?.serverError" class="text-danger">
+            {{propertyForm.get('postcode').errors['serverError']}}
+          </small>
+        </div>
+
+        <div class="form-group col-3">
+          <label
+            for="city">City</label>
+          <input
+            class="form-control"
+            formControlName="city"
+            id="city"
+            placeholder="Enter the city name"
+            type="text"
+            [ngClass]="{'is-invalid': (propertyForm.get('city')?.invalid && propertyForm.get('city')?.touched)
+    || (propertyForm.get('city')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('city').errors?.serverError" class="text-danger">
+            {{propertyForm.get('city').errors['serverError']}}
+          </small>
+        </div>
+
+        <div class="form-group col-3">
+          <label
+            for="road">Road</label>
+          <input
+            class="form-control"
+            formControlName="road"
+            id="road"
+            placeholder="Enter the road name"
+            type="text"
+            [ngClass]="{'is-invalid': (propertyForm.get('road')?.invalid && propertyForm.get('road')?.touched)
+    || (propertyForm.get('road')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('road').errors?.serverError" class="text-danger">
+            {{propertyForm.get('road').errors['serverError']}}
+          </small>
+        </div>
+
+        <div class="form-group col-3">
           <label
             for="house_number">House number</label>
           <input
@@ -132,7 +182,8 @@
             formControlName="house_number"
             id="house_number"
             placeholder="Enter the house number"
-            type="number"
+            type="text"
+            inputmode="numeric"
             [ngClass]="{'is-invalid': (propertyForm.get('house_number')?.invalid && propertyForm.get('house_number')?.touched)
     || (propertyForm.get('house_number')?.errors?.['serverError'])}"
           />
@@ -140,7 +191,9 @@
             {{propertyForm.get('house_number').errors['serverError']}}
           </small>
         </div>
+      </div>
 
+      <div class="row">
         <div class="form-group col-4">
           <label
             for="floor">Floor (optional)</label>

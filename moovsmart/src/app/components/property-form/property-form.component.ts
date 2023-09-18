@@ -33,15 +33,19 @@ export class PropertyFormComponent implements OnInit {
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
       'images': this.formBuilder.array([]),
-      'address': [{value: '', disabled: true}, [Validators.required]],
+      // 'address': [{value: '', disabled: true}, [Validators.required]],
+      'postcode': [{value: '', disabled: true}, [Validators.required]],
+      'city': [{value: '', disabled: true}, [Validators.required]],
+      'road': [{value: '', disabled: true}, [Validators.required]],
+      'house_number': ['', [Validators.min(1), Validators.pattern('^[1-9]\\d*(?:[ -\\/]?(?:[a-zA-Z]+|[1-9]\\d*))?$')]],
+      'floor': ['', Validators.min(1)],
+      'door': ['', Validators.pattern('^[1-9]\\d*(\\s*)?([-/.]?\\s?[a-zA-Z])?$')],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
       'listingType': ['', Validators.required],
       'latitude': ['', Validators.required],
       'longitude': ['', Validators.required],
-      'house_number': ['', Validators.min(1)],
-      'floor': ['', Validators.min(1)],
-      'door': [''],
+
     });
   }
 
@@ -83,7 +87,7 @@ export class PropertyFormComponent implements OnInit {
     });
 
     this.propertyService.createProperty(formData).subscribe(
-      () => this.router.navigate(['/property-list'], {queryParams: {city: this.getCityFromAddress()}}),
+      () => this.router.navigate(['/property-list'], {queryParams: {city: this.propertyForm.get('city').value}}),
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
@@ -92,24 +96,27 @@ export class PropertyFormComponent implements OnInit {
 
   };
 
-  getCityFromAddress() {
-    return this.propertyForm.get('address').value.split(' ')[1];
-  }
-
   loadMapPoint(mapPointIncoming: MapPointModel) {
     this.mapPoint = mapPointIncoming;
     if (this.mapPoint.address.house_number) {
-      this.propertyForm.get('address').setValue(
-        this.mapPoint.address.postcode + ' ' +
-        this.mapPoint.address.city + ' ' +
-        this.mapPoint.address.road + ' ' +
-        this.mapPoint.address.house_number);
+      // this.propertyForm.get('address').setValue(
+      //   this.mapPoint.address.postcode + ' ' +
+      //   this.mapPoint.address.city + ' ' +
+      //   this.mapPoint.address.road + ' ' +
+      //   this.mapPoint.address.house_number);
+      this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
+      this.propertyForm.get('city').setValue(this.mapPoint.address.city);
+      this.propertyForm.get('road').setValue(this.mapPoint.address.road);
+      this.propertyForm.get('house_number').setValue(this.mapPoint.address.house_number);
     }
     else {
-      this.propertyForm.get('address').setValue(
-        this.mapPoint.address.postcode + ' ' +
-        this.mapPoint.address.city + ' ' +
-        this.mapPoint.address.road);
+      // this.propertyForm.get('address').setValue(
+      //   this.mapPoint.address.postcode + ' ' +
+      //   this.mapPoint.address.city + ' ' +
+      //   this.mapPoint.address.road);
+      this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
+      this.propertyForm.get('city').setValue(this.mapPoint.address.city);
+      this.propertyForm.get('road').setValue(this.mapPoint.address.road);
     }
     this.propertyForm.get('latitude').setValue(this.mapPoint.latitude);
     this.propertyForm.get('longitude').setValue(this.mapPoint.longitude);
