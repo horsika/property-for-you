@@ -43,9 +43,23 @@
         </li>
         <li class="list-group-item p-4">
           <button class="btn"
+                  (click)="showMyOpenHouses()"
+                  (keyup.enter)="showMyOpenHouses()"
+          >My Open Houses
+          </button>
+        </li>
+        <li class="list-group-item p-4">
+          <button class="btn"
                   (click)="showMySavedProperties()"
                   (keyup.enter)="showMySavedProperties()"
           >Saved Properties
+          </button>
+        </li>
+        <li class="list-group-item p-4">
+          <button class="btn"
+                  (click)="showMyBookedTours()"
+                  (keyup.enter)="showMyBookedTours()"
+          >Booked Tours
           </button>
         </li>
         <li class="list-group-item p-4">

@@ -152,6 +152,9 @@ export class MyPageComponent implements OnInit {
 
   }
 
+  showMyOpenHouses(){}
+  showMyBookedTours(){}
+
   // ------------------- FUNCTIONS -------------------------
   changeEmail() {
     const data = this.email.value;
