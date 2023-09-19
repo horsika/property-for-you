@@ -155,7 +155,7 @@
                         *ngIf="p.isActiveDisplayName === 'Active'">Deactivate
                 </button>
                 <!-- inactive property button -->
-                <button class="btn btn-outline-danger m-1"
+                <button class="btn btn-outline-success m-1"
                         (click)="activateProperty(p.propertyId)"
                         (keyup.enter)="activateProperty(p.propertyId)"
                         *ngIf="p.isActiveDisplayName === 'Inactive' || p.isActiveDisplayName === 'Archived'">Activate
@@ -243,7 +243,12 @@
                     [disabled]="profilePic.invalid"
                     (click)="changeProfilePicture()"
                     (keyup.enter)="changeProfilePicture()"
+                    *ngIf="!loading"
             >Submit
+            </button>
+            <button class="btn btn-success" type="button" disabled *ngIf="loading">
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              <span role="status"> Loading...</span>
             </button>
           </form>
         </div>

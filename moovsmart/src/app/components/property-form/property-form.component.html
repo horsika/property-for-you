@@ -238,6 +238,12 @@
              *ngIf="errorMessage">
         {{errorMessage}}
       </small>
+      <div class="container my-3" *ngIf="urls.length > 0">
+        <label for="imgs-to-upload">Selected images</label>
+        <div class="container-fluid border border-1 p-1" id="imgs-to-upload">
+          <img *ngFor="let url of urls" [src]="url" alt="property image" width="200px" class="img-thumbnail">
+        </div>
+      </div>
 
     </div>
 
@@ -310,6 +316,10 @@
 
 
     <br/>
-    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid">Save Property</button>
+    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid" *ngIf="!loading">Save Property</button>
+    <button class="btn btn-success" type="button" disabled *ngIf="loading">
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span role="status"> Loading...</span>
+    </button>
   </form>
 </div>

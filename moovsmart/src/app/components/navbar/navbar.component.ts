@@ -9,8 +9,9 @@ import {AdminService} from "../../services/admin.service";
 })
 export class NavbarComponent implements OnInit {
 
-  loggedIn : boolean = false;
+  loggedIn: boolean = false;
   admin: boolean;
+
   constructor(private userService: UserService, private adminService: AdminService) {
   }
 
@@ -23,7 +24,11 @@ export class NavbarComponent implements OnInit {
       this.loggedIn = isTokenPresent;
     })
 
-    this.adminService.isAdmin.subscribe(isAdmin => {
+    if (this.loggedIn) {
+      this.admin = JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN';
+    }
+
+    this.adminService.isAdmin.subscribe((isAdmin: boolean) => {
       this.admin = isAdmin;
     })
   }

@@ -20,6 +20,8 @@ export class PropertyFormComponent implements OnInit {
   heatingTypeList: HeatingTypeFormListItemModel[];
   errorMessage: string | null = null;
   mapPoint: MapPointModel;
+  urls: string[] = [];
+  loading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -32,7 +34,7 @@ export class PropertyFormComponent implements OnInit {
       'floorArea': ['', [Validators.required, Validators.min(5)]],
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
-      'images': this.formBuilder.array([]),
+      'images': this.formBuilder.array([Validators.required]),
       // 'address': [{value: '', disabled: true}, [Validators.required]],
       'postcode': [{value: '', disabled: true}, [Validators.required]],
       'city': [{value: '', disabled: true}, [Validators.required]],
@@ -69,7 +71,29 @@ export class PropertyFormComponent implements OnInit {
         const fileControl = new FormControl(image);
         imageControls.push(fileControl);
       }
+
+      this.displayPropertyImages(images);
     }
+  }
+
+  displayPropertyImages(images: Array<File>) {
+    this.urls = [];
+    for (let image of images) {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = () => {
+        if (reader.result instanceof ArrayBuffer) {
+          //do not preview
+        } else {
+          let url = reader.result
+          this.urls.push(url);
+        }
+      }
+
+    }
+
   }
 
   submit = () => {
@@ -86,12 +110,19 @@ export class PropertyFormComponent implements OnInit {
       }
     });
 
+    this.loading = true;
+
     this.propertyService.createProperty(formData).subscribe(
       () => this.router.navigate(['/property-list'], {queryParams: {city: this.propertyForm.get('city').value}}),
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
+        this.loading = false
       },
+      () => {
+        this.router.navigate(['/my-page'], {queryParams: {showMyProperties: true}});
+        this.loading = false;
+      }
     );
 
   };
