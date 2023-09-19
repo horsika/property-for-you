@@ -15,6 +15,7 @@ import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
 import {BookingService} from "../../services/booking.service";
 import {BookingFormDataModel} from "../../models/booking-form-data.model";
 import {Subscription} from "rxjs";
+import {MyOpenHouseListItemModel} from "../../models/my-open-house-list-item.model";
 
 @Component({
   selector: 'app-my-page',
@@ -41,6 +42,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
   //subscriptions
   openHousePropertySubscription: Subscription;
   newPropertySubscription: Subscription;
+  myOpenHouseList: MyOpenHouseListItemModel[];
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -169,7 +171,13 @@ export class MyPageComponent implements OnInit, OnDestroy {
 
   }
 
-  showMyOpenHouses(){}
+  showMyOpenHouses(){
+    this.activePage = 'MyOpenHouses';
+    this.openHouseService.getMyOpenHouseList().subscribe(response => {
+      this.myOpenHouseList = response;
+    })
+    this.errorMessage = null;
+  }
   showMyBookedTours(){}
 
   // ------------------- FUNCTIONS -------------------------

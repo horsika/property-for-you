@@ -399,7 +399,7 @@
 
         </div>
 
-        <!-- show open house list  -->
+        <!-- show open house list by property  -->
         <div class="container-fluid">
           <div *ngSwitchCase="'OpenHouseList'" class="p-4">
             <h6 class="text-left">
@@ -451,6 +451,41 @@
             <div class="text-info-emphasis justify-content-center" *ngIf="emailSent">
               {{emailSent}}
             </div>
+
+          </div>
+        </div>
+
+        <!-- show MY open house list  -->
+        <div class="container-fluid">
+          <div *ngSwitchCase="'MyOpenHouses'" class="p-4">
+            <h6 class="text-left">
+              My Open Houses</h6>
+            <hr>
+            <table class="table" style="font-size: 0.9rem;">
+              <thead>
+              <tr class="table">
+                <th scope="col" class="w-25">Property Name</th>
+                <th scope="col" class="w-25">From</th>
+                <th scope="col" class="w-25">To</th>
+                <th scope="col" class="w-10">Max Places</th>
+                <th scope="col" class="w-10">Places Booked</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let openHouse of myOpenHouseList; let i = index">
+                <td>{{openHouse.propertyName}}</td>
+                <td>{{openHouse.fromTime}}</td>
+                <td>{{openHouse.toTime}}</td>
+                <td>{{openHouse.maxParticipants}}</td>
+                <td>{{openHouse.sumPlacesBooked}}</td>
+
+                <td>
+                  <button class="btn btn-outline-info">Change</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
           </div>
         </div>

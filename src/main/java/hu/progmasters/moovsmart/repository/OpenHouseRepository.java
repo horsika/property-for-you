@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.repository;
 
 import hu.progmasters.moovsmart.domain.property.OpenHouse;
+import hu.progmasters.moovsmart.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +22,25 @@ public interface OpenHouseRepository extends JpaRepository<OpenHouse, Long> {
 
     @Query("SELECT o FROM OpenHouse o WHERE o.isActive = true AND o.fromTime < :now")
     List<OpenHouse> findExpiredOpenHouses(@Param("now") LocalDateTime currentDateTime);
+
+    @Query("SELECT o FROM OpenHouse o " +
+            "INNER JOIN Property p ON o.property.propertyId = p.propertyId " +
+            "LEFT JOIN Booking b ON o.openHouseId = b.openHouse.openHouseId " +
+            "WHERE o.isActive = true AND p.ownerUser = :user " +
+            "GROUP BY o " +
+            "ORDER BY p.name asc, o.fromTime asc")
+    List<OpenHouse> findAllMyOpenHouses(@Param("user") User user);
+
+    @Query("SELECT o FROM OpenHouse o " +
+            "INNER JOIN Property p ON o.property.propertyId = p.propertyId " +
+            "LEFT JOIN Booking b ON o.openHouseId = b.openHouse.openHouseId " +
+            "WHERE o.isActive = true AND b.user = :user " +
+            "GROUP BY o " +
+            "ORDER BY p.name asc, o.fromTime asc")
+    List<OpenHouse> findAllMyBookings(@Param("user") User user);
+
+
+
 
 
 }
