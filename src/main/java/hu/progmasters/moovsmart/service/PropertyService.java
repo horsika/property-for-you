@@ -63,21 +63,28 @@ public class PropertyService {
         propertyToSave.setOwnerUser(author);
         propertyToSave.setCreatedAt(LocalDateTime.now());
 
-        //processing image files
+
+        List<String> images = processImages(propertyForm, propertyToSave);
+        propertyToSave.setImages(images);
+
+        propertyRepository.save(propertyToSave);
+    }
+
+    private List<String> processImages(PropertyForm propertyForm, Property property) {
         List<CommonsMultipartFile> imgs = List.of(propertyForm.getImages());
-        if (imgs.isEmpty()) {
+        if (imgs.isEmpty() && property.getImages().isEmpty()) {
             //default image if none is present
-            propertyToSave.setImages(List.of("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--Y_6dyawG--/v1694286325/property/P_F_Y_1_jei6e3.png"));
+            return List.of("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--Y_6dyawG--/v1694286325/property/P_F_Y_1_jei6e3.png");
+        } else if (imgs.isEmpty()){
+            return new ArrayList<>();
         } else {
             List<String> imgUrls = new ArrayList<>();
             for (CommonsMultipartFile img : imgs) {
                 UploadResponse response = authenticationService.storeImage(img, "property");
                 imgUrls.add(response.getUrl());
             }
-            propertyToSave.setImages(imgUrls);
+            return imgUrls;
         }
-
-        propertyRepository.save(propertyToSave);
     }
 
     public List<PropertyTypeListItem> getPropertyTypes() {
@@ -133,4 +140,45 @@ public class PropertyService {
         Optional<Property> property = propertyRepository.findById(propertyId);
         return property.isPresent() ? property.get() : null;
     }
+
+    public PropertyEditDetails getEditablePropertyInfo(Long id) {
+        Property property = propertyRepository.findById(id).orElseThrow();
+        return new PropertyEditDetails(property);
+    }
+
+    public void editProperty(Long id, PropertyForm propertyForm) {
+        Property p = propertyRepository.findById(id).orElseThrow();
+
+        p.setName(propertyForm.getName());
+        p.setNumberOfBathrooms(propertyForm.getNumberOfBathrooms());
+        p.setNumberOfBedrooms(propertyForm.getNumberOfBedrooms());
+        p.setPrice(propertyForm.getPrice());
+        p.setFloorArea(propertyForm.getFloorArea());
+        p.setAirConditioning(propertyForm.isAirConditioning());
+        p.setDescription(propertyForm.getDescription());
+
+        Address address = p.getAddress();
+        address.setPostcode(propertyForm.getPostcode());
+        address.setCity(propertyForm.getCity());
+        address.setRoad(propertyForm.getRoad());
+        address.setHouseNumber(propertyForm.getHouse_number());
+        if(propertyForm.getFloor() != null) {
+            address.setFloor(propertyForm.getFloor());
+        }
+        if(propertyForm.getDoor() != null) {
+            address.setDoor(propertyForm.getDoor());
+        }
+
+        List<String> newImages = processImages(propertyForm, p);
+        p.getImages().addAll(newImages);
+
+        p.setPropertyType(PropertyType.valueOf(propertyForm.getPropertyType()));
+        p.setHeatingType(HeatingType.valueOf(propertyForm.getHeatingType()));
+        p.setListingType(ListingType.getNameFromDisplayName(propertyForm.getListingType()));
+        p.setLatitude(propertyForm.getLatitude());
+        p.setLongitude(propertyForm.getLongitude());
+
+        propertyRepository.save(p);
+    }
+
 }

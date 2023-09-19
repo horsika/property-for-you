@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {MyPropertyListItemModel} from "../models/my-property-list-item.model";
 import {PropertyActiveToggleModel} from "../models/property-active-toggle.model";
 import {AddToFavsModel} from "../models/add-to-favs.model";
+import {PropertyEditDetailsModel} from "../models/property-edit-details.model";
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +64,13 @@ export class PropertyService {
 
   getMySavedProperties() {
     return this.httpClient.get<Array<MyPropertyListItemModel>>(this.baseUrl + '/my-saved-properties');
+  }
+
+  getEditablePropertyInfo(id: number) {
+    return this.httpClient.get<PropertyEditDetailsModel>(this.baseUrl + '/edit/' + id);
+  }
+
+  editProperty(propertyFormData: FormData, id: number) {
+    return this.httpClient.post(this.baseUrl + '/edit/' + id, propertyFormData);
   }
 }

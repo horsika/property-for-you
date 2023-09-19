@@ -4,6 +4,7 @@ import hu.progmasters.moovsmart.domain.property.Address;
 import hu.progmasters.moovsmart.validation.DivisibleByHalf;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.constraints.*;
@@ -44,6 +45,7 @@ public class PropertyForm {
 
     private double latitude;
 
+    @NotNull(message = "Please upload some photos.")
     private CommonsMultipartFile[] images;
 
     @NotNull(message = "Please enter a valid postcode.")
