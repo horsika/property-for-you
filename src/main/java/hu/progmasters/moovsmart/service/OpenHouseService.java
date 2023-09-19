@@ -5,6 +5,7 @@ import hu.progmasters.moovsmart.domain.property.OpenHouse;
 import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.OpenHouseForm;
+import hu.progmasters.moovsmart.dto.outgoing.MyBookingListItem;
 import hu.progmasters.moovsmart.dto.outgoing.MyOpenHouseListItem;
 import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.repository.OpenHouseRepository;
@@ -104,6 +105,20 @@ public class OpenHouseService {
         return sum;
     }
 
+    public List<MyBookingListItem> getMyBookingList(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<OpenHouse> openHouses = openHouseRepository.findAllMyBookings(user);
 
+        List<MyBookingListItem> myBookingList = new ArrayList<>();
+
+        for (OpenHouse openHouse : openHouses){
+
+            MyBookingListItem myBookingListItem = new MyBookingListItem(openHouse);
+            myBookingList.add(myBookingListItem);
+        }
+
+        return myBookingList;
+
+    }
 
 }

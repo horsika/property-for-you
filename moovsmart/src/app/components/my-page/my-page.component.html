@@ -490,6 +490,39 @@
           </div>
         </div>
 
+        <!-- show MY booking list  -->
+        <div class="container-fluid">
+          <div *ngSwitchCase="'BookedTours'" class="p-4">
+            <h6 class="text-left">
+              Booked Tours</h6>
+            <hr>
+            <table class="table" style="font-size: 0.9rem;">
+              <thead>
+              <tr class="table">
+                <th scope="col" class="w-25">Property Name</th>
+                <th scope="col" class="w-25">Property Address</th>
+                <th scope="col" class="w-25">From</th>
+                <th scope="col" class="w-25">To</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let openHouse of bookedTourList; let i = index">
+                <td>{{openHouse.propertyName}}</td>
+                <td>{{openHouse.propertyAddress}}</td>
+                <td>{{openHouse.fromTime}}</td>
+                <td>{{openHouse.toTime}}</td>
+
+                <td>
+                  <button class="btn btn-outline-info">Change</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

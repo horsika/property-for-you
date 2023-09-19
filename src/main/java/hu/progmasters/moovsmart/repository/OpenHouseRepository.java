@@ -32,11 +32,11 @@ public interface OpenHouseRepository extends JpaRepository<OpenHouse, Long> {
     List<OpenHouse> findAllMyOpenHouses(@Param("user") User user);
 
     @Query("SELECT o FROM OpenHouse o " +
-            "INNER JOIN Property p ON o.property.propertyId = p.propertyId " +
-            "LEFT JOIN Booking b ON o.openHouseId = b.openHouse.openHouseId " +
+            "INNER JOIN o.property p " +
+            "INNER JOIN o.bookings b " +
             "WHERE o.isActive = true AND b.user = :user " +
             "GROUP BY o " +
-            "ORDER BY p.name asc, o.fromTime asc")
+            "ORDER BY o.fromTime asc")
     List<OpenHouse> findAllMyBookings(@Param("user") User user);
 
 

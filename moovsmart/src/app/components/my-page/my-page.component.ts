@@ -16,6 +16,7 @@ import {BookingService} from "../../services/booking.service";
 import {BookingFormDataModel} from "../../models/booking-form-data.model";
 import {Subscription} from "rxjs";
 import {MyOpenHouseListItemModel} from "../../models/my-open-house-list-item.model";
+import {MyBookingListItemModel} from "../../models/my-booking-list-item.model";
 
 @Component({
   selector: 'app-my-page',
@@ -43,6 +44,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
   openHousePropertySubscription: Subscription;
   newPropertySubscription: Subscription;
   myOpenHouseList: MyOpenHouseListItemModel[];
+  bookedTourList: MyBookingListItemModel[];
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -178,7 +180,13 @@ export class MyPageComponent implements OnInit, OnDestroy {
     })
     this.errorMessage = null;
   }
-  showMyBookedTours(){}
+  showMyBookedTours(){
+    this.activePage = 'BookedTours';
+    this.openHouseService.getMyBookingList().subscribe(response => {
+      this.bookedTourList = response;
+    })
+    this.errorMessage = null;
+  }
 
   // ------------------- FUNCTIONS -------------------------
   changeEmail() {

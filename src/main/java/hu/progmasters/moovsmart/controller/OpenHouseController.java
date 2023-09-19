@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.controller;
 
 import hu.progmasters.moovsmart.dto.incoming.OpenHouseForm;
+import hu.progmasters.moovsmart.dto.outgoing.MyBookingListItem;
 import hu.progmasters.moovsmart.dto.outgoing.MyOpenHouseListItem;
 import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.service.OpenHouseService;
@@ -36,6 +37,11 @@ public class OpenHouseController {
     @GetMapping("/my-openhouses")
     public ResponseEntity <List<MyOpenHouseListItem>> getMyOpenHouseList(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(openHouseService.getMyOpenHouseList(token), HttpStatus.OK);
+    }
+
+    @GetMapping("/my-bookings")
+    public ResponseEntity <List<MyBookingListItem>> getMyBookingList(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return new ResponseEntity<>(openHouseService.getMyBookingList(token), HttpStatus.OK);
     }
 
 }
