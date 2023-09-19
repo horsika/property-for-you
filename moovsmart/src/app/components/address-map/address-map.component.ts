@@ -4,6 +4,7 @@ import * as L from 'leaflet';
 import {icon, latLng, LeafletMouseEvent, Map, MapOptions, Marker, tileLayer} from 'leaflet';
 import {MapPointModel} from "../../models/map-point.model";
 import {NominatimService} from "../../services/nominatim.service";
+import {AddressModel} from "../../models/address.model";
 
 @Component({
   selector: 'app-address-map',
@@ -35,7 +36,7 @@ export class AddressMapComponent implements OnInit {
   }
 
   getAddress(result: NominatimResponseModel) {
-    this.updateMapPoint(result.latitude, result.longitude, result.displayName);
+    this.updateMapPoint(result.latitude, result.longitude);
     this.createMarker();
   }
 
@@ -55,7 +56,7 @@ export class AddressMapComponent implements OnInit {
 
   private initializeDefaultMapPoint() {
     this.mapPoint = {
-      address: '',
+      address: new AddressModel(0, '', '', ''),
       latitude: 47.49791200,
       longitude: 19.04023500
     };
@@ -67,16 +68,17 @@ export class AddressMapComponent implements OnInit {
     this.createMarker();
   }
 
-  private updateMapPoint(latitude: number, longitude: number, name?: string) {
+  private updateMapPoint(latitude: number, longitude: number) {
     this.mapPoint.latitude = latitude;
     this.mapPoint.longitude = longitude;
 
     this.nominatimService.coordLookup(latitude, longitude).subscribe({
       next: address => {
-        this.mapPoint.address = address.postcode + ' ' + address.city + ' ' + address.road + ' ' + address.house_number;
-        while (this.mapPoint.address.includes('undefined')) {
-          this.mapPoint.address = this.mapPoint.address.replace('undefined', '');
-        }
+        this.mapPoint.address = new AddressModel(
+          address.postcode,
+          address.city,
+          address.road,
+          address.house_number)
       },
       error: err => console.warn(err),
       complete: () => {

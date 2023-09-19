@@ -20,6 +20,8 @@ export class PropertyFormComponent implements OnInit {
   heatingTypeList: HeatingTypeFormListItemModel[];
   errorMessage: string | null = null;
   mapPoint: MapPointModel;
+  urls: string[] = [];
+  loading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
@@ -32,13 +34,20 @@ export class PropertyFormComponent implements OnInit {
       'floorArea': ['', [Validators.required, Validators.min(5)]],
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
-      'images': this.formBuilder.array([]),
-      'address': [{value: '', disabled: true}, [Validators.required]],
+      'images': this.formBuilder.array([Validators.required]),
+      // 'address': [{value: '', disabled: true}, [Validators.required]],
+      'postcode': [{value: '', disabled: true}, [Validators.required]],
+      'city': [{value: '', disabled: true}, [Validators.required]],
+      'road': [{value: '', disabled: true}, [Validators.required]],
+      'house_number': ['', [Validators.min(1), Validators.pattern('^[1-9]\\d*(?:[ -\\/]?(?:[a-zA-Z]+|[1-9]\\d*))?$')]],
+      'floor': ['', Validators.min(1)],
+      'door': ['', Validators.pattern('^[1-9]\\d*(\\s*)?([-/.]?\\s?[a-zA-Z])?$')],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
       'listingType': ['', Validators.required],
       'latitude': ['', Validators.required],
       'longitude': ['', Validators.required],
+
     });
   }
 
@@ -62,7 +71,29 @@ export class PropertyFormComponent implements OnInit {
         const fileControl = new FormControl(image);
         imageControls.push(fileControl);
       }
+
+      this.displayPropertyImages(images);
     }
+  }
+
+  displayPropertyImages(images: Array<File>) {
+    this.urls = [];
+    for (let image of images) {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = () => {
+        if (reader.result instanceof ArrayBuffer) {
+          //do not preview
+        } else {
+          let url = reader.result
+          this.urls.push(url);
+        }
+      }
+
+    }
+
   }
 
   submit = () => {
@@ -79,23 +110,36 @@ export class PropertyFormComponent implements OnInit {
       }
     });
 
+    this.loading = true;
+
     this.propertyService.createProperty(formData).subscribe(
-      () => this.router.navigate(['/property-list'], {queryParams: {city: this.getCityFromAddress()}}),
+      () => this.router.navigate(['/property-list'], {queryParams: {city: this.propertyForm.get('city').value}}),
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
+        this.loading = false
       },
+      () => {
+        this.router.navigate(['/my-page'], {queryParams: {showMyProperties: true}});
+        this.loading = false;
+      }
     );
 
   };
 
-  getCityFromAddress() {
-    return this.propertyForm.get('address').value.split(' ')[1];
-  }
-
   loadMapPoint(mapPointIncoming: MapPointModel) {
     this.mapPoint = mapPointIncoming;
-    this.propertyForm.get('address').setValue(this.mapPoint.address);
+    if (this.mapPoint.address.house_number) {
+      this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
+      this.propertyForm.get('city').setValue(this.mapPoint.address.city);
+      this.propertyForm.get('road').setValue(this.mapPoint.address.road);
+      this.propertyForm.get('house_number').setValue(this.mapPoint.address.house_number);
+    }
+    else {
+      this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
+      this.propertyForm.get('city').setValue(this.mapPoint.address.city);
+      this.propertyForm.get('road').setValue(this.mapPoint.address.road);
+    }
     this.propertyForm.get('latitude').setValue(this.mapPoint.latitude);
     this.propertyForm.get('longitude').setValue(this.mapPoint.longitude);
   }

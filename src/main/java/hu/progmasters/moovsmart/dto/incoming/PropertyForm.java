@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.dto.incoming;
 
+import hu.progmasters.moovsmart.domain.property.Address;
 import hu.progmasters.moovsmart.validation.DivisibleByHalf;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,8 +46,21 @@ public class PropertyForm {
 
     private CommonsMultipartFile[] images;
 
-    @NotNull(message = "Please enter a valid property address.")
-    private String address;
+    @NotNull(message = "Please enter a valid postcode.")
+    private Integer postcode;
+
+    @NotNull(message = "Please enter a valid city.")
+    private String city;
+
+    @NotNull(message = "Please enter a road name.")
+    private String road;
+
+    @NotNull(message = "Please enter a valid house number.")
+    private String house_number;
+
+    private Integer floor;
+
+    private String door;
 
     @NotNull(message = "Please enter a valid property type.")
     @Size(min = 1, message = "Please enter a valid property type.")
@@ -73,7 +87,11 @@ public class PropertyForm {
                 ", description='" + description + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
-                ", address='" + address + '\'' +
+                ", postcode=" + postcode +
+                ", city='" + city + '\'' +
+                ", house_number='" + house_number + '\'' +
+                ", floor=" + floor +
+                ", door='" + door + '\'' +
                 ", propertyType='" + propertyType + '\'' +
                 ", heatingType='" + heatingType + '\'' +
                 ", listingStatus='" + listingStatus + '\'' +

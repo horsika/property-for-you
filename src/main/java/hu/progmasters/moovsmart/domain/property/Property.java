@@ -112,7 +112,7 @@ public class Property {
         this.floorArea = propertyForm.getFloorArea();
         this.airConditioning = propertyForm.isAirConditioning();
         this.description = propertyForm.getDescription();
-        this.address = new Address(propertyForm.getAddress());
+        this.address = new Address(propertyForm.getPostcode(), propertyForm.getCity(), propertyForm.getRoad(), propertyForm.getHouse_number(), propertyForm.getFloor(), propertyForm.getDoor());
         this.propertyType = PropertyType.valueOf(propertyForm.getPropertyType());
         this.heatingType = HeatingType.valueOf(propertyForm.getHeatingType());
         this.listingStatus = ListingStatus.INACTIVE;

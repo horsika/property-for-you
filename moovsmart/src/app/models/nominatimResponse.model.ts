@@ -1,3 +1,5 @@
+import {AddressModel} from "./address.model";
+
 export class NominatimResponseModel {
   constructor(
     public latitude: number,

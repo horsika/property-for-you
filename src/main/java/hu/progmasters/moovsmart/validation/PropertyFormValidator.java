@@ -31,9 +31,6 @@ public class PropertyFormValidator implements Validator {
         if (property.getDescription() == null || property.getName().isBlank()) {
             errors.rejectValue("description", "property.description.empty");
         }
-        if (property.getAddress() == null || property.getAddress().isBlank()) {
-            errors.rejectValue("address", "property.address.empty");
-        }
         if (property.getPropertyType() == null || property.getPropertyType().isBlank()) {
             errors.rejectValue("propertyType", "property.propertyType.empty");
         }

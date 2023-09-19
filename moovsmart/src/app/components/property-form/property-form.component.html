@@ -100,25 +100,116 @@
       </small>
     </div>
 
-    <app-address-map (mapPointUpdated)="loadMapPoint($event)"></app-address-map>
+    <div style="border: lightgreen 2px solid" class="p-1">
+      <app-address-map (mapPointUpdated)="loadMapPoint($event)"></app-address-map>
 
-    <div class="form-group">
-      <label for="from">Address</label>
-      <input
-        class="form-control"
-        formControlName="address"
-        id="address"
-        name="address"
-        placeholder="Enter the address of the property"
-        [ngClass]="{'is-invalid': (propertyForm.get('address')?.invalid && propertyForm.get('address')?.touched)
-    || (propertyForm.get('address')?.errors?.['serverError'])}"
-      />
-      <small *ngIf="propertyForm.get('address').errors?.serverError" class="text-danger">
-        {{propertyForm.get('address').errors['serverError']}}
-      </small>
+      <div class="row">
+        <div class="form-group col-3">
+          <label
+            for="postcode">Postcode</label>
+          <input
+            class="form-control"
+            formControlName="postcode"
+            id="postcode"
+            placeholder="Enter the postcode"
+            type="number"
+            [ngClass]="{'is-invalid': (propertyForm.get('postcode')?.invalid && propertyForm.get('postcode')?.touched)
+    || (propertyForm.get('postcode')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('city').errors?.serverError" class="text-danger">
+            {{propertyForm.get('postcode').errors['serverError']}}
+          </small>
+        </div>
 
-      <div id="results"></div>
-      <div id="map"></div>
+        <div class="form-group col-3">
+          <label
+            for="city">City</label>
+          <input
+            class="form-control"
+            formControlName="city"
+            id="city"
+            placeholder="Enter the city name"
+            type="text"
+            [ngClass]="{'is-invalid': (propertyForm.get('city')?.invalid && propertyForm.get('city')?.touched)
+    || (propertyForm.get('city')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('city').errors?.serverError" class="text-danger">
+            {{propertyForm.get('city').errors['serverError']}}
+          </small>
+        </div>
+
+        <div class="form-group col-3">
+          <label
+            for="road">Road</label>
+          <input
+            class="form-control"
+            formControlName="road"
+            id="road"
+            placeholder="Enter the road name"
+            type="text"
+            [ngClass]="{'is-invalid': (propertyForm.get('road')?.invalid && propertyForm.get('road')?.touched)
+    || (propertyForm.get('road')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('road').errors?.serverError" class="text-danger">
+            {{propertyForm.get('road').errors['serverError']}}
+          </small>
+        </div>
+
+        <div class="form-group col-3">
+          <label
+            for="house_number">House number</label>
+          <input
+            class="form-control"
+            formControlName="house_number"
+            id="house_number"
+            placeholder="Enter the house number"
+            type="text"
+            inputmode="numeric"
+            [ngClass]="{'is-invalid': (propertyForm.get('house_number')?.invalid && propertyForm.get('house_number')?.touched)
+    || (propertyForm.get('house_number')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('house_number').errors?.serverError" class="text-danger">
+            {{propertyForm.get('house_number').errors['serverError']}}
+          </small>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-4">
+          <label
+            for="floor">Floor (optional)</label>
+          <input
+            class="form-control"
+            formControlName="floor"
+            id="floor"
+            placeholder="Enter the floor of the apartment"
+            type="number"
+            [ngClass]="{'is-invalid': (propertyForm.get('floor')?.invalid && propertyForm.get('floor')?.touched)
+    || (propertyForm.get('floor')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('floor').errors?.serverError" class="text-danger">
+            {{propertyForm.get('floor').errors['serverError']}}
+          </small>
+        </div>
+
+        <div class="form-group col-4">
+          <label
+            for="door">Door number (optional)</label>
+          <input
+            class="form-control"
+            formControlName="door"
+            id="door"
+            placeholder="Enter the door number"
+            type="text"
+            [ngClass]="{'is-invalid': (propertyForm.get('door')?.invalid && propertyForm.get('door')?.touched)
+    || (propertyForm.get('door')?.errors?.['serverError'])}"
+          />
+          <small *ngIf="propertyForm.get('door').errors?.serverError" class="text-danger">
+            {{propertyForm.get('door').errors['serverError']}}
+          </small>
+        </div>
+
+      </div>
     </div>
 
     <div class="form-group">
@@ -141,11 +232,18 @@
     <div class="form-group">
       <label
         for="images">Images</label>
-      <input type="file" class="form-control" formArrayName="images" id="images" (change)="onFileChange($event)" multiple>
+      <input type="file" class="form-control" formArrayName="images" id="images" (change)="onFileChange($event)"
+             multiple>
       <small class="text-danger"
              *ngIf="errorMessage">
         {{errorMessage}}
       </small>
+      <div class="container my-3" *ngIf="urls.length > 0">
+        <label for="imgs-to-upload">Selected images</label>
+        <div class="container-fluid border border-1 p-1" id="imgs-to-upload">
+          <img *ngFor="let url of urls" [src]="url" alt="property image" width="200px" class="img-thumbnail">
+        </div>
+      </div>
 
     </div>
 
@@ -218,6 +316,10 @@
 
 
     <br/>
-    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid">Save Property</button>
+    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid" *ngIf="!loading">Save Property</button>
+    <button class="btn btn-success" type="button" disabled *ngIf="loading">
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span role="status"> Loading...</span>
+    </button>
   </form>
 </div>

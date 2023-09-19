@@ -3,7 +3,7 @@ export class AddressModel {
   public postcode: number,
   public city: string,
   public road: string,
-  public house_number: number
+  public house_number: string
   ) { }
 
   floor: number;
