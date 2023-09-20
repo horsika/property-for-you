@@ -378,7 +378,6 @@ export class MyPageComponent implements OnInit, OnDestroy {
       minZoom: 3,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-
     tiles.addTo(this.map);
 
     L.control.zoom({
@@ -390,7 +389,6 @@ export class MyPageComponent implements OnInit, OnDestroy {
     for (const bookedTour of bookedTourList) {
       const lat = parseFloat(String(bookedTour.latitude));
       const lon = parseFloat(String(bookedTour.longitude));
-
       // Create a custom popup content with an image
       const popupContent = `
      <div>
@@ -398,7 +396,6 @@ export class MyPageComponent implements OnInit, OnDestroy {
       <p>${bookedTour.propertyName}</p>
     </div>
   `;
-
       // Create a custom icon
       const customIcon = L.divIcon({
         className: 'custom-icon',
@@ -409,17 +406,13 @@ export class MyPageComponent implements OnInit, OnDestroy {
       const propertyMarker = L.marker([lat, lon], {
         icon: customIcon,
       });
-
       propertyMarker.bindPopup(popupContent);
-
       propertyMarker.on('mouseover', () => {
         propertyMarker.openPopup();
       });
-
       propertyMarker.addTo(this.map);
       propertyMarkers.push(propertyMarker);
     }
-
     //calculate the bounds based on markers
     if (propertyMarkers.length > 0) {
       const markerBounds = L.featureGroup(propertyMarkers).getBounds();
@@ -428,7 +421,11 @@ export class MyPageComponent implements OnInit, OnDestroy {
 
   }
 
+  getGoogleMapsUrl(address: string): string {
+    const encodedAddress = encodeURIComponent(address);
+    return `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
 
+  }
 
 
 }
