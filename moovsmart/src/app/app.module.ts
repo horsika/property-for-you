@@ -9,21 +9,26 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {PropertyFormComponent} from './components/property-form/property-form.component';
 import {PropertyDetailsComponent} from './components/property-details/property-details.component';
 import {PropertyListComponent} from './components/property-list/property-list.component';
-import { FooterComponent } from './components/footer/footer.component';
+import {FooterComponent} from './components/footer/footer.component';
 import {CarouselComponent} from './components/carousel/carousel.component';
 import {MapComponent} from './components/map/map.component';
 import {RegisterComponent} from './components/register/register.component';
 import {AuthInterceptor} from "./utils/auth.interceptor";
-import { SearchCityComponent } from './components/search-city/search-city.component';
-import { HomepageComponent } from './components/homepage/homepage.component';
-import { MyPageComponent } from './components/my-page/my-page.component';
-import { InfoComponent } from './components/info/info.component';
-import { AdminPageComponent } from './components/admin-page/admin-page.component';
-import { GeocodingComponent } from './components/geocoding/geocoding.component';
-import { AddressMapComponent } from './components/address-map/address-map.component';
-import { ResultsListComponent } from './components/results-list/results-list.component';
-import { MapPointFormComponent } from './components/map-point-form/map-point-form.component';
+import {SearchCityComponent} from './components/search-city/search-city.component';
+import {HomepageComponent} from './components/homepage/homepage.component';
+import {MyPageComponent} from './components/my-page/my-page.component';
+import {InfoComponent} from './components/info/info.component';
+import {AdminPageComponent} from './components/admin-page/admin-page.component';
+import {GeocodingComponent} from './components/geocoding/geocoding.component';
+import {AddressMapComponent} from './components/address-map/address-map.component';
+import {ResultsListComponent} from './components/results-list/results-list.component';
+import {MapPointFormComponent} from './components/map-point-form/map-point-form.component';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
+import {environment} from '../environments/environment';
+import {provideAuth, getAuth} from '@angular/fire/auth';
+import {provideFirestore, getFirestore} from '@angular/fire/firestore';
+import {AngularFireModule} from "@angular/fire/compat";
 
 @NgModule({
   declarations: [
@@ -53,6 +58,10 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
     AppRoutingModule,
     FormsModule,
     LeafletModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     {

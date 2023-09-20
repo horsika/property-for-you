@@ -98,4 +98,17 @@ export class RegisterComponent {
     this.toggle = true;
   }
 
+  loginWithGoogle() {
+    this.userService.loginWithGoogle().subscribe({
+      next: data => localStorage.setItem('token', data),
+      error: err => {
+        validationHandler(err, this.auth);
+      },
+      complete: () => {
+        // const decodedToken = this.userService.getDecodedToken(localStorage.getItem('token'));
+        // this.userService.authStatus.next(decodedToken);
+        // this.router.navigate(['user-profile'])
+      }
+    });
+  }
 }
