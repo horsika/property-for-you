@@ -42,6 +42,17 @@
 }
 
 
+.leaflet-popup .leaflet-popup-content-wrapper{
+  border-radius: 0;
+}
+.map-container .leaflet-popup-content {
+  margin: 5px;
+}
+.map-container .leaflet-popup-tip{
+  display: none;
+}
+
+
 
 
 

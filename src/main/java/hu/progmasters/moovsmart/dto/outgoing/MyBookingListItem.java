@@ -24,10 +24,18 @@ public class MyBookingListItem {
 
     private int sumPlacesBooked;
 
+    private double longitude;
+
+    private double latitude;
+    private Long propertyId;
+    private String image;
+    private Double price;
+    private double floorArea;
 
 
 
-    public MyBookingListItem(OpenHouse openHouse) {
+
+    public MyBookingListItem(OpenHouse openHouse, int sumPlacesBooked) {
         this.propertyName = openHouse.getProperty().getName();
         this.fromTime = openHouse.getFromTime();
         this.toTime = openHouse.getToTime();
@@ -39,14 +47,39 @@ public class MyBookingListItem {
             this.propertyAddress = "";
         }
 
+        this.sumPlacesBooked = sumPlacesBooked;
+        this.longitude = openHouse.getProperty().getLongitude();
+        this.latitude = openHouse.getProperty().getLatitude();
+        this.propertyId = openHouse.getProperty().getPropertyId();
+        this.image = openHouse.getProperty().getImages().get(0);
+        this.price = openHouse.getProperty().getPrice();
+        this.floorArea = openHouse.getProperty().getFloorArea();
+
     }
 
     private String getAddressString(Address address) {
-        return address.getPostcode() + " " +
-                address.getCity() + ", " +
-                address.getRoad() + " " +
-                address.getHouseNumber() + ", " +
-                address.getFloor() + ", " +
-                address.getDoor();
+
+        StringBuilder addressString = new StringBuilder();
+
+        if (address.getPostcode() != null) {
+            addressString.append(address.getPostcode()).append(" ");
+        }
+        if (address.getCity() != null) {
+            addressString.append(address.getCity()).append(", ");
+        }
+        if (address.getCity() != null) {
+            addressString.append(address.getRoad()).append(" ");
+        }
+        if (address.getHouseNumber() != null) {
+            addressString.append(address.getHouseNumber()).append(". ");
+        }
+        if (address.getFloor() != null) {
+            addressString.append(address.getFloor()).append("/");
+        }
+        if (address.getDoor() != null) {
+            addressString.append(address.getDoor()).append(".");
+        }
+
+        return addressString.toString().trim();
     }
 }

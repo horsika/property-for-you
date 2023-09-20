@@ -17,6 +17,7 @@ import {BookingFormDataModel} from "../../models/booking-form-data.model";
 import {Subscription} from "rxjs";
 import {MyOpenHouseListItemModel} from "../../models/my-open-house-list-item.model";
 import {MyBookingListItemModel} from "../../models/my-booking-list-item.model";
+import * as L from "leaflet";
 
 @Component({
   selector: 'app-my-page',
@@ -45,6 +46,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
   newPropertySubscription: Subscription;
   myOpenHouseList: MyOpenHouseListItemModel[];
   bookedTourList: MyBookingListItemModel[];
+  private map: any;
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -90,7 +92,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
     });
 
     this.newPropertySubscription = this.route.queryParams.subscribe(params => {
-      if(params.showMyProperties) {
+      if (params.showMyProperties) {
         this.showMyProperties();
       }
     })
@@ -173,17 +175,20 @@ export class MyPageComponent implements OnInit, OnDestroy {
 
   }
 
-  showMyOpenHouses(){
+  showMyOpenHouses() {
     this.activePage = 'MyOpenHouses';
     this.openHouseService.getMyOpenHouseList().subscribe(response => {
       this.myOpenHouseList = response;
     })
     this.errorMessage = null;
   }
-  showMyBookedTours(){
+
+  showMyBookedTours() {
     this.activePage = 'BookedTours';
+
     this.openHouseService.getMyBookingList().subscribe(response => {
       this.bookedTourList = response;
+      this.initMap(this.bookedTourList);
     })
     this.errorMessage = null;
   }
@@ -243,7 +248,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
   onPasswordChange() {
     let pass1 = this.password.get('password').value;
     let pass2 = this.password.get('password2').value;
-    this.passwordsMatch =  (pass1 === pass2);
+    this.passwordsMatch = (pass1 === pass2);
   }
 
   changePassword() {
@@ -272,7 +277,7 @@ export class MyPageComponent implements OnInit, OnDestroy {
   changeProfilePicture() {
     const data = new FormData();
     data.append('file', this.profilePic.get('file').value);
-    this.loading =true;
+    this.loading = true;
     this.userService.uploadProfilePicture(data).subscribe(() => {
 
       },
@@ -359,6 +364,71 @@ export class MyPageComponent implements OnInit, OnDestroy {
       })
     }
   }
+
+  private initMap(bookedTourList: MyBookingListItemModel[]): void {
+
+    this.map = L.map('map', {
+      center: [47.5, 19.04], // Budapest coordinates
+      zoom: 10,
+      zoomControl: false, // Disable the default zoom control
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+
+    tiles.addTo(this.map);
+
+    L.control.zoom({
+      position: 'topright', // You can adjust the position
+    }).addTo(this.map);
+
+    const propertyMarkers: L.Marker[] = [];
+
+    for (const bookedTour of bookedTourList) {
+      const lat = parseFloat(String(bookedTour.latitude));
+      const lon = parseFloat(String(bookedTour.longitude));
+
+      // Create a custom popup content with an image
+      const popupContent = `
+     <div>
+      <img src="${bookedTour.image}" alt="${bookedTour.propertyName}" style="max-width: 80%; max-height: 45%;">
+      <p>${bookedTour.propertyName}</p>
+    </div>
+  `;
+
+      // Create a custom icon
+      const customIcon = L.divIcon({
+        className: 'custom-icon',
+        html: '<i class="fas fa-building" style="color: #e96149; font-size: 30px;"></i>',
+        iconAnchor: [12, 41], // Adjust anchor point if necessary
+      });
+
+      const propertyMarker = L.marker([lat, lon], {
+        icon: customIcon,
+      });
+
+      propertyMarker.bindPopup(popupContent);
+
+      propertyMarker.on('mouseover', () => {
+        propertyMarker.openPopup();
+      });
+
+      propertyMarker.addTo(this.map);
+      propertyMarkers.push(propertyMarker);
+    }
+
+    //calculate the bounds based on markers
+    if (propertyMarkers.length > 0) {
+      const markerBounds = L.featureGroup(propertyMarkers).getBounds();
+      this.map.fitBounds(markerBounds);
+    }
+
+  }
+
+
 
 
 }

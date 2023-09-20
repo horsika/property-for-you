@@ -92,6 +92,7 @@ export class MapComponent implements AfterViewInit {
         icon: customIcon,
       });
 
+
       propertyMarker.bindPopup(popupContent);
 
       propertyMarker.on('mouseover', () => {

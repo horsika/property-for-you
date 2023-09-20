@@ -209,7 +209,8 @@
 
             <div class="form-group  mb-4">
               <label for="pass2"
-                     [ngClass]="{'text-danger': !passwordsMatch && password.get('password2').touched}">Password (once more)</label>
+                     [ngClass]="{'text-danger': !passwordsMatch && password.get('password2').touched}">Password (once
+                more)</label>
               <input type="password" class="form-control" id="pass2" placeholder="Password" formControlName="password2"
                      [ngClass]="{'is-invalid': !passwordsMatch && password.get('password2').touched}"
                      (change)="onPasswordChange()"
@@ -222,11 +223,11 @@
             </div>
 
 
-              <small class="text-danger"
-                     *ngIf="errorMessage">
-                {{errorMessage}}
-              </small>
-              <p>Changing your password will require you to log in again!</p>
+            <small class="text-danger"
+                   *ngIf="errorMessage">
+              {{errorMessage}}
+            </small>
+            <p>Changing your password will require you to log in again!</p>
 
 
             <div class="p-2">
@@ -469,7 +470,7 @@
                 <th scope="col" class="w-25">To</th>
                 <th scope="col" class="w-10">Max Places</th>
                 <th scope="col" class="w-10">Places Booked</th>
-                <th scope="col"></th>
+                <!--                <th scope="col"></th>-->
               </tr>
               </thead>
               <tbody>
@@ -480,9 +481,9 @@
                 <td>{{openHouse.maxParticipants}}</td>
                 <td>{{openHouse.sumPlacesBooked}}</td>
 
-                <td>
-                  <button class="btn btn-outline-info">Change</button>
-                </td>
+                <!--                <td>-->
+                <!--                  <button class="btn btn-outline-info">Change</button>-->
+                <!--                </td>-->
               </tr>
               </tbody>
             </table>
@@ -503,7 +504,8 @@
                 <th scope="col" class="w-25">Property Address</th>
                 <th scope="col" class="w-25">From</th>
                 <th scope="col" class="w-25">To</th>
-                <th scope="col"></th>
+                <th scope="col" class="w-10">Places Booked</th>
+                <!--                <th scope="col"></th>-->
               </tr>
               </thead>
               <tbody>
@@ -512,13 +514,19 @@
                 <td>{{openHouse.propertyAddress}}</td>
                 <td>{{openHouse.fromTime}}</td>
                 <td>{{openHouse.toTime}}</td>
+                <td>{{openHouse.sumPlacesBooked}}</td>
 
-                <td>
-                  <button class="btn btn-outline-info">Change</button>
-                </td>
+                <!--                <td>-->
+                <!--                  <button class="btn btn-outline-info">Change</button>-->
+                <!--                </td>-->
               </tr>
               </tbody>
             </table>
+            <br>
+
+            <div class="map-container">
+              <div id="map"></div>
+            </div>
 
           </div>
         </div>

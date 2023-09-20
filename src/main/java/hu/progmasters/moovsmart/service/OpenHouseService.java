@@ -112,8 +112,8 @@ public class OpenHouseService {
         List<MyBookingListItem> myBookingList = new ArrayList<>();
 
         for (OpenHouse openHouse : openHouses){
-
-            MyBookingListItem myBookingListItem = new MyBookingListItem(openHouse);
+            int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
+            MyBookingListItem myBookingListItem = new MyBookingListItem(openHouse, sumPlacesBooked);
             myBookingList.add(myBookingListItem);
         }
 
