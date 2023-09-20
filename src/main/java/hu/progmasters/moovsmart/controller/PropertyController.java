@@ -3,10 +3,7 @@ package hu.progmasters.moovsmart.controller;
 import hu.progmasters.moovsmart.dto.incoming.AddToFavs;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
-import hu.progmasters.moovsmart.dto.outgoing.FormOptions;
-import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.service.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.List;
 
@@ -88,5 +86,16 @@ public class PropertyController {
     @GetMapping("/my-saved-properties")
     public ResponseEntity<List<MyPropertyListItem>> getMySavedProperties(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(propertyService.getMySavedProperties(token), HttpStatus.OK);
+    }
+
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<PropertyEditDetails> sendEditablePropertyInfo(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(propertyService.getEditablePropertyInfo(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Void> editProperty(@PathVariable("id") Long id, @ModelAttribute PropertyForm propertyForm) {
+        propertyService.editProperty(id, propertyForm);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

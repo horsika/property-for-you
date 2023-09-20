@@ -1,12 +1,14 @@
 package hu.progmasters.moovsmart.dto.incoming;
 
-import hu.progmasters.moovsmart.domain.property.Address;
 import hu.progmasters.moovsmart.validation.DivisibleByHalf;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -44,7 +46,8 @@ public class PropertyForm {
 
     private double latitude;
 
-    private CommonsMultipartFile[] images;
+    @Nullable
+    private List<CommonsMultipartFile> images = new ArrayList<>();
 
     @NotNull(message = "Please enter a valid postcode.")
     private Integer postcode;
@@ -58,8 +61,9 @@ public class PropertyForm {
     @NotNull(message = "Please enter a valid house number.")
     private String house_number;
 
+    @Nullable
     private Integer floor;
-
+    @Nullable
     private String door;
 
     @NotNull(message = "Please enter a valid property type.")
@@ -74,28 +78,4 @@ public class PropertyForm {
 
     @NotNull(message = "Please enter a valid listing type.")
     private String listingType;
-
-    @Override
-    public String toString() {
-        return "PropertyForm{" +
-                "name='" + name + '\'' +
-                ", numberOfBedrooms=" + numberOfBedrooms +
-                ", numberOfBathrooms=" + numberOfBathrooms +
-                ", price=" + price +
-                ", floorArea=" + floorArea +
-                ", airConditioning=" + airConditioning +
-                ", description='" + description + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", postcode=" + postcode +
-                ", city='" + city + '\'' +
-                ", house_number='" + house_number + '\'' +
-                ", floor=" + floor +
-                ", door='" + door + '\'' +
-                ", propertyType='" + propertyType + '\'' +
-                ", heatingType='" + heatingType + '\'' +
-                ", listingStatus='" + listingStatus + '\'' +
-                ", listingType='" + listingType + '\'' +
-                '}';
-    }
 }

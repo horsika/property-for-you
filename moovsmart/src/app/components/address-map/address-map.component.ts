@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {NominatimResponseModel} from "../../models/nominatimResponse.model";
 import * as L from 'leaflet';
 import {icon, latLng, LeafletMouseEvent, Map, MapOptions, Marker, tileLayer} from 'leaflet';
@@ -11,7 +11,7 @@ import {AddressModel} from "../../models/address.model";
   templateUrl: './address-map.component.html',
   styleUrls: ['./address-map.component.css']
 })
-export class AddressMapComponent implements OnInit {
+export class AddressMapComponent implements OnInit, OnChanges {
   map: Map;
   mapPoint: MapPointModel;
   options: MapOptions;
@@ -20,6 +20,7 @@ export class AddressMapComponent implements OnInit {
   results: NominatimResponseModel[];
 
   @Output() mapPointUpdated = new EventEmitter<MapPointModel>();
+  @Input() initialMapPoint: MapPointModel;
 
   constructor(private nominatimService: NominatimService) {
 
@@ -28,6 +29,14 @@ export class AddressMapComponent implements OnInit {
   ngOnInit() {
     this.initializeDefaultMapPoint();
     this.initializeMapOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // this fires when initialMapPoint is loaded from parent, only happens when editing.
+    if(changes.initialMapPoint && !changes.initialMapPoint.firstChange) {
+      this.mapPoint = this.initialMapPoint;
+      this.createMarker();
+    }
   }
 
   initializeMap(map: Map) {

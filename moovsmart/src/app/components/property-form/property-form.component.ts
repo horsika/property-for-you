@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {PropertyService} from '../../services/property.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {errorHandler, validationHandler} from '../../utils/validationHandler';
 import {PropertyTypeFormListItemModel} from "../../models/property-type-form-list-item.model";
 import {HeatingTypeFormListItemModel} from "../../models/heating-type-form-list-item.model";
 import {validateNumberOfBathrooms} from "../../utils/custom.validators";
 import {MapPointModel} from "../../models/map-point.model";
+import {PropertyEditDetailsModel} from "../../models/property-edit-details.model";
 
 @Component({
   selector: 'app-property-form',
@@ -21,11 +22,15 @@ export class PropertyFormComponent implements OnInit {
   errorMessage: string | null = null;
   mapPoint: MapPointModel;
   urls: string[] = [];
+  imagesFromServer: string[] = [];
+  initialMapPoint: MapPointModel;
+  editablePropertyId: number;
   loading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
               private propertyService: PropertyService,
-              private router: Router) {
+              private router: Router,
+              private route: ActivatedRoute) {
     this.propertyForm = this.formBuilder.group({
       'name': ['', [Validators.required, Validators.minLength(3)]],
       'numberOfBedrooms': ['', [Validators.required, Validators.min(1)]],
@@ -34,7 +39,7 @@ export class PropertyFormComponent implements OnInit {
       'floorArea': ['', [Validators.required, Validators.min(5)]],
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
-      'images': this.formBuilder.array([Validators.required]),
+      'images': this.formBuilder.array([]),
       // 'address': [{value: '', disabled: true}, [Validators.required]],
       'postcode': [{value: '', disabled: true}, [Validators.required]],
       'city': [{value: '', disabled: true}, [Validators.required]],
@@ -52,13 +57,20 @@ export class PropertyFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.paramMap.subscribe(idFromParam => {
+      const id = idFromParam.get('id');
+      if (id) {
+        this.getEditablePropertyInfo(+id);
+      }
+    });
+
     this.propertyService.getFormOptions().subscribe({
       next: response => {
         this.propertyTypeList = response.propertyTypes;
         this.heatingTypeList = response.heatingTypes;
       },
       error: err => console.warn(err),
-    })
+    });
   }
 
   onFileChange(event: any) {
@@ -91,29 +103,38 @@ export class PropertyFormComponent implements OnInit {
           this.urls.push(url);
         }
       }
-
     }
-
   }
 
-  submit = () => {
-    const formData = new FormData();
-    // Loop through the controls in your FormGroup
+  loopThruFormControls(formData: FormData) {
+
     Object.keys(this.propertyForm.controls).forEach((key) => {
       const control = this.propertyForm.get(key);
+
       if (control instanceof FormControl) {
-        formData.append(key, control.value);
+        if(control.value == null) {
+          formData.append(key, '0');
+        } else {
+          formData.append(key, control.value);
+        }
+
       } else if (control instanceof FormArray) {
         for (const fileControl of control.controls) {
           formData.append('images', fileControl.value);
         }
       }
     });
+  }
+
+
+  submit = () => {
+    const formData = new FormData();
+    this.loopThruFormControls(formData);
 
     this.loading = true;
-
     this.propertyService.createProperty(formData).subscribe(
-      () => this.router.navigate(['/property-list'], {queryParams: {city: this.propertyForm.get('city').value}}),
+      () => {
+      },
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
@@ -134,13 +155,83 @@ export class PropertyFormComponent implements OnInit {
       this.propertyForm.get('city').setValue(this.mapPoint.address.city);
       this.propertyForm.get('road').setValue(this.mapPoint.address.road);
       this.propertyForm.get('house_number').setValue(this.mapPoint.address.house_number);
-    }
-    else {
+    } else {
       this.propertyForm.get('postcode').setValue(this.mapPoint.address.postcode);
       this.propertyForm.get('city').setValue(this.mapPoint.address.city);
       this.propertyForm.get('road').setValue(this.mapPoint.address.road);
     }
     this.propertyForm.get('latitude').setValue(this.mapPoint.latitude);
     this.propertyForm.get('longitude').setValue(this.mapPoint.longitude);
+  }
+
+  //edit stuff ----------------------------------------------------------------------------
+
+  getEditablePropertyInfo(id: number) {
+    this.propertyService.getEditablePropertyInfo(id).subscribe((response: PropertyEditDetailsModel) => {
+      this.propertyForm.patchValue({
+        name: response.name,
+        numberOfBedrooms: response.numberOfBedrooms,
+        numberOfBathrooms: response.numberOfBathrooms,
+        price: response.price,
+        floorArea: response.floorArea,
+        airConditioning: response.airConditioning,
+        description: response.description,
+        postcode: response.postcode,
+        city: response.city,
+        road: response.road,
+        house_number: response.house_number,
+        floor: response.floor,
+        door: response.door,
+        propertyType: response.propertyType,
+        heatingType: response.heatingType,
+        listingType: response.listingType,
+        latitude: response.latitude,
+        longitude: response.longitude
+      })
+
+      this.editablePropertyId = response.id;
+
+      this.initialMapPoint = {
+        address: {
+          postcode: response.postcode,
+          city: response.city,
+          road: response.road,
+          house_number: response.house_number,
+          floor: response.floor,
+          door: response.door
+        },
+        latitude: response.latitude,
+        longitude: response.longitude
+      };
+
+      this.imagesFromServer = response.images;
+    })
+  }
+
+  edit = () => {
+    const formData = new FormData();
+    this.loopThruFormControls(formData);
+    this.loading = true;
+    // console.log(formData.get('images'));
+    this.propertyService.editProperty(formData, this.editablePropertyId).subscribe(
+      () => {
+      },
+      error => {
+        validationHandler(error, this.propertyForm)
+        this.errorMessage = errorHandler(error)
+        this.loading = false
+      },
+      () => {
+        this.router.navigate(['/my-page'], {queryParams: {showMyProperties: true}});
+        this.loading = false;
+      }
+    );
+
+  };
+
+  logFormData(formData: FormData) {
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
   }
 }

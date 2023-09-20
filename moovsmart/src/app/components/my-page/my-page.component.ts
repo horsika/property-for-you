@@ -221,6 +221,10 @@ export class MyPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['property-details', id]);
   }
 
+  goToEditProperty(id: number) {
+    this.router.navigate(['property-form', id]);
+  }
+
   activateProperty(id: number) {
     const data: PropertyActiveToggleModel = {propertyId: id, listingStatus: 'ACTIVE'}
     this.propertyService.setListingStatus(data).subscribe(() => {

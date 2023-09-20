@@ -158,7 +158,9 @@
                         (keyup.enter)="previewProperty(p.propertyId)"
                         *ngIf="p.isActiveDisplayName === 'Active'">Preview
                 </button>
-                <button class="btn btn-outline-primary m-1">Modify
+                <button class="btn btn-outline-primary m-1"
+                        (click)="goToEditProperty(p.propertyId)"
+                        (keyup.enter)="goToEditProperty(p.propertyId)">Modify
                 </button>
                 <button class="btn btn-outline-info m-1"
                         (click)="showOpenHouseForm(p.propertyId)">+OpenHouse
