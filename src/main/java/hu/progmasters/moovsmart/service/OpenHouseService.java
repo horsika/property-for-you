@@ -7,6 +7,7 @@ import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.OpenHouseForm;
 import hu.progmasters.moovsmart.dto.outgoing.MyBookingListItem;
 import hu.progmasters.moovsmart.dto.outgoing.MyOpenHouseListItem;
+import hu.progmasters.moovsmart.dto.outgoing.MyParticipantListItem;
 import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.repository.OpenHouseRepository;
 import lombok.RequiredArgsConstructor;
@@ -121,8 +122,21 @@ public class OpenHouseService {
 
     }
 
+    public List<MyParticipantListItem> getMyParticipantList(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<OpenHouse> openHouses = openHouseRepository.findAllMyOpenHouses(user);
 
+        List<MyParticipantListItem> myParticipantList = new ArrayList<>();
 
+        for (OpenHouse openHouse : openHouses){
+            int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
+
+            MyParticipantListItem myParticipantListItem = new MyParticipantListItem(openHouse, sumPlacesBooked);
+            myParticipantList.add(myParticipantListItem);
+        }
+
+        return myParticipantList;
+    }
 
 
 }
