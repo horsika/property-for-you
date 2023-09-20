@@ -8,6 +8,12 @@ import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
 import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
 import hu.progmasters.moovsmart.service.PropertyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/properties")
+@Tag(name = "Property API")
 public class PropertyController {
 
     private final PropertyService propertyService;
@@ -43,6 +50,11 @@ public class PropertyController {
     }
 
     @PostMapping
+    @Operation(summary = "Create New Property")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully Created new Property",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PropertyForm.class)) })})
     public ResponseEntity<Void> createProperty(@ModelAttribute PropertyForm propertyForm,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         propertyService.createProperty(propertyForm, token);
