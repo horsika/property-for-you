@@ -39,7 +39,7 @@ export class PropertyFormComponent implements OnInit {
       'floorArea': ['', [Validators.required, Validators.min(5)]],
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
-      'images': this.formBuilder.array([Validators.required]),
+      'images': this.formBuilder.array([]),
       // 'address': [{value: '', disabled: true}, [Validators.required]],
       'postcode': [{value: '', disabled: true}, [Validators.required]],
       'city': [{value: '', disabled: true}, [Validators.required]],
@@ -103,16 +103,21 @@ export class PropertyFormComponent implements OnInit {
           this.urls.push(url);
         }
       }
-
     }
-
   }
 
-  loopThruImageFiles(formData: FormData) {
+  loopThruFormControls(formData: FormData) {
+
     Object.keys(this.propertyForm.controls).forEach((key) => {
       const control = this.propertyForm.get(key);
+
       if (control instanceof FormControl) {
-        formData.append(key, control.value);
+        if(control.value == null) {
+          formData.append(key, '0');
+        } else {
+          formData.append(key, control.value);
+        }
+
       } else if (control instanceof FormArray) {
         for (const fileControl of control.controls) {
           formData.append('images', fileControl.value);
@@ -121,13 +126,15 @@ export class PropertyFormComponent implements OnInit {
     });
   }
 
+
   submit = () => {
     const formData = new FormData();
-    this.loopThruImageFiles(formData);
+    this.loopThruFormControls(formData);
 
     this.loading = true;
     this.propertyService.createProperty(formData).subscribe(
-      () => {},
+      () => {
+      },
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
@@ -203,10 +210,12 @@ export class PropertyFormComponent implements OnInit {
 
   edit = () => {
     const formData = new FormData();
-    this.loopThruImageFiles(formData);
+    this.loopThruFormControls(formData);
     this.loading = true;
+    // console.log(formData.get('images'));
     this.propertyService.editProperty(formData, this.editablePropertyId).subscribe(
-      () => {},
+      () => {
+      },
       error => {
         validationHandler(error, this.propertyForm)
         this.errorMessage = errorHandler(error)
@@ -219,4 +228,10 @@ export class PropertyFormComponent implements OnInit {
     );
 
   };
+
+  logFormData(formData: FormData) {
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
+  }
 }

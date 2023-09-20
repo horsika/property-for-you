@@ -71,11 +71,11 @@ public class PropertyService {
     }
 
     private List<String> processImages(PropertyForm propertyForm, Property property) {
-        List<CommonsMultipartFile> imgs = List.of(propertyForm.getImages());
-        if (imgs.isEmpty() && property.getImages().isEmpty()) {
+        List<CommonsMultipartFile> imgs = propertyForm.getImages();
+        if ((imgs == null || imgs.isEmpty()) && property.getImages().isEmpty()) {
             //default image if none is present
             return List.of("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--Y_6dyawG--/v1694286325/property/P_F_Y_1_jei6e3.png");
-        } else if (imgs.isEmpty()){
+        } else if (imgs == null || imgs.isEmpty()) {
             return new ArrayList<>();
         } else {
             List<String> imgUrls = new ArrayList<>();
@@ -136,7 +136,7 @@ public class PropertyService {
         return propertyRepository.findAllByOrderByActivatedAtDesc().stream().map(MyPropertyListItem::new).collect(Collectors.toList());
     }
 
-    public Property getPropertyById (Long propertyId){
+    public Property getPropertyById(Long propertyId) {
         Optional<Property> property = propertyRepository.findById(propertyId);
         return property.isPresent() ? property.get() : null;
     }
@@ -162,12 +162,9 @@ public class PropertyService {
         address.setCity(propertyForm.getCity());
         address.setRoad(propertyForm.getRoad());
         address.setHouseNumber(propertyForm.getHouse_number());
-        if(propertyForm.getFloor() != null) {
-            address.setFloor(propertyForm.getFloor());
-        }
-        if(propertyForm.getDoor() != null) {
-            address.setDoor(propertyForm.getDoor());
-        }
+        address.setFloor(propertyForm.getFloor());
+        address.setDoor(propertyForm.getDoor());
+
 
         List<String> newImages = processImages(propertyForm, p);
         p.getImages().addAll(newImages);
