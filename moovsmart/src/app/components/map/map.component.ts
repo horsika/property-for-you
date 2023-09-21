@@ -72,11 +72,11 @@ export class MapComponent implements AfterViewInit {
 
       // Create a custom popup content with an image
       const popupContent = `
-    <div>
+     <div>
       <img src="${property.images[0]}" alt="${property.name}" style="max-width: 80%; max-height: 45%;">
-      <p>${this.formatPrice(property.price)}</p>
+      <p>${this.formatPrice(property.price)} Million</p>
       <p>${property.floorArea} sqm</p>
-      <p>${property.name} sqm</p>
+      <p>${property.name}</p>
     </div>
   `;
 
@@ -92,12 +92,12 @@ export class MapComponent implements AfterViewInit {
         icon: customIcon,
       });
 
+
       propertyMarker.bindPopup(popupContent);
 
-      propertyMarker.on('popupclose', () => {
-        this.propertyService.goToPropertyDetails(property.propertyId);
+      propertyMarker.on('mouseover', () => {
+        propertyMarker.openPopup();
       });
-
 
       propertyMarker.addTo(this.map);
       propertyMarkers.push(propertyMarker);
@@ -115,7 +115,8 @@ export class MapComponent implements AfterViewInit {
     return price.toLocaleString('en-US', {
       style: 'currency',
       currency: 'HUF',
-      maximumFractionDigits: 0});
+      maximumFractionDigits: 0
+    });
   }
 
 

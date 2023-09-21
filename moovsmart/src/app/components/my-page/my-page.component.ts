@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
@@ -14,13 +14,17 @@ import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
 import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
 import {BookingService} from "../../services/booking.service";
 import {BookingFormDataModel} from "../../models/booking-form-data.model";
+import {Subscription} from "rxjs";
+import {MyOpenHouseListItemModel} from "../../models/my-open-house-list-item.model";
+import {MyBookingListItemModel} from "../../models/my-booking-list-item.model";
+import * as L from "leaflet";
 
 @Component({
   selector: 'app-my-page',
   templateUrl: './my-page.component.html',
   styleUrls: ['./my-page.component.css']
 })
-export class MyPageComponent implements OnInit {
+export class MyPageComponent implements OnInit, OnDestroy {
 
   activePage: string = "";
   email: FormGroup;
@@ -37,6 +41,12 @@ export class MyPageComponent implements OnInit {
   passwordsMatch: boolean;
   openHouseList: OpenHouseListItemModel[];
   bookingForms: FormGroup[] = [];
+  //subscriptions
+  openHousePropertySubscription: Subscription;
+  newPropertySubscription: Subscription;
+  myOpenHouseList: MyOpenHouseListItemModel[];
+  bookedTourList: MyBookingListItemModel[];
+  private map: any;
 
   constructor(private userService: UserService,
               private propertyService: PropertyService,
@@ -56,7 +66,7 @@ export class MyPageComponent implements OnInit {
     })
 
     this.profilePic = this.formBuilder.group({
-      file: [null]
+      file: [null, [Validators.required]]
     })
 
     this.openHouseForm = this.formBuilder.group({
@@ -73,14 +83,27 @@ export class MyPageComponent implements OnInit {
 
   // -------------- DECIDING WHICH PAGE TO DISPLAY ------------------
   ngOnInit() {
-    this.openHouseService.selectedPropertyId$.subscribe((propertyId) => {
+    this.openHousePropertySubscription = this.openHouseService.selectedPropertyId$.subscribe((propertyId) => {
       if (propertyId !== null) {
         this.showOpenHouseList(propertyId);
       } else {
         this.showAccountDetails();
       }
     });
+
+    this.newPropertySubscription = this.route.queryParams.subscribe(params => {
+      if (params.showMyProperties) {
+        this.showMyProperties();
+      }
+    })
+
   }
+
+  ngOnDestroy() {
+    this.openHousePropertySubscription.unsubscribe();
+    this.newPropertySubscription.unsubscribe();
+  }
+
 
   showEmailChangePage() {
     this.activePage = 'EmailChange';
@@ -152,6 +175,24 @@ export class MyPageComponent implements OnInit {
 
   }
 
+  showMyOpenHouses() {
+    this.activePage = 'MyOpenHouses';
+    this.openHouseService.getMyOpenHouseList().subscribe(response => {
+      this.myOpenHouseList = response;
+    })
+    this.errorMessage = null;
+  }
+
+  showMyBookedTours() {
+    this.activePage = 'BookedTours';
+
+    this.openHouseService.getMyBookingList().subscribe(response => {
+      this.bookedTourList = response;
+      this.initMap(this.bookedTourList);
+    })
+    this.errorMessage = null;
+  }
+
   // ------------------- FUNCTIONS -------------------------
   changeEmail() {
     const data = this.email.value;
@@ -171,13 +212,17 @@ export class MyPageComponent implements OnInit {
 
   logOut() {
     this.userService.tokenIsPresent.next(false);
-    this.adminService.isAdmin.next(false);
     localStorage.removeItem('token');
+    this.adminService.decideIfAdmin();
     this.router.navigate(['/homepage']);
   }
 
   previewProperty(id: number) {
     this.router.navigate(['property-details', id]);
+  }
+
+  goToEditProperty(id: number) {
+    this.router.navigate(['property-form', id]);
   }
 
   activateProperty(id: number) {
@@ -207,7 +252,7 @@ export class MyPageComponent implements OnInit {
   onPasswordChange() {
     let pass1 = this.password.get('password').value;
     let pass2 = this.password.get('password2').value;
-    this.passwordsMatch =  (pass1 === pass2);
+    this.passwordsMatch = (pass1 === pass2);
   }
 
   changePassword() {
@@ -236,14 +281,17 @@ export class MyPageComponent implements OnInit {
   changeProfilePicture() {
     const data = new FormData();
     data.append('file', this.profilePic.get('file').value);
+    this.loading = true;
     this.userService.uploadProfilePicture(data).subscribe(() => {
 
       },
       error => {
         this.errorMessage = errorHandler(error);
+        this.loading = false;
       },
       () => {
         this.showAccountDetails();
+        this.loading = false;
       })
   }
 
@@ -284,6 +332,7 @@ export class MyPageComponent implements OnInit {
       },
       error: err => {
         validationHandler(err, this.openHouseForm)
+        this.loading = false;
       },
       complete: () => {
         this.emailSent = "We've sent an email to you confirming the creation of your Open House event."
@@ -301,27 +350,85 @@ export class MyPageComponent implements OnInit {
 
   bookATour(index: number, openHouseId: number) {
     const form = this.bookingForms[index];
-    console.log('bookATour, this.bookingForms: ', this.bookingForms);
     if (form.valid) {
       const data: BookingFormDataModel = form.value;
-      console.log('bookATour gomb form.value: ', data);
       this.bookingService.createBooking(data).subscribe({
         next: () => {
-          console.log('next');
         },
         error: err => {
           this.errorMessage = errorHandler(err)
         },
         complete: () => {
           this.emailSent = "We've sent an email to you confirming the booking to this Open House event."
-          console.log('complete');
           setTimeout(() => {
             form.reset();
             this.showMySavedProperties();
-          }, 200)
+          }, 1500)
         }
       })
     }
+  }
+
+  private initMap(bookedTourList: MyBookingListItemModel[]): void {
+
+    this.map = L.map('map', {
+      center: [47.5, 19.04], // Budapest coordinates
+      zoom: 10,
+      zoomControl: false, // Disable the default zoom control
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+    tiles.addTo(this.map);
+
+    L.control.zoom({
+      position: 'topright', // You can adjust the position
+    }).addTo(this.map);
+
+    const propertyMarkers: L.Marker[] = [];
+
+    for (const bookedTour of bookedTourList) {
+      const lat = parseFloat(String(bookedTour.latitude));
+      const lon = parseFloat(String(bookedTour.longitude));
+      // Create a custom popup content with an image
+      const popupContent = `
+     <div>
+      <img src="${bookedTour.image}" alt="${bookedTour.propertyName}" style="max-width: 80%; max-height: 45%;">
+      <p>${bookedTour.propertyName}</p>
+    </div>
+  `;
+      // Create a custom icon
+      const customIcon = L.divIcon({
+        className: 'custom-icon',
+        html: '<i class="fas fa-building" style="color: #e96149; font-size: 30px;"></i>',
+        iconAnchor: [12, 41], // Adjust anchor point if necessary
+      });
+
+      const propertyMarker = L.marker([lat, lon], {
+        icon: customIcon,
+      });
+      propertyMarker.bindPopup(popupContent);
+      propertyMarker.on('mouseover', () => {
+        propertyMarker.openPopup();
+      });
+      propertyMarker.addTo(this.map);
+      propertyMarkers.push(propertyMarker);
+    }
+    //calculate the bounds based on markers
+    if (propertyMarkers.length > 0) {
+      const markerBounds = L.featureGroup(propertyMarkers).getBounds();
+      this.map.fitBounds(markerBounds);
+    }
+
+  }
+
+  getGoogleMapsUrl(address: string): string {
+    const encodedAddress = encodeURIComponent(address);
+    return `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+
   }
 
 

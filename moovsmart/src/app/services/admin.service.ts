@@ -44,4 +44,15 @@ export class AdminService {
     return this.http.post(BASE_URL + '/change-user-status', data);
   }
 
+  decideIfAdmin() {
+    const token = localStorage.getItem('token');
+    if(!!token && JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN'){
+      this.isAdmin.next(true);
+      return true;
+    } else {
+      this.isAdmin.next(false);
+      return false;
+    }
+  }
+
 }

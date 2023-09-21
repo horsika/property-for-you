@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public enum HeatingType {
-    GAS("Gas"),
-    ELECTRIC("Electric"),
+    GAS("Gas Heating"),
+    ELECTRIC("Electric Heating"),
     CENTRAL_HEATING("Central Heating");
 
     private String displayName;

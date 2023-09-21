@@ -1,9 +1,13 @@
 package hu.progmasters.moovsmart.service;
 
+import hu.progmasters.moovsmart.domain.property.Booking;
 import hu.progmasters.moovsmart.domain.property.OpenHouse;
 import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.user.User;
 import hu.progmasters.moovsmart.dto.incoming.OpenHouseForm;
+import hu.progmasters.moovsmart.dto.outgoing.MyBookingListItem;
+import hu.progmasters.moovsmart.dto.outgoing.MyOpenHouseListItem;
+import hu.progmasters.moovsmart.dto.outgoing.MyParticipantListItem;
 import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.repository.OpenHouseRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -78,4 +82,61 @@ public class OpenHouseService {
 
         openHouseRepository.saveAll(expiredOpenHouses);
     }
+
+    public List<MyOpenHouseListItem> getMyOpenHouseList(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<OpenHouse> openHouses = openHouseRepository.findAllMyOpenHouses(user);
+
+        List<MyOpenHouseListItem> myOpenHouseList = new ArrayList<>();
+
+        for (OpenHouse openHouse : openHouses){
+            int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
+            MyOpenHouseListItem myOpenHouseListItem = new MyOpenHouseListItem(openHouse, sumPlacesBooked);
+            myOpenHouseList.add(myOpenHouseListItem);
+        }
+
+        return myOpenHouseList;
+    }
+
+    private int calculateSumPlacesBooked(OpenHouse openHouse) {
+        int sum = 0;
+        for (Booking booking : openHouse.getBookings()){
+            sum+= booking.getPlacesToBook();
+        }
+        return sum;
+    }
+
+    public List<MyBookingListItem> getMyBookingList(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<OpenHouse> openHouses = openHouseRepository.findAllMyBookings(user);
+
+        List<MyBookingListItem> myBookingList = new ArrayList<>();
+
+        for (OpenHouse openHouse : openHouses){
+            int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
+            MyBookingListItem myBookingListItem = new MyBookingListItem(openHouse, sumPlacesBooked);
+            myBookingList.add(myBookingListItem);
+        }
+
+        return myBookingList;
+
+    }
+
+    public List<MyParticipantListItem> getMyParticipantList(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<OpenHouse> openHouses = openHouseRepository.findAllMyOpenHouses(user);
+
+        List<MyParticipantListItem> myParticipantList = new ArrayList<>();
+
+        for (OpenHouse openHouse : openHouses){
+            int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
+
+            MyParticipantListItem myParticipantListItem = new MyParticipantListItem(openHouse, sumPlacesBooked);
+            myParticipantList.add(myParticipantListItem);
+        }
+
+        return myParticipantList;
+    }
+
+
 }

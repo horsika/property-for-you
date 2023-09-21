@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {OpenHouseFormDataModel} from "../models/open-house-form-data.model";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {OpenHouseListItemModel} from "../models/open-house-list-item.model";
+import {MyOpenHouseListItemModel} from "../models/my-open-house-list-item.model";
+import {MyBookingListItemModel} from "../models/my-booking-list-item.model";
 
 const BASE_URL = environment.BASE_URL + '/api/openhouses';
 @Injectable({
@@ -23,13 +25,19 @@ export class OpenHouseService {
     return this.http.get<Array<OpenHouseListItemModel>>(BASE_URL);
   }
 
+  getMyOpenHouseList(): Observable<Array<MyOpenHouseListItemModel>>{
+    return this.http.get<Array<MyOpenHouseListItemModel>>(BASE_URL+ '/my-openhouses');
+  }
+
+  getMyBookingList(): Observable<Array<MyBookingListItemModel>>{
+    return this.http.get<Array<MyBookingListItemModel>>(BASE_URL+ '/my-bookings');
+  }
 
   //navigating to my-page, activePage
   private selectedPropertyIdSubject = new BehaviorSubject<number | null>(null);
   selectedPropertyId$ = this.selectedPropertyIdSubject.asObservable();
 
   setSelectedPropertyId(propertyId: number) {
-    console.log(propertyId);
     this.selectedPropertyIdSubject.next(propertyId);
   }
 

@@ -3,21 +3,26 @@ package hu.progmasters.moovsmart.controller;
 import hu.progmasters.moovsmart.dto.incoming.AddToFavs;
 import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
 import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
-import hu.progmasters.moovsmart.dto.outgoing.FormOptions;
-import hu.progmasters.moovsmart.dto.outgoing.MyPropertyListItem;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyDetails;
-import hu.progmasters.moovsmart.dto.outgoing.PropertyListItem;
+import hu.progmasters.moovsmart.dto.outgoing.*;
 import hu.progmasters.moovsmart.service.PropertyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/properties")
+@Tag(name = "Property API")
 public class PropertyController {
 
     private final PropertyService propertyService;
@@ -43,6 +48,11 @@ public class PropertyController {
     }
 
     @PostMapping
+    @Operation(summary = "Create New Property")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully Created new Property",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PropertyForm.class)) })})
     public ResponseEntity<Void> createProperty(@ModelAttribute PropertyForm propertyForm,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         propertyService.createProperty(propertyForm, token);
@@ -76,5 +86,16 @@ public class PropertyController {
     @GetMapping("/my-saved-properties")
     public ResponseEntity<List<MyPropertyListItem>> getMySavedProperties(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         return new ResponseEntity<>(propertyService.getMySavedProperties(token), HttpStatus.OK);
+    }
+
+    @GetMapping("/edit/{id}")
+    public ResponseEntity<PropertyEditDetails> sendEditablePropertyInfo(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(propertyService.getEditablePropertyInfo(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/edit/{id}")
+    public ResponseEntity<Void> editProperty(@PathVariable("id") Long id, @ModelAttribute PropertyForm propertyForm) {
+        propertyService.editProperty(id, propertyForm);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

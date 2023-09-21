@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Register New Property</h2>
   <hr/>
-  <form (ngSubmit)="submit()" [formGroup]="propertyForm">
+  <form [formGroup]="propertyForm">
     <div class="form-group">
       <label for="from">Property Name</label>
       <input
@@ -101,7 +101,7 @@
     </div>
 
     <div style="border: lightgreen 2px solid" class="p-1">
-      <app-address-map (mapPointUpdated)="loadMapPoint($event)"></app-address-map>
+      <app-address-map (mapPointUpdated)="loadMapPoint($event)" [initialMapPoint]="initialMapPoint"></app-address-map>
 
       <div class="row">
         <div class="form-group col-3">
@@ -238,6 +238,19 @@
              *ngIf="errorMessage">
         {{errorMessage}}
       </small>
+      <div class="container my-3" *ngIf="urls.length > 0">
+        <label for="imgs-to-upload">Selected images</label>
+        <div class="container-fluid border border-1 p-1" id="imgs-to-upload">
+          <img *ngFor="let url of urls" [src]="url" alt="property image" width="200px" class="img-thumbnail">
+        </div>
+      </div>
+
+      <div class="container my-3" *ngIf="imagesFromServer.length > 0">
+        <label for="imgs-to-upload">Existing images</label>
+        <div class="container-fluid border border-1 p-1" id="imgs-from-server">
+          <img *ngFor="let serverImage of imagesFromServer" [src]="serverImage" alt="property image" width="200px" class="img-thumbnail">
+        </div>
+      </div>
 
     </div>
 
@@ -310,6 +323,11 @@
 
 
     <br/>
-    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid">Save Property</button>
+    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid" *ngIf="!loading && !initialMapPoint" (click)="submit()">Save Property</button>
+    <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid" *ngIf="!loading && initialMapPoint" (click)="edit()">Save Changes</button>
+    <button class="btn btn-success" type="button" disabled *ngIf="loading">
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span role="status"> Loading...</span>
+    </button>
   </form>
 </div>

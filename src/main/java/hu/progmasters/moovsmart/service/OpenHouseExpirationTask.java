@@ -12,7 +12,7 @@ public class OpenHouseExpirationTask {
         this.openHouseService = openHouseService;
     }
 
-    @Scheduled(cron = "0 0 0 * * ?") // Run daily at midnight
+    @Scheduled(cron = "0 * * * * ?") // Run daily at midnight
     public void expireOpenHouses() {
         openHouseService.expireOpenHouses();
     }

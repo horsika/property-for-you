@@ -43,12 +43,16 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**")
                 .permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/authentication"),
+                .requestMatchers(
+                        new AntPathRequestMatcher("/api/auth/authentication"),
                         new AntPathRequestMatcher("/api/auth/register"),
                         new AntPathRequestMatcher("/api/auth/{token}"),
                         new AntPathRequestMatcher("/api/properties/{id}"),
                         new AntPathRequestMatcher( "/api/properties", "GET"),
-                        new AntPathRequestMatcher("/api/openhouse")) //kiszedni majd
+                        new AntPathRequestMatcher("/swagger-ui.html", "GET"),
+                        new AntPathRequestMatcher("/swagger-ui/**", "GET"),
+                        new AntPathRequestMatcher("/v3/api-docs/**", "GET")
+                )
                 .permitAll()
                 .antMatchers("/api/admin")
                 .hasRole("ADMIN")

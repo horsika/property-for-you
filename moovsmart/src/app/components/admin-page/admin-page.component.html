@@ -110,7 +110,10 @@
                                         data-bs-dismiss="modal"
                                 >Preview
                                 </button>
-                                <button class="btn btn-outline-primary m-1">Modify
+                                <button class="btn btn-outline-primary m-1"
+                                        (click)="goToModifyProperty(p.propertyId)"
+                                        (keyup.enter)="goToModifyProperty(p.propertyId)"
+                                >Modify
                                 </button>
                                 <button class="btn btn-outline-danger m-1"
                                         (click)="deactivateProperty(p.propertyId, currentUser?.id)"
@@ -213,7 +216,10 @@
                             data-bs-dismiss="modal"
                     >Preview
                     </button>
-                    <button class="btn btn-outline-primary m-1">Modify
+                    <button class="btn btn-outline-primary m-1"
+                            (click)="goToModifyProperty(p.propertyId)"
+                            (keyup.enter)="goToModifyProperty(p.propertyId)"
+                    >Modify
                     </button>
                     <button class="btn btn-outline-danger m-1"
                             (click)="deactivatePropertyNoUser(p.propertyId)"

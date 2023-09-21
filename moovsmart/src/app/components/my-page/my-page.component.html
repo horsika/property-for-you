@@ -2,9 +2,9 @@
   <div class="row">
 
     <!-- SIDEBAR -->
-    <div class="col-sm-3">
+    <div class="col-sm-3 pl-sm-0">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item p-4">
+        <li class="list-group-item p-2">
           <button class="btn"
                   (click)="showAccountDetails()"
                   (keyup.enter)="showAccountDetails()"
@@ -34,21 +34,35 @@
             </li>
           </ul>
         </li>
-        <li class="list-group-item p-4">
+        <li class="list-group-item p-2">
           <button class="btn"
                   (click)="showMyProperties()"
                   (keyup.enter)="showMyProperties()"
           >My Properties
           </button>
         </li>
-        <li class="list-group-item p-4">
+        <li class="list-group-item p-2">
+          <button class="btn"
+                  (click)="showMyOpenHouses()"
+                  (keyup.enter)="showMyOpenHouses()"
+          >My Open Houses
+          </button>
+        </li>
+        <li class="list-group-item p-2">
           <button class="btn"
                   (click)="showMySavedProperties()"
                   (keyup.enter)="showMySavedProperties()"
           >Saved Properties
           </button>
         </li>
-        <li class="list-group-item p-4">
+        <li class="list-group-item p-2">
+          <button class="btn"
+                  (click)="showMyBookedTours()"
+                  (keyup.enter)="showMyBookedTours()"
+          >Booked Tours
+          </button>
+        </li>
+        <li class="list-group-item p-2">
           <button class="btn"
                   (click)="logOut()"
                   (keyup.enter)="logOut()"
@@ -59,8 +73,8 @@
     </div>
 
     <!-- ACTIVE PAGE -->
-    <div class="col-sm-9">
-      <div class="container-fluid p-4" [ngSwitch]="activePage">
+    <div class="col-sm-9 pl-sm-0">
+      <div class="container-fluid p-2" [ngSwitch]="activePage">
 
         <!-- my account -->
         <div *ngSwitchDefault class="row" id="my-account">
@@ -78,7 +92,7 @@
 
         <!-- change email -->
         <div *ngSwitchCase="'EmailChange'" class="row" id="email-change">
-          <form [formGroup]="email" class="p-4">
+          <form [formGroup]="email" class="p-2">
             <div class="form-group p-2">
               <label for="email"
                      [ngClass]="{
@@ -144,7 +158,9 @@
                         (keyup.enter)="previewProperty(p.propertyId)"
                         *ngIf="p.isActiveDisplayName === 'Active'">Preview
                 </button>
-                <button class="btn btn-outline-primary m-1">Modify
+                <button class="btn btn-outline-primary m-1"
+                        (click)="goToEditProperty(p.propertyId)"
+                        (keyup.enter)="goToEditProperty(p.propertyId)">Modify
                 </button>
                 <button class="btn btn-outline-info m-1"
                         (click)="showOpenHouseForm(p.propertyId)">+OpenHouse
@@ -155,7 +171,7 @@
                         *ngIf="p.isActiveDisplayName === 'Active'">Deactivate
                 </button>
                 <!-- inactive property button -->
-                <button class="btn btn-outline-danger m-1"
+                <button class="btn btn-outline-success m-1"
                         (click)="activateProperty(p.propertyId)"
                         (keyup.enter)="activateProperty(p.propertyId)"
                         *ngIf="p.isActiveDisplayName === 'Inactive' || p.isActiveDisplayName === 'Archived'">Activate
@@ -167,7 +183,7 @@
 
         <!-- change password -->
         <div *ngSwitchCase="'PasswordChange'" id="password-change">
-          <form [formGroup]="password" class="p-4">
+          <form [formGroup]="password" class="p-2">
             <div class="form-group  mb-4">
               <label for="pass"
                      [ngClass]="{
@@ -195,7 +211,8 @@
 
             <div class="form-group  mb-4">
               <label for="pass2"
-                     [ngClass]="{'text-danger': !passwordsMatch && password.get('password2').touched}">Password (once more)</label>
+                     [ngClass]="{'text-danger': !passwordsMatch && password.get('password2').touched}">Password (once
+                more)</label>
               <input type="password" class="form-control" id="pass2" placeholder="Password" formControlName="password2"
                      [ngClass]="{'is-invalid': !passwordsMatch && password.get('password2').touched}"
                      (change)="onPasswordChange()"
@@ -208,11 +225,11 @@
             </div>
 
 
-              <small class="text-danger"
-                     *ngIf="errorMessage">
-                {{errorMessage}}
-              </small>
-              <p>Changing your password will require you to log in again!</p>
+            <small class="text-danger"
+                   *ngIf="errorMessage">
+              {{errorMessage}}
+            </small>
+            <p>Changing your password will require you to log in again!</p>
 
 
             <div class="p-2">
@@ -227,7 +244,7 @@
         </div>
 
         <!-- upload profile picture -->
-        <div *ngSwitchCase="'ProfilePicture'" class="p-4">
+        <div *ngSwitchCase="'ProfilePicture'" class="p-2">
           <form [formGroup]="profilePic">
             <label for="profile-pic">
               Upload a new profile picture
@@ -243,7 +260,12 @@
                     [disabled]="profilePic.invalid"
                     (click)="changeProfilePicture()"
                     (keyup.enter)="changeProfilePicture()"
+                    *ngIf="!loading"
             >Submit
+            </button>
+            <button class="btn btn-success" type="button" disabled *ngIf="loading">
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              <span role="status"> Loading...</span>
             </button>
           </form>
         </div>
@@ -283,7 +305,7 @@
         </div>
 
         <!-- create a new open house  -->
-        <div *ngSwitchCase="'OpenHouse'" class="p-4">
+        <div *ngSwitchCase="'OpenHouse'" class="p-2">
           <form [formGroup]="openHouseForm">
             <label for="property-id">
               Property name
@@ -380,12 +402,13 @@
 
         </div>
 
-        <!-- show open house list  -->
+        <!-- show open house list by property  -->
         <div class="container-fluid">
-          <div *ngSwitchCase="'OpenHouseList'" class="p-4">
+          <div *ngSwitchCase="'OpenHouseList'" class="p-2">
             <h6 class="text-left">
               {{ openHouseList?.length > 0 ? openHouseList[0]?.propertyName : 'No tour currently available for this property, please try later.' }}</h6>
             <hr>
+            <div class="table-responsive">
             <table class="table" style="font-size: 0.9rem;">
               <thead>
               <tr class="table">
@@ -428,7 +451,92 @@
               </tr>
               </tbody>
             </table>
+            </div>
+            <div class="text-info-emphasis justify-content-center" *ngIf="emailSent">
+              {{emailSent}}
+            </div>
 
+          </div>
+        </div>
+
+        <!-- show MY open house list  -->
+        <div class="container-fluid">
+          <div *ngSwitchCase="'MyOpenHouses'" class="p-2">
+            <h6 class="text-left">
+              My Open Houses</h6>
+            <hr>
+            <table class="table" style="font-size: 0.9rem;">
+              <thead>
+              <tr class="table">
+                <th scope="col" class="w-25">Property Name</th>
+                <th scope="col" class="w-25">From</th>
+                <th scope="col" class="w-25">To</th>
+                <th scope="col" class="w-10">Max Places</th>
+                <th scope="col" class="w-10">Places Booked</th>
+                <!--                <th scope="col"></th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let openHouse of myOpenHouseList; let i = index">
+                <td>{{openHouse.propertyName}}</td>
+                <td>{{openHouse.fromTime}}</td>
+                <td>{{openHouse.toTime}}</td>
+                <td>{{openHouse.maxParticipants}}</td>
+                <td>{{openHouse.sumPlacesBooked}}</td>
+
+                <!--                <td>-->
+                <!--                  <button class="btn btn-outline-info">Change</button>-->
+                <!--                </td>-->
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <!-- show MY booking list  -->
+        <div class="container-fluid">
+          <div *ngSwitchCase="'BookedTours'" class="p-2">
+            <h6 class="text-left">
+              Booked Tours</h6>
+            <hr>
+            <table class="table" style="font-size: 0.9rem;">
+              <thead>
+              <tr class="table">
+                <th scope="col" class="w-25">Property Name</th>
+                <th scope="col" class="w-25">Property Address</th>
+                <th scope="col" class="w-25">From</th>
+                <th scope="col" class="w-25">To</th>
+                <th scope="col" class="w-10">Places Booked</th>
+                <!--                <th scope="col"></th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let bookedTour of bookedTourList; let i = index">
+                <td>{{bookedTour.propertyName}}</td>
+                <td class="address">
+                  <a
+                    [href]="getGoogleMapsUrl(bookedTour.propertyAddress)"
+                    target="_blank"
+                    class="google-maps-link"
+                    title="Click to open in Google Maps">
+                    {{bookedTour.propertyAddress}}</a>
+                </td>
+                <td>{{bookedTour.fromTime}}</td>
+                <td>{{bookedTour.toTime}}</td>
+                <td>{{bookedTour.sumPlacesBooked}}</td>
+
+                <!--                <td>-->
+                <!--                  <button class="btn btn-outline-info">Change</button>-->
+                <!--                </td>-->
+              </tr>
+              </tbody>
+            </table>
+            <br>
+
+            <div class="map-container">
+              <div id="map"></div>
+            </div>
 
           </div>
         </div>

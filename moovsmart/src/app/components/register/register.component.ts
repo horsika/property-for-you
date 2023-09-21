@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {AuthResponseModel} from "../../models/auth-response.model";
 import {AdminService} from "../../services/admin.service";
-import {signOut} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-register',
@@ -77,12 +76,7 @@ export class RegisterComponent {
         const token = response.token;
         localStorage.setItem('token', token);
         this.userService.tokenIsPresent.next(true);
-
-        if (JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN') {
-          this.adminService.isAdmin.next(true);
-        } else {
-          this.adminService.isAdmin.next(false);
-        }
+        this.adminService.decideIfAdmin();
       },
       error => {
         this.badCredentials = 'Email or password are incorrect';
@@ -106,13 +100,7 @@ export class RegisterComponent {
       next: data => {
         localStorage.setItem('token', data.token);
         this.userService.tokenIsPresent.next(true);
-
-        if (JSON.parse(atob(data.token.split('.')[1])).role === 'ROLE_ADMIN') {
-          this.adminService.isAdmin.next(true);
-        } else {
-          this.adminService.isAdmin.next(false);
-        }
-
+        this.adminService.decideIfAdmin();
       },
       error: err => {
         validationHandler(err, this.auth);

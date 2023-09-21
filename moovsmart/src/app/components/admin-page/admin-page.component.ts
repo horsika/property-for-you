@@ -148,6 +148,8 @@ export class AdminPageComponent implements OnInit {
       });
   }
 
-
+  goToModifyProperty(id: number) {
+    this.router.navigate(['/property-form/' + id]);
+  }
 
 }

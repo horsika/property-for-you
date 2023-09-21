@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: "", component: HomepageComponent},
   {path: "property-list", component: PropertyListComponent},
   {path: "property-form", component: PropertyFormComponent, canActivate: [AuthGuard]},
+  {path: "property-form/:id", component: PropertyFormComponent, canActivate: [AuthGuard]},
   {path: "property-details/:id", component: PropertyDetailsComponent},
   {path: "register", component: RegisterComponent},
   {path: "my-page", component: MyPageComponent, canActivate: [AuthGuard]},
