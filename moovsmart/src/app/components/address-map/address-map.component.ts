@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {NominatimResponseModel} from "../../models/nominatimResponse.model";
 import * as L from 'leaflet';
-import {icon, latLng, LeafletMouseEvent, Map, MapOptions, Marker, tileLayer} from 'leaflet';
+import {icon, LatLng, latLng, LeafletMouseEvent, Map, MapOptions, Marker, tileLayer} from 'leaflet';
 import {MapPointModel} from "../../models/map-point.model";
 import {NominatimService} from "../../services/nominatim.service";
 import {AddressModel} from "../../models/address.model";
@@ -87,7 +87,8 @@ export class AddressMapComponent implements OnInit, OnChanges {
           address.postcode,
           address.city,
           address.road,
-          address.house_number)
+          address.house_number);
+        this.map.setView(new LatLng(latitude, longitude),16);
       },
       error: err => console.warn(err),
       complete: () => {
