@@ -6,13 +6,12 @@ export const environment = {
   production: false,
   BASE_URL: 'http://localhost:8080',
   firebase: {
-    projectId: 'propertyforyou-71c66',
-    appId: '1:405871761820:web:e9bcae8f6064db30255059',
-    storageBucket: 'propertyforyou-71c66.appspot.com',
-    apiKey: 'AIzaSyBPhCQm0KGPMAj9YrATPPgSLIdRJIXf0do',
-    authDomain: 'propertyforyou-71c66.firebaseapp.com',
-    messagingSenderId: '405871761820',
-    measurementId: 'G-RP2XT93EDV',
+    projectId: 'propertyforyou-b8d1b',
+    appId: '1:694064706265:web:bbe473a939275a660284c8',
+    storageBucket: 'propertyforyou-b8d1b.appspot.com',
+    apiKey: 'AIzaSyCsh-QWXivS_Zf04hGn2u3LJWOcToTWXTw',
+    authDomain: 'propertyforyou-b8d1b.firebaseapp.com',
+    messagingSenderId: '694064706265',
   }
 };
 

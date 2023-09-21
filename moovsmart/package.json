@@ -25,7 +25,7 @@
     "@popperjs/core": "^2.11.8",
     "@types/mapbox-gl-leaflet": "^0.0.1",
     "bootstrap": "^5.3.1",
-    "firebase": "^9.23.0",
+    "firebase": "^10.4.0",
     "glider-js": "^1.7.8",
     "jquery": "^3.7.0",
     "leaflet": "^1.7.1",

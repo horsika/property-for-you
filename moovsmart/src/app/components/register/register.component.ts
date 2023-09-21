@@ -21,6 +21,7 @@ export class RegisterComponent {
   loading: boolean = false;
   errorMessage: string | null = null;
   passwordsMatch: boolean;
+
   constructor(private userService: UserService,
               private adminService: AdminService,
               private formBuilder: FormBuilder,
@@ -44,7 +45,7 @@ export class RegisterComponent {
   onPasswordChange() {
     let pass1 = this.user.get('password').value;
     let pass2 = this.user.get('password2').value;
-    this.passwordsMatch =  (pass1 === pass2);
+    this.passwordsMatch = (pass1 === pass2);
   }
 
   onRegister() {
@@ -75,7 +76,7 @@ export class RegisterComponent {
         localStorage.setItem('token', token);
         this.userService.tokenIsPresent.next(true);
 
-        if(JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN'){
+        if (JSON.parse(atob(token.split('.')[1])).role === 'ROLE_ADMIN') {
           this.adminService.isAdmin.next(true);
         } else {
           this.adminService.isAdmin.next(false);
@@ -100,14 +101,22 @@ export class RegisterComponent {
 
   loginWithGoogle() {
     this.userService.loginWithGoogle().subscribe({
-      next: data => localStorage.setItem('token', data),
+      next: data => {
+        localStorage.setItem('token', data.token);
+        this.userService.tokenIsPresent.next(true);
+
+        if (JSON.parse(atob(data.token.split('.')[1])).role === 'ROLE_ADMIN') {
+          this.adminService.isAdmin.next(true);
+        } else {
+          this.adminService.isAdmin.next(false);
+        }
+
+      },
       error: err => {
         validationHandler(err, this.auth);
       },
       complete: () => {
-        // const decodedToken = this.userService.getDecodedToken(localStorage.getItem('token'));
-        // this.userService.authStatus.next(decodedToken);
-        // this.router.navigate(['user-profile'])
+        this.router.navigate(["/homepage"])
       }
     });
   }

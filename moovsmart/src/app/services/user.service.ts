@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {RegisterRequest, RegisterRequestModel} from "../models/register-request.model";
+import {RegisterRequestModel} from "../models/register-request.model";
 import {AuthRequest, AuthRequestModel} from "../models/auth-request-model";
 import {AuthResponseModel} from "../models/auth-response.model";
 import {environment} from "../../environments/environment";
@@ -9,9 +9,7 @@ import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
 import {PasswordChangeModel} from "../models/password-change.model";
 import {AdminService} from "./admin.service";
-import firebase from "firebase/compat";
-import {Auth, signInWithPopup} from "@angular/fire/auth";
-import GoogleAuthProvider = firebase.auth.GoogleAuthProvider;
+import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect} from "@angular/fire/auth";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -55,10 +53,10 @@ export class UserService {
     return this.http.post(BASE_URL + '/upload-profile-pic', data);
   }
 
-  loginWithGoogle(): Observable<string> {
+  loginWithGoogle(): Observable<AuthResponseModel> {
     const provider = new GoogleAuthProvider();
     provider.addScope("email");
-    return new Observable<string>(observer => {
+    return new Observable<AuthResponseModel>(observer => {
       signInWithPopup(this.auth, provider).then(result => {
         const user = result.user;
         const email = user.providerData[0].email;
@@ -69,10 +67,10 @@ export class UserService {
     });
   }
 
-  sendLoginRequest(observer: Subscriber<string>, email: string) {
+  sendLoginRequest(observer: Subscriber<AuthResponseModel>, email: string) {
     let authRequest = new AuthRequest();
-    authRequest.email = email;
-    authRequest.password = null;
+    authRequest.loginEmail = email;
+    authRequest.loginPassword = null;
     this.loginUserWithSocialMedia(authRequest).subscribe(response => {
       observer.next(response);
       observer.complete();
@@ -81,7 +79,7 @@ export class UserService {
     });
   }
 
-  private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<string> {
-    return this.http.post<string>(`${BASE_URL}/social-login`, authRequest);
+  private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<AuthResponseModel> {
+    return this.http.post<AuthResponseModel>(`${BASE_URL}/social-authentication`, authRequest);
   }
 }

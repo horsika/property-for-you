@@ -73,7 +73,7 @@ public class AuthenticationService {
                 )
         );
 
-        var user = userRepository.findUserByEmail(request.getLoginEmail()).orElseThrow();
+        var user = userRepository.findUserByEmail(request.getLoginEmail()).orElseThrow(EntityNotFoundException::new);
 
         if(!user.isEnabled()) {
             throw new DisabledException("This account is currently disabled.");
@@ -186,4 +186,15 @@ public class AuthenticationService {
         return userRepository.findUsersByEnabledIsFalse().stream().map(AccountDetails::new).collect(Collectors.toList());
     }
 
+    public AuthResponse authenticateSocial(AuthenticationRequest request) {
+        var user = userRepository.findUserByEmail(request.getLoginEmail()).orElseThrow(EntityNotFoundException::new);
+
+        if(!user.isEnabled()) {
+            throw new DisabledException("This account is currently disabled.");
+        }
+        var jwtToken = jwtService.generateToken(user);
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
 }

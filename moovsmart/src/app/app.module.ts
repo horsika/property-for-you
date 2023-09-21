@@ -26,8 +26,9 @@ import {MapPointFormComponent} from './components/map-point-form/map-point-form.
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {environment} from '../environments/environment';
-import {provideAuth, getAuth} from '@angular/fire/auth';
-import {provideFirestore, getFirestore} from '@angular/fire/firestore';
+import {getAuth, provideAuth} from '@angular/fire/auth';
+import {getFirestore, provideFirestore} from '@angular/fire/firestore';
+import {ScreenTrackingService, UserTrackingService} from '@angular/fire/analytics';
 import {AngularFireModule} from "@angular/fire/compat";
 
 @NgModule({
@@ -69,6 +70,7 @@ import {AngularFireModule} from "@angular/fire/compat";
       useClass: AuthInterceptor,
       multi: true,
     },
+    ScreenTrackingService,UserTrackingService,
   ],
   bootstrap: [AppComponent]
 })

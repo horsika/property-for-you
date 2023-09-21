@@ -179,6 +179,7 @@
       </button>
       <button type="button" class="btn btn-outline-success" [disabled]="auth.invalid" (click)="onLogin()" *ngIf="!toggle && !loading">Login
       </button>
+      <button class="mx-3 btn btn-outline-danger" *ngIf="!toggle && !loading" (click)="loginWithGoogle()"><i class="fab fa-google-plus-g"></i></button>
     </div>
   </div>
 

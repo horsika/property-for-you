@@ -72,7 +72,10 @@ public class AuthenticationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @PostMapping("/social-authentication")
+    public ResponseEntity<AuthResponse> loginUserWithSocial(@RequestBody AuthenticationRequest request) {
+        return new ResponseEntity<>(authenticationService.authenticateSocial(request), HttpStatus.OK);
+    }
 
 
 }

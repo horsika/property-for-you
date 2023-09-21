@@ -5,6 +5,6 @@ export interface AuthRequestModel {
 }
 
 export class AuthRequest {
-  email: string;
-  password: string;
+  loginEmail: string;
+  loginPassword: string;
 }
