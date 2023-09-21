@@ -131,6 +131,11 @@ body {
   padding-top: 2rem;
 }
 
+.card-img, .card-img-bottom, .card-img-top {
+  height: 180px !important;
+}
+
+
 @media (min-width: 576px) {
   .card-group.card-group-scroll {
     overflow-x: auto;

@@ -162,7 +162,8 @@
               <h5>
                 <span class="currency">HUF</span>
                 <span class="price">{{property.price  | number:'1.0-0'}} Million</span>
-                <span class="per-sqm"> (HUF {{ ((property.price / property.floorArea) * 1000000) | number:'1.0-0' }}/sqm)</span>
+                <br>
+                <span class="per-sqm">(HUF {{ ((property.price / property.floorArea) * 1000000) | number:'1.0-0' }}/sqm)</span>
               </h5>
               <div class="activated-at"> {{property.formattedActivatedAt}}</div>
               <div class="details-list">

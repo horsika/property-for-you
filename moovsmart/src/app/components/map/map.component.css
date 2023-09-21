@@ -43,13 +43,13 @@
 
 
 .leaflet-popup .leaflet-popup-content-wrapper{
-  border-radius: 0;
+  border-radius: 0 !important;
 }
 .map-container .leaflet-popup-content {
-  margin: 5px;
+  margin: 5px !important;
 }
 .map-container .leaflet-popup-tip{
-  display: none;
+  display: none !important;
 }
 
 
