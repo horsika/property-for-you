@@ -9,7 +9,7 @@ import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
 import {PasswordChangeModel} from "../models/password-change.model";
 import {AdminService} from "./admin.service";
-import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect} from "@angular/fire/auth";
+import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut} from "@angular/fire/auth";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 

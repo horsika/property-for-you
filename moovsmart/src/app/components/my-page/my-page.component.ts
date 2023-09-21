@@ -14,9 +14,6 @@ import {OpenHouseFormDataModel} from "../../models/open-house-form-data.model";
 import {OpenHouseListItemModel} from "../../models/open-house-list-item.model";
 import {BookingService} from "../../services/booking.service";
 import {BookingFormDataModel} from "../../models/booking-form-data.model";
-import {Auth, signOut} from "@angular/fire/auth";
-import firebase from "firebase/compat";
-import auth = firebase.auth;
 
 @Component({
   selector: 'app-my-page',
@@ -48,8 +45,7 @@ export class MyPageComponent implements OnInit {
               private adminService: AdminService,
               private openHouseService: OpenHouseService,
               private route: ActivatedRoute,
-              private bookingService: BookingService,
-              private auth: Auth) {
+              private bookingService: BookingService) {
     this.email = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     })
@@ -177,7 +173,7 @@ export class MyPageComponent implements OnInit {
     this.userService.tokenIsPresent.next(false);
     this.adminService.isAdmin.next(false);
     localStorage.removeItem('token');
-    signOut(this.auth).then(r => this.router.navigate(['/homepage']));
+    this.router.navigate(['/homepage']);
   }
 
   previewProperty(id: number) {

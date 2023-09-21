@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {errorHandler, validationHandler} from "../../utils/validationHandler";
 import {AuthResponseModel} from "../../models/auth-response.model";
 import {AdminService} from "../../services/admin.service";
+import {signOut} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,7 @@ export class RegisterComponent {
   loading: boolean = false;
   errorMessage: string | null = null;
   passwordsMatch: boolean;
+  isLoginFailed: boolean = false;
 
   constructor(private userService: UserService,
               private adminService: AdminService,
@@ -114,6 +116,8 @@ export class RegisterComponent {
       },
       error: err => {
         validationHandler(err, this.auth);
+        this.isLoginFailed = true;
+
       },
       complete: () => {
         this.router.navigate(["/homepage"])
