@@ -272,9 +272,14 @@ export class MyPageComponent implements OnInit, OnDestroy {
   onFileChange(event: any) {
     if (event?.target?.files?.length > 0) {
       const file = event.target.files[0];
-      this.profilePic.patchValue({
-        file
-      });
+      if (file.size > 2000000) {
+        alert('File size exceeds the allowed limit (2MB). Please choose a smaller file.');
+        event.target.value = '';
+      } else {
+        this.profilePic.patchValue({
+          file
+        });
+      }
     }
   }
 
