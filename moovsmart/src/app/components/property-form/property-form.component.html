@@ -325,7 +325,7 @@
     <br/>
     <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid" *ngIf="!loading && !initialMapPoint" (click)="submit()">Save Property</button>
     <button class="btn btn-outline-success mb-5" [disabled]="propertyForm.invalid" *ngIf="!loading && initialMapPoint" (click)="edit()">Save Changes</button>
-    <button class="btn btn-success" type="button" disabled *ngIf="loading">
+    <button class="btn btn-success mb-5" type="button" disabled *ngIf="loading">
       <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
       <span role="status"> Loading...</span>
     </button>

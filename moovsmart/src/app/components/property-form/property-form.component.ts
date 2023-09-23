@@ -40,12 +40,11 @@ export class PropertyFormComponent implements OnInit {
       'airConditioning': [false],
       'description': ['', [Validators.required, Validators.maxLength(600), Validators.minLength(50)]],
       'images': this.formBuilder.array([]),
-      // 'address': [{value: '', disabled: true}, [Validators.required]],
       'postcode': [{value: '', disabled: true}, [Validators.required]],
       'city': [{value: '', disabled: true}, [Validators.required]],
       'road': [{value: '', disabled: true}, [Validators.required]],
       'house_number': ['', [Validators.min(1), Validators.pattern('^[1-9]\\d*(?:[ -\\/]?(?:[a-zA-Z]+|[1-9]\\d*))?$')]],
-      'floor': ['', Validators.min(1)],
+      'floor': ['', Validators.min(0)],
       'door': ['', Validators.pattern('^[1-9]\\d*(\\s*)?([-/.]?\\s?[a-zA-Z])?$')],
       'propertyType': ['', Validators.required],
       'heatingType': ['', Validators.required],
@@ -79,14 +78,40 @@ export class PropertyFormComponent implements OnInit {
       const images = event.target.files;
       const imageControls = this.propertyForm.get('images') as FormArray;
 
-      for (const image of images) {
-        const fileControl = new FormControl(image);
-        imageControls.push(fileControl);
-      }
+      const goodImages: Array<File> = [];
 
-      this.displayPropertyImages(images);
+      for (const image of images) {
+        if(image.size > 2000000) {
+          alert(image.name + ' exceeds the allowed file size limit (2MB). Please choose a smaller file.');
+        } else {
+          goodImages.push(image)
+          const fileControl = new FormControl(image);
+          imageControls.push(fileControl);
+        }
+      }
+      const imageArrayWithInMaxSize = this.removeFilesWhen10MbsExceeded(goodImages);
+      this.displayPropertyImages(imageArrayWithInMaxSize);
     }
   }
+
+  removeFilesWhen10MbsExceeded(files: File[]): File[] {
+    const maxSizeInBytes = 10 * 1024 * 1024;
+    let totalSize = 0;
+    const filteredFiles: File[] = [];
+
+    for (const file of files) {
+      totalSize += file.size;
+
+      if (totalSize <= maxSizeInBytes) {
+        filteredFiles.push(file);
+      } else {
+        alert('The total size of the uploaded images exceeds 10MB, therefore some images were left out.');
+        break;
+      }
+    }
+    return filteredFiles;
+  }
+
 
   displayPropertyImages(images: Array<File>) {
     this.urls = [];
@@ -212,7 +237,6 @@ export class PropertyFormComponent implements OnInit {
     const formData = new FormData();
     this.loopThruFormControls(formData);
     this.loading = true;
-    // console.log(formData.get('images'));
     this.propertyService.editProperty(formData, this.editablePropertyId).subscribe(
       () => {
       },
@@ -228,10 +252,4 @@ export class PropertyFormComponent implements OnInit {
     );
 
   };
-
-  logFormData(formData: FormData) {
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
-  }
 }
