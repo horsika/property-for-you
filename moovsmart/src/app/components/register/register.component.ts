@@ -95,21 +95,21 @@ export class RegisterComponent {
     this.toggle = true;
   }
 
-  // loginWithGoogle() {
-  //   this.userService.loginWithGoogle().subscribe({
-  //     next: data => {
-  //       localStorage.setItem('token', data.token);
-  //       this.userService.tokenIsPresent.next(true);
-  //       this.adminService.decideIfAdmin();
-  //     },
-  //     error: err => {
-  //       validationHandler(err, this.auth);
-  //       this.isLoginFailed = true;
-  //
-  //     },
-  //     complete: () => {
-  //       this.router.navigate(["/homepage"])
-  //     }
-  //   });
-  // }
+  loginWithGoogle() {
+    this.userService.loginWithGoogle().subscribe({
+      next: data => {
+        localStorage.setItem('token', data.token);
+        this.userService.tokenIsPresent.next(true);
+        this.adminService.decideIfAdmin();
+      },
+      error: err => {
+        validationHandler(err, this.auth);
+        this.isLoginFailed = true;
+
+      },
+      complete: () => {
+        this.router.navigate(["/homepage"])
+      }
+    });
+  }
 }

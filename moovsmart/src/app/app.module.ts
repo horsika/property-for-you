@@ -24,12 +24,11 @@ import {AddressMapComponent} from './components/address-map/address-map.componen
 import {ResultsListComponent} from './components/results-list/results-list.component';
 import {MapPointFormComponent} from './components/map-point-form/map-point-form.component';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
-// import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
-// import {environment} from '../environments/environment';
-// import {getAuth, provideAuth} from '@angular/fire/auth';
-// import {getFirestore, provideFirestore} from '@angular/fire/firestore';
-// import {ScreenTrackingService, UserTrackingService} from '@angular/fire/analytics';
-// import {AngularFireModule} from "@angular/fire/compat";
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {environment} from '../environments/environment';
+import {getAuth, provideAuth} from '@angular/fire/auth';
+import {getFirestore, provideFirestore} from '@angular/fire/firestore';
+import {AngularFireModule} from "@angular/fire/compat";
 
 @NgModule({
   declarations: [
@@ -59,10 +58,10 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
     AppRoutingModule,
     FormsModule,
     LeafletModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideAuth(() => getAuth()),
-    // provideFirestore(() => getFirestore()),
-    // AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [
     {
@@ -70,7 +69,6 @@ import {LeafletModule} from "@asymmetrik/ngx-leaflet";
       useClass: AuthInterceptor,
       multi: true,
     },
-    // ScreenTrackingService,UserTrackingService,
   ],
   bootstrap: [AppComponent]
 })

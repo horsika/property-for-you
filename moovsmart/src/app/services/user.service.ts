@@ -9,7 +9,7 @@ import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
 import {PasswordChangeModel} from "../models/password-change.model";
 import {AdminService} from "./admin.service";
-// import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut} from "@angular/fire/auth";
+import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut} from "@angular/fire/auth";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -20,7 +20,7 @@ export class UserService {
 
   tokenIsPresent = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private adminService: AdminService, /*private auth: Auth*/) {
+  constructor(private http: HttpClient, private adminService: AdminService, private auth: Auth) {
   }
 
   registerUser(data: RegisterRequestModel) {
@@ -53,33 +53,33 @@ export class UserService {
     return this.http.post(BASE_URL + '/upload-profile-pic', data);
   }
 
-  // loginWithGoogle(): Observable<AuthResponseModel> {
-  //   const provider = new GoogleAuthProvider();
-  //   provider.addScope("email");
-  //   return new Observable<AuthResponseModel>(observer => {
-  //     signInWithPopup(this.auth, provider).then(result => {
-  //       const user = result.user;
-  //       const email = user.providerData[0].email;
-  //       this.sendLoginRequest(observer, email);
-  //     }).catch(error => {
-  //       observer.error(error);
-  //     });
-  //   });
-  // }
-  //
-  // sendLoginRequest(observer: Subscriber<AuthResponseModel>, email: string) {
-  //   let authRequest = new AuthRequest();
-  //   authRequest.loginEmail = email;
-  //   authRequest.loginPassword = null;
-  //   this.loginUserWithSocialMedia(authRequest).subscribe(response => {
-  //     observer.next(response);
-  //     observer.complete();
-  //   }, error => {
-  //     observer.error(error);
-  //   });
-  // }
-  //
-  // private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<AuthResponseModel> {
-  //   return this.http.post<AuthResponseModel>(`${BASE_URL}/social-authentication`, authRequest);
-  // }
+  loginWithGoogle(): Observable<AuthResponseModel> {
+    const provider = new GoogleAuthProvider();
+    provider.addScope("email");
+    return new Observable<AuthResponseModel>(observer => {
+      signInWithPopup(this.auth, provider).then(result => {
+        const user = result.user;
+        const email = user.providerData[0].email;
+        this.sendLoginRequest(observer, email);
+      }).catch(error => {
+        observer.error(error);
+      });
+    });
+  }
+
+  sendLoginRequest(observer: Subscriber<AuthResponseModel>, email: string) {
+    let authRequest = new AuthRequest();
+    authRequest.loginEmail = email;
+    authRequest.loginPassword = null;
+    this.loginUserWithSocialMedia(authRequest).subscribe(response => {
+      observer.next(response);
+      observer.complete();
+    }, error => {
+      observer.error(error);
+    });
+  }
+
+  private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<AuthResponseModel> {
+    return this.http.post<AuthResponseModel>(`${BASE_URL}/social-authentication`, authRequest);
+  }
 }
