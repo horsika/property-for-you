@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class PropertyController {
 
     @GetMapping
     public ResponseEntity<List<PropertyListItem>> getPropertiesActivated() {
-        return new ResponseEntity<>(propertyService.getPropertiesActivated(), HttpStatus.OK);
+        return new ResponseEntity<>(propertyService.getPropertiesActivateFiveDaysOrMore(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

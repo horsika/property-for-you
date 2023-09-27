@@ -33,10 +33,16 @@ public class PropertyService {
         this.authenticationService = authenticationService;
     }
 
-    public List<PropertyListItem> getPropertiesActivated() {
-        List<Property> properties = propertyRepository.findAllWhereListingStatusLikeActiveOrderByActivatedAtDesc();
+    //Non-logged in users
+    public List<PropertyListItem> getPropertiesActivateFiveDaysOrMore() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime pastDateTime = currentDateTime.minusDays(5);
+        List<Property> properties = propertyRepository.findAllActiveForFiveDaysOrMore(pastDateTime);
         return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
     }
+
+
+
 
     // as a logged-in user
     public PropertyDetails getPropertyDetails(Long id, String token) {
