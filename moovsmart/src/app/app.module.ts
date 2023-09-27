@@ -33,6 +33,7 @@ import {getAuth, provideAuth} from '@angular/fire/auth';
 import {getFirestore, provideFirestore} from '@angular/fire/firestore';
 import {AngularFireModule} from "@angular/fire/compat";
 import { ChatComponent } from './components/chat/chat.component';
+import { NewChatComponent } from './components/new-chat/new-chat.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ChatComponent } from './components/chat/chat.component';
     MapPointFormComponent,
     PremiumComponent,
     PaymentComponent,
-    ChatComponent
+    ChatComponent,
+    NewChatComponent
   ],
   imports: [
     HttpClientModule,

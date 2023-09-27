@@ -5,6 +5,7 @@ import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
 import {AddToFavsModel} from "../../models/add-to-favs.model";
 import {OpenHouseService} from "../../services/open-house.service";
+import {PremiumService} from "../../services/premium.service";
 
 @Component({
   selector: 'app-property-details',
@@ -36,7 +37,8 @@ export class PropertyDetailsComponent implements OnInit {
   constructor(private propertyService: PropertyService,
               private route: ActivatedRoute,
               private router: Router,
-              private openHouseService: OpenHouseService) {
+              private openHouseService: OpenHouseService,
+              private premiumService: PremiumService) {
   }
 
   private initMap(): void {
@@ -113,4 +115,15 @@ export class PropertyDetailsComponent implements OnInit {
     this.openHouseService.setSelectedPropertyId(propertyId);
     this.router.navigate(['/my-page']);
   }
+
+  chatWithOwner(propertyId: number) {
+    this.premiumService.getPropertyOwnerAkaRecipient(propertyId).subscribe(resp => {
+      this.premiumService.newChatRecipient.next(resp);
+    },
+      error => {},
+      () => {
+        this.router.navigate(['/premium']);
+      })
+  }
+
 }
