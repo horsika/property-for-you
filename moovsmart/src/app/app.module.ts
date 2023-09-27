@@ -26,13 +26,13 @@ import {MapPointFormComponent} from './components/map-point-form/map-point-form.
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import { PremiumComponent } from './components/premium/premium.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import {NgxPayPalModule} from "ngx-paypal";
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {environment} from '../environments/environment';
+import {getAuth, provideAuth} from '@angular/fire/auth';
+import {getFirestore, provideFirestore} from '@angular/fire/firestore';
+import {AngularFireModule} from "@angular/fire/compat";
 import { ChatComponent } from './components/chat/chat.component';
-// import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
-// import {environment} from '../environments/environment';
-// import {getAuth, provideAuth} from '@angular/fire/auth';
-// import {getFirestore, provideFirestore} from '@angular/fire/firestore';
-// import {ScreenTrackingService, UserTrackingService} from '@angular/fire/analytics';
-// import {AngularFireModule} from "@angular/fire/compat";
 
 @NgModule({
   declarations: [
@@ -65,10 +65,11 @@ import { ChatComponent } from './components/chat/chat.component';
     AppRoutingModule,
     FormsModule,
     LeafletModule,
-    // provideFirebaseApp(() => initializeApp(environment.firebase)),
-    // provideAuth(() => getAuth()),
-    // provideFirestore(() => getFirestore()),
-    // AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    NgxPayPalModule
   ],
   providers: [
     {
@@ -76,7 +77,6 @@ import { ChatComponent } from './components/chat/chat.component';
       useClass: AuthInterceptor,
       multi: true,
     },
-    // ScreenTrackingService,UserTrackingService,
   ],
   bootstrap: [AppComponent]
 })
