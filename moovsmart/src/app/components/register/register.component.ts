@@ -107,7 +107,7 @@ export class RegisterComponent {
         this.isLoginFailed = true;
       },
       complete: () => {
-        this.router.navigate(["/homepage"])
+        this.router.navigate(["/homepage"]);
       }
     });
   }
@@ -116,9 +116,10 @@ export class RegisterComponent {
     this.userService.registerWithGoogle().subscribe({
       error: err => {
         validationHandler(err, this.auth);
+        this.isLoginFailed = true;
       },
       complete: () => {
-        this.router.navigate(['register'])
+        this.toggle = false;
       }
     });
   }
