@@ -18,13 +18,15 @@ export class GeocodingComponent {
   }
 
   addressLookup(address: string) {
-    if (address.length > 3) {
-      this.nominatimService.addressLookup(address).subscribe(results => {
-        this.searchResults = results;
-      });
-    } else {
-      this.searchResults = [];
-    }
-    this.onSearch.emit(this.searchResults);
+    this.nominatimService.addressLookup(address).subscribe({
+      next: results => {
+      this.searchResults = results;
+    },
+    complete: () => this.onSearch.emit(this.searchResults)
+    });
+
+    // this.searchResults = [];
+
+
   }
 }

@@ -105,11 +105,21 @@ export class RegisterComponent {
       error: err => {
         validationHandler(err, this.auth);
         this.isLoginFailed = true;
-
       },
       complete: () => {
         this.router.navigate(["/homepage"])
       }
     });
   }
+
+  // registerWithGoogle() {
+  //   this.authService.registerWithGoogle().subscribe({
+  //     error: err => {
+  //       handleValidationErrors(err, this.registrationForm);
+  //     },
+  //     complete: () => {
+  //       this.router.navigate(['authentication'])
+  //     }
+  //   });
+  // }
 }

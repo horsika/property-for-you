@@ -63,6 +63,8 @@ export class UserService {
         this.sendLoginRequest(observer, email);
       }).catch(error => {
         observer.error(error);
+        this.auth.signOut();
+        localStorage.removeItem('token');
       });
     });
   }
@@ -76,6 +78,8 @@ export class UserService {
       observer.complete();
     }, error => {
       observer.error(error);
+      this.auth.signOut();
+      localStorage.removeItem('token');
     });
   }
 
