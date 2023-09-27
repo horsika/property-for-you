@@ -1,0 +1,11 @@
+.user-img {
+  clip-path: circle();
+  height: 50px;
+  display: block;
+}
+
+#msg {
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+}
