@@ -95,7 +95,7 @@ export class PropertyFormComponent implements OnInit {
   }
 
   removeFilesWhen10MbsExceeded(files: File[]): File[] {
-    const maxSizeInBytes = 10 * 1024 * 1024;
+    const maxSizeInBytes = 20 * 1024 * 1024;
     let totalSize = 0;
     const filteredFiles: File[] = [];
 
