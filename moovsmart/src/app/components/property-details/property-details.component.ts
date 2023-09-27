@@ -5,6 +5,7 @@ import {PropertyDetailsModel} from "../../models/propertyDetails.model";
 import * as L from "leaflet";
 import {AddToFavsModel} from "../../models/add-to-favs.model";
 import {OpenHouseService} from "../../services/open-house.service";
+import {MyPropertyListItemModel} from "../../models/my-property-list-item.model";
 
 @Component({
   selector: 'app-property-details',
@@ -30,7 +31,8 @@ export class PropertyDetailsComponent implements OnInit {
     propertyType: '-',
     latitude: 0,
     longitude: 0,
-    savedByUser: false
+    savedByUser: false,
+    activatedAt: null
   };
 
   constructor(private propertyService: PropertyService,
@@ -113,4 +115,12 @@ export class PropertyDetailsComponent implements OnInit {
     this.openHouseService.setSelectedPropertyId(propertyId);
     this.router.navigate(['/my-page']);
   }
+
+  calculateDateDifference(property: PropertyDetailsModel) {
+    const currentDate = new Date();
+    const activatedAtDate = new Date(property.activatedAt);
+    const timeDifference = Math.abs(currentDate.getTime() - activatedAtDate.getTime());
+    return Math.ceil(timeDifference / (1000 * 3600 * 24)); //difference in days
+  }
+
 }

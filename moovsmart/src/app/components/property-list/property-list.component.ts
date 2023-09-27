@@ -265,4 +265,12 @@ export class PropertyListComponent implements OnInit {
   goToDetails(id: number) {
     this.propertyService.goToPropertyDetails(id);
   }
+
+  calculateDateDifference(property: PropertyListItemModel) {
+    const currentDate = new Date();
+    const activatedAtDate = new Date(property.activatedAt);
+    const timeDifference = Math.abs(currentDate.getTime() - activatedAtDate.getTime());
+    return Math.ceil(timeDifference / (1000 * 3600 * 24)); //difference in days
+  }
+
 }

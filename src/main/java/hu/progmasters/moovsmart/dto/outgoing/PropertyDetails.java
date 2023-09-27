@@ -1,10 +1,12 @@
 package hu.progmasters.moovsmart.dto.outgoing;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -28,6 +30,9 @@ public class PropertyDetails {
     private Double latitude;
     private Double longitude;
     private boolean savedByUser;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime activatedAt;
+
 
     public PropertyDetails(Property property, User user) {
         this.id = property.getPropertyId();
@@ -47,6 +52,7 @@ public class PropertyDetails {
         this.latitude = property.getLatitude();
         this.longitude = property.getLongitude();
         this.savedByUser = property.getSaverUsers().contains(user);
+        this.activatedAt = property.getActivatedAt();
     }
 
     public PropertyDetails(Property property) {
@@ -67,5 +73,6 @@ public class PropertyDetails {
         this.latitude = property.getLatitude();
         this.longitude = property.getLongitude();
         this.savedByUser = false;
+        this.activatedAt = property.getActivatedAt();
     }
 }

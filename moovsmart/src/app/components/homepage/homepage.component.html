@@ -28,8 +28,9 @@
       <div class="card-group card-group-scroll d-flex flex-nowrap" id="card-group-scroller">
         <div class="card rounded shadow" *ngFor="let property of properties" (click)="goToDetails(property.propertyId)">
           <div>
-          <img src="{{property.images[0]}}" class="card-img-top"
-               alt="Property image" />
+            <div *ngIf="calculateDateDifference(property) <= 4" class="new-label">New</div>
+            <img src="{{property.images[0]}}" class="card-img-top"
+                 alt="Property image"/>
           </div>
           <div class="card-body">
             <h5 class="card-title"><span>HUF</span> {{property.price  | number:'1.0-0'}} Million</h5>
