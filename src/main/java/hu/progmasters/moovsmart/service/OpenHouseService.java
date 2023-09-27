@@ -11,13 +11,14 @@ import hu.progmasters.moovsmart.dto.outgoing.MyParticipantListItem;
 import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.repository.OpenHouseRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,7 +90,7 @@ public class OpenHouseService {
 
         List<MyOpenHouseListItem> myOpenHouseList = new ArrayList<>();
 
-        for (OpenHouse openHouse : openHouses){
+        for (OpenHouse openHouse : openHouses) {
             int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
             MyOpenHouseListItem myOpenHouseListItem = new MyOpenHouseListItem(openHouse, sumPlacesBooked);
             myOpenHouseList.add(myOpenHouseListItem);
@@ -100,13 +101,11 @@ public class OpenHouseService {
 
     private int calculateSumPlacesBooked(OpenHouse openHouse) {
         int sum = 0;
-        for (Booking booking : openHouse.getBookings()){
-            sum+= booking.getPlacesToBook();
+        for (Booking booking : openHouse.getBookings()) {
+            sum += booking.getPlacesToBook();
         }
         return sum;
     }
-
-
 
 
     public List<MyBookingListItem> getMyBookingList(String token) {
@@ -115,7 +114,7 @@ public class OpenHouseService {
 
         List<MyBookingListItem> myBookingList = new ArrayList<>();
 
-        for (OpenHouse openHouse : openHouses){
+        for (OpenHouse openHouse : openHouses) {
             int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
             MyBookingListItem myBookingListItem = new MyBookingListItem(openHouse, sumPlacesBooked);
             myBookingList.add(myBookingListItem);
@@ -131,7 +130,7 @@ public class OpenHouseService {
 
         List<MyParticipantListItem> myParticipantList = new ArrayList<>();
 
-        for (OpenHouse openHouse : openHouses){
+        for (OpenHouse openHouse : openHouses) {
             int sumPlacesBooked = calculateSumPlacesBooked(openHouse);
 
             MyParticipantListItem myParticipantListItem = new MyParticipantListItem(openHouse, sumPlacesBooked);
@@ -141,7 +140,7 @@ public class OpenHouseService {
         return myParticipantList;
     }
 
-    public void sendDailyOpenHouseStatusEmail(){
+    public void sendDailyOpenHouseStatusEmail() {
 
         List<Object[]> ownerUsersWithOpenHouses = openHouseRepository.findAllOpenHousesWithOwners();
 
@@ -158,24 +157,26 @@ public class OpenHouseService {
             ownerUserOpenHousesMap.get(ownerUser).add(openHouse);
         }
 
+        Long userIdToSendEmailTo1 = 10L;
+        Long userIdToSendEmailTo2 = 11L;
+
         // Iterate through owner users and their open houses
         for (Map.Entry<User, List<OpenHouse>> entry : ownerUserOpenHousesMap.entrySet()) {
             User ownerUser = entry.getKey();
             List<OpenHouse> openHousesForOwner = entry.getValue();
 
-            // Build the email content using ownerUser and openHousesForOwner
-            String emailContent = buildEmailContent(ownerUser, openHousesForOwner);
+            if (userIdToSendEmailTo1.equals(ownerUser.getId()) || userIdToSendEmailTo2.equals(ownerUser.getId())) {
+                // Build the email content using ownerUser and openHousesForOwner
+                String emailContent = buildEmailContent(ownerUser, openHousesForOwner);
 
-            // Send the email to the owner
-            sendHtmlEmail(ownerUser.getEmail(), "Daily Open House Status", emailContent);
+                // Send the email to the owner
+                sendHtmlEmail(ownerUser.getEmail(), "Daily Open House Status", emailContent);
+            }
         }
 
     }
 
-    private void sendHtmlEmail(String email, String dailyOpenHouseStatus, String emailContent) {
-    }
-
-    private String buildEmailContent(User ownerUser, List<OpenHouse> openHousesForOwner){
+    private String buildEmailContent(User ownerUser, List<OpenHouse> openHousesForOwner) {
 
         StringBuilder emailContent = new StringBuilder();
         emailContent.append("<html>");
@@ -208,6 +209,22 @@ public class OpenHouseService {
         emailContent.append("</html>");
         return emailContent.toString();
 
+    }
+
+    private void sendHtmlEmail(String to, String subject, String content) {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper;
+
+        try {
+            helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setSubject(subject);
+            helper.setTo(to);
+            helper.setText(content, true); // true indicates HTML content
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            // Handle the exception
+            e.printStackTrace();
+        }
     }
 
 
