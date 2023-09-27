@@ -26,6 +26,7 @@ import {MapPointFormComponent} from './components/map-point-form/map-point-form.
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 import { PremiumComponent } from './components/premium/premium.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import {NgxPayPalModule} from "ngx-paypal";
 // import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 // import {environment} from '../environments/environment';
 // import {getAuth, provideAuth} from '@angular/fire/auth';
@@ -67,6 +68,7 @@ import { PaymentComponent } from './components/payment/payment.component';
     // provideAuth(() => getAuth()),
     // provideFirestore(() => getFirestore()),
     // AngularFireModule.initializeApp(environment.firebase),
+    NgxPayPalModule
   ],
   providers: [
     {

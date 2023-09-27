@@ -82,4 +82,7 @@ export class UserService {
   // private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<AuthResponseModel> {
   //   return this.http.post<AuthResponseModel>(`${BASE_URL}/social-authentication`, authRequest);
   // }
+  premiumPurchase() {
+    return this.http.post(BASE_URL + '/premium-purchase', "premium");
+  }
 }

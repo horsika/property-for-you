@@ -197,4 +197,12 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+    public void premiumPurchase(String token) {
+        User user = this.findUserByToken(token);
+
+        user.setRole(UserRole.ROLE_PREMIUM);
+
+        this.userRepository.save(user);
+    }
 }

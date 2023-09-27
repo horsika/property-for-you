@@ -77,5 +77,10 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticationService.authenticateSocial(request), HttpStatus.OK);
     }
 
-
+    @PostMapping("/premium-purchase")
+    public ResponseEntity<Void> premiumPurchase(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                               @RequestBody String nullable) {
+        authenticationService.premiumPurchase(token);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
