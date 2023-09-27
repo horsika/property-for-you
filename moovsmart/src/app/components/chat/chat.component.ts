@@ -35,7 +35,6 @@ export class ChatComponent implements OnInit {
       if (resp != null) {
         this.currentChat = resp;
         this.currentContactId = id;
-        console.log(this.currentChat);
       }
       else {
         this.endOfChats = true;

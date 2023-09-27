@@ -35,7 +35,7 @@ export class NewChatComponent implements OnInit{
 
 
   showChat(id: number) {
-    this.chatService.getChat(id).subscribe(resp => {
+    this.chatService.getChat(id, 0).subscribe(resp => { // magic number, change!!
       this.chat = resp;
       this.contactId = id;
     })
