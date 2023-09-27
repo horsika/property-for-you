@@ -31,9 +31,19 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated() {
+//        return new ResponseEntity<>(propertyService.getPropertiesActiveForFiveDaysOrMore(), HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated() {
-        return new ResponseEntity<>(propertyService.getPropertiesActivateFiveDaysOrMore(), HttpStatus.OK);
+    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {
+
+        if (token != null) {
+            return new ResponseEntity<>(propertyService.getPropertiesActive(token), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(propertyService.getPropertiesActiveForFiveDaysOrMore(), HttpStatus.OK);
+        }
     }
 
     @GetMapping("/{id}")
@@ -50,8 +60,8 @@ public class PropertyController {
     @Operation(summary = "Create New Property")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully Created new Property",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PropertyForm.class)) })})
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PropertyForm.class))})})
     public ResponseEntity<Void> createProperty(@ModelAttribute PropertyForm propertyForm,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         propertyService.createProperty(propertyForm, token);

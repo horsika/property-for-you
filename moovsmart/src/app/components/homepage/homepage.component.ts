@@ -24,7 +24,7 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
   //only newest 10 properties listed currently!
   ngOnInit() {
-    this.propertyService.getActivatedPropertyList().subscribe(
+    this.propertyService.getActivePropertyList().subscribe(
       propertyListItems => {
         this.properties = propertyListItems
           .slice(0,10)

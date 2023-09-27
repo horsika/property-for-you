@@ -50,7 +50,7 @@ export class PropertyListComponent implements OnInit {
       // this.selectedCity = this.searchService.getSelectedCity();
       // console.log(this.selectedCity);
 
-      this.propertyService.getActivatedPropertyList().subscribe(
+      this.propertyService.getActivePropertyList().subscribe(
         propertyListItems => {
           this.originalProperties = propertyListItems
             .filter(property => property.city === this.selectedCity)

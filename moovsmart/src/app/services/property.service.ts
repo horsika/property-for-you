@@ -26,7 +26,7 @@ export class PropertyService {
     return this.httpClient.post(this.baseUrl, propertyFormData);
   }
 
-  getActivatedPropertyList(): Observable<Array<PropertyListItemModel>> {
+  getActivePropertyList(): Observable<Array<PropertyListItemModel>> {
     return this.httpClient.get<Array<PropertyListItemModel>>(this.baseUrl);
   }
 
