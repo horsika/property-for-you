@@ -165,13 +165,13 @@ public class OpenHouseService {
             User ownerUser = entry.getKey();
             List<OpenHouse> openHousesForOwner = entry.getValue();
 
-            if (userIdToSendEmailTo1.equals(ownerUser.getId()) || userIdToSendEmailTo2.equals(ownerUser.getId())) {
+//            if (userIdToSendEmailTo1.equals(ownerUser.getId()) || userIdToSendEmailTo2.equals(ownerUser.getId())) {
                 // Build the email content using ownerUser and openHousesForOwner
                 String emailContent = buildEmailContent(ownerUser, openHousesForOwner);
 
                 // Send the email to the owner
                 sendHtmlEmail(ownerUser.getEmail(), "Daily Open House Status", emailContent);
-            }
+//            }
         }
 
     }
@@ -190,7 +190,7 @@ public class OpenHouseService {
         emailContent.append("<th>Property Name</th>");
         emailContent.append("<th>From Date</th>");
         emailContent.append("<th>To Date</th>");
-        emailContent.append("<th>Max Participants</th>");
+        emailContent.append("<th>Places Booked</th>"); //this is max participants really!!
 //        emailContent.append("<th>Places Booked</th>");
         emailContent.append("</tr>");
 
