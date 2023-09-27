@@ -1,0 +1,40 @@
+<div class="row p-4 border border-bottom-1">
+  <div class="col-md-3">
+    <img class="user-img" [src]="recipient?.profilePicture" alt="recipient profile picture">
+  </div>
+  <div class="col-md-9">
+    <h5>{{recipient?.firstName}} {{recipient?.lastName}}</h5>
+  </div>
+</div>
+
+<div class="container-fluid" *ngFor="let msg of chat?.messages; let i = index">
+  <div class="row p-4">
+    <div class="col-md-2">
+      <img class="user-img"
+           [src]="chat.ownProfilePic"
+           *ngIf="msg.senderId === contactId"
+           alt="partner profile pic">
+      <img class="user-img"
+           [src]="chat.partnerProfilePic"
+           *ngIf="(msg.senderId !== contactId)"
+           alt="my profile pic">
+    </div>
+    <div class="col-md-10">
+      <p class="p-2 text-primary-emphasis rounded-3"
+         [ngClass]="{'bg-success-subtle': msg.senderId !== contactId, 'bg-light-subtle': msg.senderId === contactId}">
+        {{ msg.message }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" id="msg">
+  <div class="row p-4" [formGroup]="messageToSend">
+    <div class="col-md-10">
+      <input class="form-control" type="text" formControlName="message">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-outline-success" (click)="sendMsg(contactId)">Send</button>
+    </div>
+  </div>
+</div>

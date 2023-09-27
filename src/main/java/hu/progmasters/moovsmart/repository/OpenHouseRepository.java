@@ -48,4 +48,11 @@ public interface OpenHouseRepository extends JpaRepository<OpenHouse, Long> {
             "ORDER BY p.name asc, o.fromTime asc")
     List<OpenHouse> findAllMyParticipants(@Param("user") User user);
 
+
+    @Query("SELECT o, p.ownerUser FROM OpenHouse o " +
+            "INNER JOIN o.property p " +
+            "WHERE o.isActive = true")
+    List<Object[]> findAllOpenHousesWithOwners();
+
+
 }

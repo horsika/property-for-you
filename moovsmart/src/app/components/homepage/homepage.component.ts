@@ -24,7 +24,7 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
   //only newest 10 properties listed currently!
   ngOnInit() {
-    this.propertyService.getActivatedPropertyList().subscribe(
+    this.propertyService.getActivePropertyList().subscribe(
       propertyListItems => {
         this.properties = propertyListItems
           .slice(0,10)
@@ -67,6 +67,13 @@ export class HomepageComponent implements OnInit, AfterViewInit {
 
   goToDetails(id: number) {
     this.propertyService.goToPropertyDetails(id);
+  }
+
+  calculateDateDifference(property: PropertyListItemModel) {
+    const currentDate = new Date();
+    const activatedAtDate = new Date(property.activatedAt);
+    const timeDifference = Math.abs(currentDate.getTime() - activatedAtDate.getTime());
+    return Math.ceil(timeDifference / (1000 * 3600 * 24)); //difference in days
   }
 
 }

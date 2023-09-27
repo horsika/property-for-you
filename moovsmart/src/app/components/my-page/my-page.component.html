@@ -139,6 +139,7 @@
         <div class="container-fluid" *ngFor="let p of myProperties">
           <div *ngSwitchCase="'MyProperties'" class="row mb-3" id="my-properties">
             <div class="col-sm-5">
+              <div *ngIf="calculateDateDifference(p) <= 4" class="new-label">New</div>
               <img [src]="p.firstImage" class="img-fluid img-thumbnail" alt="property-picture">
             </div>
             <div class="col-sm-6">
@@ -274,6 +275,7 @@
         <div class="container-fluid" *ngFor="let ps of mySavedProperties">
           <div *ngSwitchCase="'MySavedProperties'" class="row mb-3" id="my-saved-properties">
             <div class="col-sm-5">
+              <div *ngIf="calculateDateDifference(ps) <= 4" class="new-label">New</div>
               <img [src]="ps.firstImage" class="img-fluid img-thumbnail" alt="property-picture">
             </div>
             <div class="col-sm-6">

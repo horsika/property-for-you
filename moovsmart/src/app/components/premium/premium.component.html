@@ -1,1 +1,100 @@
-<app-chat></app-chat>
+<div class="container">
+  <div class="row">
+
+    <!-- SIDEBAR -->
+    <div class="col-sm-3 pl-sm-0">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-2">
+          <button class="btn"
+                  (click)="showNewProperties()"
+                  (keyup.enter)="showNewProperties()"
+          >New Properties
+          </button>
+        </li>
+      </ul>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item p-2">
+          <button class="btn"
+            (click)="goToMyChats()"
+          >My Chats
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="col-md-9">
+      <div class="container-fluid p-4" [ngSwitch]="activePage">
+
+        <!-- properties -->
+        <div *ngSwitchCase="'NewProperties'">
+          <h5>New Properties</h5>
+          <div class="row border-bottom p-4" [formGroup]="filters">
+
+            <div class="col-md-3 my-3">
+              <select class="form-select" aria-label="Time period" formControlName="listingType">
+                <option selected value="ALL">Listing Type</option>
+                <option value="For sale">For sale</option>
+                <option value="For rent">For rent</option>
+              </select>
+            </div>
+
+            <div class="col-md-3 my-3">
+              <select class="form-select" aria-label="Time period" formControlName="propertyType">
+                <option selected value="ALL">Property Type</option>
+                <option value="House">House</option>
+                <option value="Multi-family house">Multi-family house</option>
+                <option value="Apartment">Apartment</option>
+                <option value="Condo">Condo</option>
+                <option value="Row house">Row house</option>
+                <option value="Summer house">Summer house</option>
+              </select>
+            </div>
+            <div class="col-md-1 my-3">
+              <button class="btn btn-outline-success" (click)="viewNewProperties()">Go</button>
+            </div>
+
+          </div>
+
+          <div class="row p-4">
+            <div class="container-fluid" *ngFor="let p of newProperties">
+              <div class="row mb-3" id="filtered-properties">
+                <div class="position-relative col-sm-5">
+                  <div *ngIf="calculateDateDifference(p) <= 4" class="new-label">New</div>
+                  <img [src]="p.images[0]" class="img-fluid img-thumbnail" alt="property-picture">
+                </div>
+                <div class="col-md-4">
+                  <h5 class="d-inline">{{p.name}}</h5>
+                  <ul>
+                    <li>Property Type: {{p.propertyTypeDisplayName}}</li>
+                    <li>Price: {{p.price}} Million HUF</li>
+                    <li>City: {{p.city}}</li>
+                    <li>{{p.listingTypeDisplayName}}</li>
+                  </ul>
+                </div>
+                <div class="col-md-3">
+                  <div class="d-grid gap-2">
+                    <!-- active property buttons -->
+                    <button class="btn btn-outline-success m-1"
+                            (click)="previewProperty(p.propertyId)"
+                            (keyup.enter)="previewProperty(p.propertyId)"
+                            data-bs-dismiss="modal"
+                    >Preview
+                    </button>
+                    <button class="btn btn-outline-primary m-1"
+                            data-bs-dismiss="modal"
+                    >BookATour
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

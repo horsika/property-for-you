@@ -14,4 +14,5 @@ export interface PropertyDetailsModel {
   latitude: number;
   longitude: number;
   savedByUser: boolean;
+  activatedAt: Date;
 }

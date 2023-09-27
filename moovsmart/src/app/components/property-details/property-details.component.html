@@ -33,6 +33,7 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <h2>{{property.name}}</h2>
+          <div *ngIf="calculateDateDifference(property) <= 4" class="new-label">New</div>
         </li>
         <li class="list-group-item">
           <p>{{property.description}}</p>
@@ -45,6 +46,10 @@
           </button>
           <button *ngIf="property.savedByUser" class="btn btn-success"
                   (click)="saveToFavourites(false)" (keyup.enter)="saveToFavourites(false)">&#9825; Saved
+          </button>
+          <button class="btn btn-outline-info"
+          (click)="chatWithOwner(property.id)">
+            Chat with Owner
           </button>
         </li>
 

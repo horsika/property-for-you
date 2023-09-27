@@ -8,4 +8,5 @@ export interface MyPropertyListItemModel {
   price: number;
   isActiveDisplayName: string;
   createdAt: Date;
+  activatedAt: Date;
 }
