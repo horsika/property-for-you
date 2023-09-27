@@ -40,7 +40,7 @@ export class RegisterComponent {
       'loginPassword': ['', [Validators.required, Validators.minLength(6)]]
     });
 
-    this.toggle = true; //true: Register tab is active
+    this.toggle = false; //true: Register tab is active
   }
 
   onPasswordChange() {
@@ -112,14 +112,14 @@ export class RegisterComponent {
     });
   }
 
-  // registerWithGoogle() {
-  //   this.authService.registerWithGoogle().subscribe({
-  //     error: err => {
-  //       handleValidationErrors(err, this.registrationForm);
-  //     },
-  //     complete: () => {
-  //       this.router.navigate(['authentication'])
-  //     }
-  //   });
-  // }
+  registerWithGoogle() {
+    this.userService.registerWithGoogle().subscribe({
+      error: err => {
+        validationHandler(err, this.auth);
+      },
+      complete: () => {
+        this.router.navigate(['register'])
+      }
+    });
+  }
 }

@@ -30,7 +30,7 @@ public class AuthenticationController {
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
         authenticationService.register(registerRequest);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/authentication")
@@ -77,5 +77,16 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticationService.authenticateSocial(request), HttpStatus.OK);
     }
 
+    @PostMapping("/register-social")
+    public ResponseEntity<String> registerUserWithSocial(@RequestBody @Valid SocialRegisterRequest socialRegisterRequest) {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail(socialRegisterRequest.getEmail());
+        registerRequest.setFirstName(socialRegisterRequest.getFirstName());
+        registerRequest.setLastName(socialRegisterRequest.getLastName());
+        registerRequest.setProfilePicture(socialRegisterRequest.getPhotoUrl());
+        registerRequest.setPassword("");
+        authenticationService.register(registerRequest);
 
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
