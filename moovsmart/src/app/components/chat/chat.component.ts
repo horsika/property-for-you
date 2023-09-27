@@ -16,6 +16,9 @@ export class ChatComponent implements OnInit {
   currentChat: ChatDetailsModel;
   currentContactId: number;
   messageToSend: FormGroup;
+  offset: number = 0;
+  endOfChats: boolean = false;
+
   constructor(private chatService: ChatService, private formBuilder: FormBuilder) {
     this.messageToSend = this.formBuilder.group({
       message: ['', Validators.required]
@@ -28,10 +31,15 @@ export class ChatComponent implements OnInit {
   }
 
   showChat(id: number) {
-    this.chatService.getChat(id).subscribe(resp => {
-      this.currentChat = resp;
-      this.currentContactId = id;
-      console.log(this.currentChat);
+    this.chatService.getChat(id, this.offset).subscribe(resp => {
+      if (resp != null) {
+        this.currentChat = resp;
+        this.currentContactId = id;
+        console.log(this.currentChat);
+      }
+      else {
+        this.endOfChats = true;
+      }
     })
   }
 
@@ -47,6 +55,9 @@ export class ChatComponent implements OnInit {
     );
   }
 
+  loadMoreChats() {
+    this.offset += 10;
+  }
 
 
 

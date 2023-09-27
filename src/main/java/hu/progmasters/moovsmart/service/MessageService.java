@@ -31,14 +31,18 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
-    public ChatDetails getChat(Long id, String token) {
-        User me = authenticationService.findUserByToken(token);
-        User partner = authenticationService.findUserById(id);
-        List<MessageDetails> messages = messageRepository.getMessagesBetweenUsersOrderedByTime(me, partner)
-                .stream()
-                .map(MessageDetails::new)
-                .collect(Collectors.toList());
-        return new ChatDetails(partner, me, messages);
+    public ChatDetails getChat(Long id, String token, Long offset) {
+        if (offset >= 0) {
+            User me = authenticationService.findUserByToken(token);
+            User partner = authenticationService.findUserById(id);
+            List<MessageDetails> messages = messageRepository.getMessagesBetweenUsersOrderedByTime(me, partner, offset)
+                    .stream()
+                    .map(MessageDetails::new)
+                    .collect(Collectors.toList());
+            return !messages.isEmpty() ? new ChatDetails(partner, me, messages) : null;
+        }
+
+        throw new IllegalArgumentException("Offset can not be less than 0");
     }
 
     public void sendMessage(Long id, String token, IncomingMessage msg) {

@@ -124,6 +124,6 @@ export class UserService {
   }
 
   premiumPurchase() {
-    return this.http.post(BASE_URL + '/premium-purchase', "premium");
+    return this.http.post<AuthResponseModel>(BASE_URL + '/premium-purchase', "premium");
   }
 }

@@ -13,3 +13,10 @@
   bottom: 0;
   width: inherit;
 }
+
+#chatbox {
+  overflow-y: auto;
+  height: 85vh;
+  display: flex;
+  flex-direction: column-reverse;
+}

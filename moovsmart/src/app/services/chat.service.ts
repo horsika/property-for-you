@@ -17,8 +17,8 @@ export class ChatService {
     return this.http.get<Array<MyAccountModel>>(BASE_URL + "/contacts")
   }
 
-  getChat(id: number) {
-    return this.http.get<ChatDetailsModel>(BASE_URL + "/" + id);
+  getChat(id: number, offset: number) {
+    return this.http.get<ChatDetailsModel>(BASE_URL + "/" + id + "/" + offset);
   }
 
   sendMessage(id: number, msg: IncomingMessageModel) {

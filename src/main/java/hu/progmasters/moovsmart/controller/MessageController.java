@@ -25,9 +25,11 @@ public class MessageController {
         return new ResponseEntity<>(messageService.getUsersInContact(token), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ChatDetails> getChat(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable("id") Long id) {
-        return new ResponseEntity<>(messageService.getChat(id, token), HttpStatus.OK);
+    @GetMapping("/{id}/{offset}")
+    public ResponseEntity<ChatDetails> getChat(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                               @PathVariable("id") Long id,
+                                               @PathVariable("offset") Long offset) {
+        return new ResponseEntity<>(messageService.getChat(id, token, offset), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")

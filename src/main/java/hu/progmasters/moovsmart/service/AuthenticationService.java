@@ -207,11 +207,16 @@ public class AuthenticationService {
                 .build();
     }
 
-    public void premiumPurchase(String token) {
+    public AuthResponse premiumPurchase(String token) {
         User user = this.findUserByToken(token);
 
         user.setRole(UserRole.ROLE_PREMIUM);
 
         this.userRepository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 }

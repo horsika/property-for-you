@@ -24,10 +24,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             ")")
     List<User> getUsersWhoUserHasAChatWith(@Param("user") User user);
 
-    @Query("SELECT m " +
-            "FROM Message m " +
-            "WHERE (m.sender = :user1 AND m.receiver = :user2) OR (m.sender = :user2 AND m.receiver = :user1) " +
-            "ORDER BY m.timestamp DESC")
-    List<Message> getMessagesBetweenUsersOrderedByTime(@Param("user1") User user1, @Param("user2") User user2);
-
+    @Query(nativeQuery = true, value = "SELECT * FROM message AS m WHERE (m.sender_id = :user1 AND m.receiver_id = :user2) OR (m.sender_id = :user2 AND m.receiver_id = :user1) ORDER BY m.timestamp DESC LIMIT 10 OFFSET :offset")
+    List<Message> getMessagesBetweenUsersOrderedByTime(@Param("user1") User user1, @Param("user2") User user2, @Param("offset") Long offset);
 }

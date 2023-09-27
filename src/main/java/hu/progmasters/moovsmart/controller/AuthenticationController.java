@@ -90,9 +90,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/premium-purchase")
-    public ResponseEntity<Void> premiumPurchase(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+    public ResponseEntity<AuthResponse> premiumPurchase(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                                 @RequestBody String nullable) {
-        authenticationService.premiumPurchase(token);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(authenticationService.premiumPurchase(token), HttpStatus.OK);
     }
 }

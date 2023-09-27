@@ -64,7 +64,11 @@ export class PaymentComponent implements OnInit {
       onClientAuthorization: (data) => {
         // console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
         this.userService.premiumPurchase().subscribe({
-          next: () => {},
+          next: response => {
+            const token = response.token;
+            localStorage.setItem('token', token);
+            this.userService.tokenIsPresent.next(true);
+          },
           error: err => console.warn(err),
         });
       },
