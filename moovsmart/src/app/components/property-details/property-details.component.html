@@ -47,6 +47,10 @@
           <button *ngIf="property.savedByUser" class="btn btn-success"
                   (click)="saveToFavourites(false)" (keyup.enter)="saveToFavourites(false)">&#9825; Saved
           </button>
+          <button class="btn btn-outline-info"
+          (click)="chatWithOwner(property.id)">
+            Chat with Owner
+          </button>
         </li>
 
         <!-- property feature list -->

@@ -1,0 +1,22 @@
+.user-img {
+  clip-path: circle();
+  height: 50px;
+  display: block;
+}
+
+#partner:hover {
+  background-color: mintcream;
+}
+
+#msg {
+  position: fixed;
+  bottom: 0;
+  width: inherit;
+}
+
+#chatbox {
+  overflow-y: auto;
+  height: 85vh;
+  display: flex;
+  flex-direction: column-reverse;
+}

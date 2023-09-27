@@ -44,6 +44,7 @@ public class AuthenticationService {
     private final Cloudinary cloudinary;
 
     public void register(RegisterRequest registerRequest) {
+        boolean isSocialRegister = registerRequest.getPassword().isBlank();
 
         var user = User.builder()
                 .firstName(registerRequest.getFirstName())
@@ -55,14 +56,22 @@ public class AuthenticationService {
                 .isEnabled(false)
                 .build();
 
-        if(userRepository.findUserByEmail(user.getEmail()).isPresent()){
+        if (userRepository.findUserByEmail(user.getEmail()).isPresent()) {
             throw new AuthenticationServiceException("User with given email already exists!");
         }
 
-        user.setProfilePicture("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--psq7ZxMs--/v1694451032/profile_pic/nopic_rpcebm.jpg");
+        if (user.getProfilePicture().isBlank()) {
+            user.setProfilePicture("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--psq7ZxMs--/v1694451032/profile_pic/nopic_rpcebm.jpg");
+        }
+
+        if (isSocialRegister) {
+            user.setEnabled(true);
+        }
         userRepository.save(user);
 
-        emailTokenService.sendVerificationEmail(user);
+        if (!isSocialRegister) {
+            emailTokenService.sendVerificationEmail(user);
+        }
     }
 
     public AuthResponse authenticate(AuthenticationRequest request) {
@@ -75,7 +84,7 @@ public class AuthenticationService {
 
         var user = userRepository.findUserByEmail(request.getLoginEmail()).orElseThrow(EntityNotFoundException::new);
 
-        if(!user.isEnabled()) {
+        if (!user.isEnabled()) {
             throw new DisabledException("This account is currently disabled.");
         }
         var jwtToken = jwtService.generateToken(user);
@@ -94,13 +103,13 @@ public class AuthenticationService {
 
     public void changeEmail(EmailChangeForm emailChangeForm, String token) {
         String processableToken = token.substring(7);
-        if(userRepository.findUserByEmail(emailChangeForm.getEmail()).isEmpty()
-        && userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).isPresent()){
-           User user =  userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
-           user.setEmail(emailChangeForm.getEmail());
-           user.setEnabled(false);
-           emailTokenService.sendVerificationEmail(user);
-           userRepository.save(user);
+        if (userRepository.findUserByEmail(emailChangeForm.getEmail()).isEmpty()
+                && userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).isPresent()) {
+            User user = userRepository.findUserByEmail(jwtService.extractEmail(processableToken)).orElseThrow(EntityNotFoundException::new);
+            user.setEmail(emailChangeForm.getEmail());
+            user.setEnabled(false);
+            emailTokenService.sendVerificationEmail(user);
+            userRepository.save(user);
         } else {
             throw new AuthenticationServiceException("User with given email already exists!");
         }
@@ -119,7 +128,7 @@ public class AuthenticationService {
 
     public void verifyEmail(String token) {
         EmailToken emailToken = emailTokenService.findToken(token);
-        if(emailToken.getExpiryDateTime().isBefore(LocalDateTime.now())) {
+        if (emailToken.getExpiryDateTime().isBefore(LocalDateTime.now())) {
             throw new ExpiredEmailVerificationTokenException("This email verification token is expired");
         }
 
@@ -161,7 +170,7 @@ public class AuthenticationService {
         String extension = FileNameUtils.getExtension(file.getOriginalFilename());
         List<String> allowedExtensions = List.of("png", "jpg", "jpeg", "heic", "gif", "tiff");
         assert extension != null;
-        if(!allowedExtensions.contains(extension.toLowerCase())) {
+        if (!allowedExtensions.contains(extension.toLowerCase())) {
             throw new ExtensionNotAllowedException("This file extension is not allowed.");
         }
         //ID user from token
@@ -189,9 +198,22 @@ public class AuthenticationService {
     public AuthResponse authenticateSocial(AuthenticationRequest request) {
         var user = userRepository.findUserByEmail(request.getLoginEmail()).orElseThrow(EntityNotFoundException::new);
 
-        if(!user.isEnabled()) {
+        if (!user.isEnabled()) {
             throw new DisabledException("This account is currently disabled.");
         }
+        var jwtToken = jwtService.generateToken(user);
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    public AuthResponse premiumPurchase(String token) {
+        User user = this.findUserByToken(token);
+
+        user.setRole(UserRole.ROLE_PREMIUM);
+
+        this.userRepository.save(user);
+
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken)

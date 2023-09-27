@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="container-fluid" id="partner" *ngFor="let contact of contacts" (click)="showChat(contact.id)">
+        <div class="row p-4">
+          <div class="col-md-4">
+            <img class="user-img" [src]="contact.profilePicture" alt="chat-partner profile picture">
+          </div>
+          <div class="col-md-8">
+            <p>{{contact.firstName}} {{contact.lastName}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9" *ngIf="currentContactId" id="chatbox">
+      <div class="container-fluid" *ngFor="let msg of currentChat.messages; let i = index">
+        <div class="row p-4">
+          <div class="col-md-2">
+            <img class="user-img"
+                 [src]="currentChat.ownProfilePic"
+                 *ngIf="msg.senderId === currentContactId"
+                 alt="partner profile pic">
+            <img class="user-img"
+                 [src]="currentChat.partnerProfilePic"
+                 *ngIf="(msg.senderId !== currentContactId)"
+                 alt="my profile pic">
+          </div>
+          <div class="col-md-10">
+            <p class="p-2 text-primary-emphasis rounded-3"
+               [ngClass]="{'bg-success-subtle': msg.senderId !== currentContactId, 'bg-light-subtle': msg.senderId === currentContactId}">
+              {{ msg.message }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="msg" class="row p-4" [formGroup]="messageToSend">
+        <div class="col-md-10">
+          <input class="form-control" type="text" formControlName="message">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-outline-success" (click)="sendMsg(currentContactId)">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

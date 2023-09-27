@@ -1,6 +1,7 @@
 package hu.progmasters.moovsmart.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.progmasters.moovsmart.domain.premium.Message;
 import hu.progmasters.moovsmart.domain.property.Booking;
 import hu.progmasters.moovsmart.domain.property.Property;
 
@@ -51,6 +52,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "sender")
+    @JsonIgnore
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
+    private List<Message> receivedMessages;
 
 
     @Override

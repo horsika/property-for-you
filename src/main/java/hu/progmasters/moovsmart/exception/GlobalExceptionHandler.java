@@ -142,6 +142,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.I_AM_A_TEAPOT);
     }
 
-
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiError> userNotFound(EntityNotFoundException e) {
+        ApiError body = new ApiError("USER_NOT_FOUND", "This user was not found.", e.getLocalizedMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 }
 

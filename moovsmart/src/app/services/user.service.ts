@@ -9,7 +9,8 @@ import {EmailChangeModel} from "../models/email-change.model";
 import {MyAccountModel} from "../models/my-account.model";
 import {PasswordChangeModel} from "../models/password-change.model";
 import {AdminService} from "./admin.service";
-// import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut} from "@angular/fire/auth";
+import {Auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut} from "@angular/fire/auth";
+import {SocialRegister, SocialRegisterModel} from "../models/socialRegister.model";
 
 const BASE_URL = environment.BASE_URL + '/api/auth';
 
@@ -20,7 +21,7 @@ export class UserService {
 
   tokenIsPresent = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private adminService: AdminService, /*private auth: Auth*/) {
+  constructor(private http: HttpClient, private adminService: AdminService, private auth: Auth) {
   }
 
   registerUser(data: RegisterRequestModel) {
@@ -53,33 +54,76 @@ export class UserService {
     return this.http.post(BASE_URL + '/upload-profile-pic', data);
   }
 
-  // loginWithGoogle(): Observable<AuthResponseModel> {
-  //   const provider = new GoogleAuthProvider();
-  //   provider.addScope("email");
-  //   return new Observable<AuthResponseModel>(observer => {
-  //     signInWithPopup(this.auth, provider).then(result => {
-  //       const user = result.user;
-  //       const email = user.providerData[0].email;
-  //       this.sendLoginRequest(observer, email);
-  //     }).catch(error => {
-  //       observer.error(error);
-  //     });
-  //   });
-  // }
-  //
-  // sendLoginRequest(observer: Subscriber<AuthResponseModel>, email: string) {
-  //   let authRequest = new AuthRequest();
-  //   authRequest.loginEmail = email;
-  //   authRequest.loginPassword = null;
-  //   this.loginUserWithSocialMedia(authRequest).subscribe(response => {
-  //     observer.next(response);
-  //     observer.complete();
-  //   }, error => {
-  //     observer.error(error);
-  //   });
-  // }
-  //
-  // private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<AuthResponseModel> {
-  //   return this.http.post<AuthResponseModel>(`${BASE_URL}/social-authentication`, authRequest);
-  // }
+  loginWithGoogle(): Observable<AuthResponseModel> {
+    const provider = new GoogleAuthProvider();
+    provider.addScope("email");
+    return new Observable<AuthResponseModel>(observer => {
+      signInWithPopup(this.auth, provider).then(result => {
+        const user = result.user;
+        const email = user.providerData[0].email;
+        this.sendLoginRequest(observer, email);
+      }).catch(error => {
+        observer.error(error);
+        this.auth.signOut();
+        localStorage.removeItem('token');
+      });
+    });
+  }
+
+  sendLoginRequest(observer: Subscriber<AuthResponseModel>, email: string) {
+    let authRequest = new AuthRequest();
+    authRequest.loginEmail = email;
+    authRequest.loginPassword = null;
+    this.loginUserWithSocialMedia(authRequest).subscribe(response => {
+      observer.next(response);
+      observer.complete();
+    }, error => {
+      observer.error(error);
+      this.auth.signOut();
+      localStorage.removeItem('token');
+    });
+  }
+
+  private loginUserWithSocialMedia(authRequest: AuthRequest): Observable<AuthResponseModel> {
+    return this.http.post<AuthResponseModel>(BASE_URL + `/social-authentication`, authRequest);
+  }
+
+  registerWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    provider.addScope("email");
+    return new Observable<string>(observer => {
+      signInWithPopup(this.auth, provider).then(result => {
+        const user = result.user;
+        const firstName = user.displayName.split(' ')[0];
+        const lastName = user.displayName.split(' ')[1];
+        const email = user.providerData[0].email;
+        const photoUrl = user.photoURL;
+        this.sendRegisterRequest(observer,email, firstName, lastName, photoUrl);
+      }).catch(error => {
+        observer.error(error);
+      });
+    });
+  }
+
+  sendRegisterRequest(observer:Subscriber<any>, email: string, firstName:string, lastName: string, photoUrl: string) {
+    let registerRequest = new SocialRegister();
+    registerRequest.email = email;
+    registerRequest.firstName = firstName;
+    registerRequest.lastName = lastName;
+    registerRequest.photoUrl = photoUrl;
+    this.registerWithSocial(registerRequest).subscribe(response => {
+      observer.next(response);
+      observer.complete();
+    }, error => {
+      observer.error(error);
+    });
+  }
+
+  private registerWithSocial(registerRequest: SocialRegisterModel) {
+    return this.http.post(BASE_URL + `/register-social`,registerRequest);
+  }
+
+  premiumPurchase() {
+    return this.http.post<AuthResponseModel>(BASE_URL + '/premium-purchase', "premium");
+  }
 }

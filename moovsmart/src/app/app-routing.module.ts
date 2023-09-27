@@ -13,6 +13,8 @@ import {AdminGuard} from "./utils/admin.guard";
 import {PremiumComponent} from "./components/premium/premium.component";
 import {PremiumGuard} from "./utils/premium.guard";
 import {PaymentComponent} from "./components/payment/payment.component";
+import {ChatComponent} from "./components/chat/chat.component";
+import {NewChatComponent} from "./components/new-chat/new-chat.component";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -26,7 +28,9 @@ const routes: Routes = [
   {path: "verify-email/:token", component: InfoComponent},
   {path: "admin-page", component: AdminPageComponent, canActivate: [AdminGuard]},
   {path: "premium", component: PremiumComponent, canActivate: [PremiumGuard]},
-  {path: "payment", component: PaymentComponent}
+  {path: "payment", component: PaymentComponent},
+  {path: "my-chats", component: ChatComponent},
+  {path: "new-chat", component: NewChatComponent}
 ];
 
 @NgModule({

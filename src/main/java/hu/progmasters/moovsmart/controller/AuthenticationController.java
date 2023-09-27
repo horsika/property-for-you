@@ -7,7 +7,6 @@ import hu.progmasters.moovsmart.dto.outgoing.EmailVerificationResponse;
 import hu.progmasters.moovsmart.service.AuthenticationService;
 import hu.progmasters.moovsmart.validation.AuthValidator;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.compress.utils.FileNameUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class AuthenticationController {
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
         authenticationService.register(registerRequest);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/authentication")
@@ -77,5 +76,22 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticationService.authenticateSocial(request), HttpStatus.OK);
     }
 
+    @PostMapping("/register-social")
+    public ResponseEntity<String> registerUserWithSocial(@RequestBody @Valid SocialRegisterRequest socialRegisterRequest) {
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail(socialRegisterRequest.getEmail());
+        registerRequest.setFirstName(socialRegisterRequest.getFirstName());
+        registerRequest.setLastName(socialRegisterRequest.getLastName());
+        registerRequest.setProfilePicture(socialRegisterRequest.getPhotoUrl());
+        registerRequest.setPassword("");
+        authenticationService.register(registerRequest);
 
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/premium-purchase")
+    public ResponseEntity<AuthResponse> premiumPurchase(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                                @RequestBody String nullable) {
+        return new ResponseEntity<>(authenticationService.premiumPurchase(token), HttpStatus.OK);
+    }
 }
