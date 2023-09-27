@@ -7,7 +7,6 @@ import hu.progmasters.moovsmart.dto.outgoing.EmailVerificationResponse;
 import hu.progmasters.moovsmart.service.AuthenticationService;
 import hu.progmasters.moovsmart.validation.AuthValidator;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.compress.utils.FileNameUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,5 +87,12 @@ public class AuthenticationController {
         authenticationService.register(registerRequest);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/premium-purchase")
+    public ResponseEntity<Void> premiumPurchase(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                                @RequestBody String nullable) {
+        authenticationService.premiumPurchase(token);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

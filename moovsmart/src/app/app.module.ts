@@ -24,6 +24,9 @@ import {AddressMapComponent} from './components/address-map/address-map.componen
 import {ResultsListComponent} from './components/results-list/results-list.component';
 import {MapPointFormComponent} from './components/map-point-form/map-point-form.component';
 import {LeafletModule} from "@asymmetrik/ngx-leaflet";
+import { PremiumComponent } from './components/premium/premium.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import {NgxPayPalModule} from "ngx-paypal";
 import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
 import {environment} from '../environments/environment';
 import {getAuth, provideAuth} from '@angular/fire/auth';
@@ -49,7 +52,9 @@ import {AngularFireModule} from "@angular/fire/compat";
     GeocodingComponent,
     AddressMapComponent,
     ResultsListComponent,
-    MapPointFormComponent
+    MapPointFormComponent,
+    PremiumComponent,
+    PaymentComponent
   ],
   imports: [
     HttpClientModule,
@@ -62,6 +67,7 @@ import {AngularFireModule} from "@angular/fire/compat";
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    NgxPayPalModule
   ],
   providers: [
     {

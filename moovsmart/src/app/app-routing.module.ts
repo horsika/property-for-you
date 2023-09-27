@@ -10,6 +10,9 @@ import {HomepageComponent} from "./components/homepage/homepage.component";
 import {InfoComponent} from "./components/info/info.component";
 import {AdminPageComponent} from "./components/admin-page/admin-page.component";
 import {AdminGuard} from "./utils/admin.guard";
+import {PremiumComponent} from "./components/premium/premium.component";
+import {PremiumGuard} from "./utils/premium.guard";
+import {PaymentComponent} from "./components/payment/payment.component";
 
 const routes: Routes = [
   {path: "", component: HomepageComponent},
@@ -21,7 +24,9 @@ const routes: Routes = [
   {path: "my-page", component: MyPageComponent, canActivate: [AuthGuard]},
   {path: "homepage", component: HomepageComponent},
   {path: "verify-email/:token", component: InfoComponent},
-  {path: "admin-page", component: AdminPageComponent, canActivate: [AdminGuard]}
+  {path: "admin-page", component: AdminPageComponent, canActivate: [AdminGuard]},
+  {path: "premium", component: PremiumComponent, canActivate: [PremiumGuard]},
+  {path: "payment", component: PaymentComponent}
 ];
 
 @NgModule({

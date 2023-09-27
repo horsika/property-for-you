@@ -122,4 +122,8 @@ export class UserService {
   private registerWithSocial(registerRequest: SocialRegisterModel) {
     return this.http.post(BASE_URL + `/register-social`,registerRequest);
   }
+
+  premiumPurchase() {
+    return this.http.post(BASE_URL + '/premium-purchase', "premium");
+  }
 }
