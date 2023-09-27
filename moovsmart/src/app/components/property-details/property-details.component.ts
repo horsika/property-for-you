@@ -124,7 +124,7 @@ export class PropertyDetailsComponent implements OnInit {
     },
       error => {},
       () => {
-        this.router.navigate(['/premium']);
+        this.router.navigate(['/new-chat']);
       })
   }
 

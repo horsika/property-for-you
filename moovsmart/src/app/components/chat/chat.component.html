@@ -27,7 +27,7 @@
           </div>
           <div class="col-md-10">
             <p class="p-2 text-primary-emphasis rounded-3"
-               [ngClass]="{'bg-success-subtle': msg.senderId === currentContactId, 'bg-light-subtle': msg.senderId !== currentContactId}">
+               [ngClass]="{'bg-success-subtle': msg.senderId !== currentContactId, 'bg-light-subtle': msg.senderId === currentContactId}">
               {{ msg.message }}
             </p>
           </div>

@@ -64,4 +64,7 @@ export class PremiumComponent implements OnInit {
     return Math.ceil(timeDifference / (1000 * 3600 * 24)); //difference in days
   }
 
+  goToMyChats() {
+    this.router.navigate(['/my-chats'])
+  }
 }

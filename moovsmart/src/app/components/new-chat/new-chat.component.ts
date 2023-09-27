@@ -30,6 +30,7 @@ export class NewChatComponent implements OnInit{
       this.recipient = value;
       this.contactId = value.id;
     })
+    this.showChat(this.contactId);
   }
 
 
