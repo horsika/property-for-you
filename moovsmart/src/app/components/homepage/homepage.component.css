@@ -173,3 +173,16 @@ body {
   padding: 10px;
 }
 
+.new-label {
+  position: absolute;
+  top: 15px; /* Adjust the top position as needed */
+  right: 15px; /* Adjust the right position as needed */
+  background-color: #ff0000; /* Set the background color */
+  color: #ffffff; /* Set the text color */
+  padding: 5px 10px; /* Adjust the padding as needed */
+  border-radius: 5px; /* Add rounded corners */
+  font-weight: bold; /* Make the text bold */
+  z-index: 1; /* Ensure it appears above the card content */
+}
+
+

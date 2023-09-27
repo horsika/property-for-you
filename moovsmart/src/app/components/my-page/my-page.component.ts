@@ -18,6 +18,7 @@ import {Subscription} from "rxjs";
 import {MyOpenHouseListItemModel} from "../../models/my-open-house-list-item.model";
 import {MyBookingListItemModel} from "../../models/my-booking-list-item.model";
 import * as L from "leaflet";
+import {PropertyListItemModel} from "../../models/propertyListItem.model";
 
 @Component({
   selector: 'app-my-page',
@@ -436,5 +437,11 @@ export class MyPageComponent implements OnInit, OnDestroy {
 
   }
 
+  calculateDateDifference(property: MyPropertyListItemModel) {
+    const currentDate = new Date();
+    const activatedAtDate = new Date(property.activatedAt);
+    const timeDifference = Math.abs(currentDate.getTime() - activatedAtDate.getTime());
+    return Math.ceil(timeDifference / (1000 * 3600 * 24)); //difference in days
+  }
 
 }

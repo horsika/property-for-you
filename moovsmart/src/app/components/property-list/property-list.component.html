@@ -154,9 +154,8 @@
         <div *ngFor="let property of commonFilteredProperties" class="col-12 col-md-6">
           <div id="property-card" class="card small-card" (click)="goToDetails(property.propertyId)"
                style="cursor: pointer;">
+            <div *ngIf="calculateDateDifference(property) <= 4" class="new-label">New</div>
             <img src="{{property.images[0]}}" class="card-img-top" alt="image">
-            <!--          &lt;!&ndash; Carousel component within the card - but it is not working!!! &ndash;&gt;-->
-            <!--          <app-carousel class="carousel" [images]="property.images"></app-carousel>-->
 
             <div class="card-body">
               <h5>

@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.List;
 
@@ -32,10 +31,22 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated() {
+//        return new ResponseEntity<>(propertyService.getPropertiesActiveForFiveDaysOrMore(), HttpStatus.OK);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated() {
-        return new ResponseEntity<>(propertyService.getPropertiesActivated(), HttpStatus.OK);
+    public ResponseEntity<List<PropertyListItem>> getPropertiesActivated(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {
+
+        if (token != null) {
+            return new ResponseEntity<>(propertyService.getPropertiesActive(token), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(propertyService.getPropertiesActiveForFiveDaysOrMore(), HttpStatus.OK);
+        }
     }
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDetails> getPropertyDetails(@PathVariable("id") Long id,
@@ -51,8 +62,8 @@ public class PropertyController {
     @Operation(summary = "Create New Property")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully Created new Property",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = PropertyForm.class)) })})
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PropertyForm.class))})})
     public ResponseEntity<Void> createProperty(@ModelAttribute PropertyForm propertyForm,
                                                @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         propertyService.createProperty(propertyForm, token);

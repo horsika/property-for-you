@@ -2,12 +2,12 @@ package hu.progmasters.moovsmart.service;
 
 import hu.progmasters.moovsmart.domain.property.*;
 import hu.progmasters.moovsmart.domain.user.User;
-import hu.progmasters.moovsmart.dto.incoming.AddToFavs;
-import hu.progmasters.moovsmart.dto.incoming.PropertyActiveToggle;
-import hu.progmasters.moovsmart.dto.incoming.UploadResponse;
+import hu.progmasters.moovsmart.domain.user.UserRole;
+import hu.progmasters.moovsmart.dto.incoming.*;
 import hu.progmasters.moovsmart.dto.outgoing.*;
-import hu.progmasters.moovsmart.dto.incoming.PropertyForm;
 import hu.progmasters.moovsmart.repository.PropertyRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -15,7 +15,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +28,7 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
+    private static final Logger logger = LoggerFactory.getLogger(PropertyService.class);
 
     @Autowired
     public PropertyService(PropertyRepository propertyRepository, JwtService jwtService, AuthenticationService authenticationService) {
@@ -33,10 +37,54 @@ public class PropertyService {
         this.authenticationService = authenticationService;
     }
 
-    public List<PropertyListItem> getPropertiesActivated() {
-        List<Property> properties = propertyRepository.findAllWhereListingStatusLikeActiveOrderByActivatedAtDesc();
+    //Non-logged-in users
+    public List<PropertyListItem> getPropertiesActiveForFiveDaysOrMore() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime pastDateTime = currentDateTime.minusDays(5);
+        List<Property> properties = propertyRepository.findAllActiveForFiveDaysOrMore(pastDateTime);
         return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
     }
+
+    //Logged-in users
+    public List<PropertyListItem> getPropertiesActive(String token) {
+        User user = authenticationService.findUserByToken(token);
+        List<Property> properties = new ArrayList<>();
+
+        if (user.getRole() == UserRole.ROLE_PREMIUM) {
+            properties = propertyRepository.findAllWhereListingStatusLikeActiveOrderByActivatedAtDesc();
+        } else {
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            LocalDateTime pastDateTime = currentDateTime.minusDays(5);
+            properties = propertyRepository.findAllActiveForFiveDaysOrMore(pastDateTime);
+        }
+        return properties.stream().map(PropertyListItem::new).collect(Collectors.toList());
+    }
+
+    //Logged-in users, new properties
+    public List<PropertyListItem> getPropertiesActiveNew(String token, NewPropertyFilters filters) {
+        User user = authenticationService.findUserByToken(token);
+        List<PropertyListItem> newProperties = getAllNewProperties();
+        List<PropertyListItem> filteredNewProperties = new ArrayList<>();
+
+        if (user.getRole() == UserRole.ROLE_PREMIUM) {
+            for (PropertyListItem property : newProperties) {
+                if((property.getListingTypeDisplayName().equals(filters.getListingType()) || filters.getListingType().equals("ALL")) //For sale, For rent
+                        && (property.getPropertyTypeDisplayName().equals(filters.getPropertyType()) || filters.getPropertyType().equals("ALL")) //House, Multi-family house, Apartment, Condo, Row house, Summer house
+                ) {
+                    filteredNewProperties.add(property);
+                }
+            }
+        }
+        return filteredNewProperties;
+    }
+
+    private List<PropertyListItem> getAllNewProperties() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime pastDateTime = currentDateTime.minusDays(5);
+        return propertyRepository.findAllActiveNew(pastDateTime).stream().map(PropertyListItem::new).collect(Collectors.toList());
+    }
+
+
 
     // as a logged-in user
     public PropertyDetails getPropertyDetails(Long id, String token) {

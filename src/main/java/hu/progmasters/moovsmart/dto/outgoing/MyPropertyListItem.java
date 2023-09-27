@@ -1,5 +1,6 @@
 package hu.progmasters.moovsmart.dto.outgoing;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.progmasters.moovsmart.domain.property.Property;
 import hu.progmasters.moovsmart.domain.user.User;
 import lombok.Data;
@@ -28,7 +29,10 @@ public class MyPropertyListItem {
     private String isActiveDisplayName;
 
     private User owner;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    private LocalDateTime activatedAt;
 
     public MyPropertyListItem(Property property) {
         this.propertyId = property.getPropertyId();
@@ -41,5 +45,6 @@ public class MyPropertyListItem {
         this.isActiveDisplayName = property.getListingStatus().getDisplayName();
         this.owner = property.getOwnerUser();
         this.createdAt = property.getCreatedAt();
+        this.activatedAt = property.getActivatedAt();
     }
 }

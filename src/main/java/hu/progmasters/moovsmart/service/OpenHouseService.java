@@ -11,15 +11,15 @@ import hu.progmasters.moovsmart.dto.outgoing.MyParticipantListItem;
 import hu.progmasters.moovsmart.dto.outgoing.OpenHouseListItem;
 import hu.progmasters.moovsmart.repository.OpenHouseRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -106,6 +106,9 @@ public class OpenHouseService {
         return sum;
     }
 
+
+
+
     public List<MyBookingListItem> getMyBookingList(String token) {
         User user = authenticationService.findUserByToken(token);
         List<OpenHouse> openHouses = openHouseRepository.findAllMyBookings(user);
@@ -136,6 +139,75 @@ public class OpenHouseService {
         }
 
         return myParticipantList;
+    }
+
+    public void sendDailyOpenHouseStatusEmail(){
+
+        List<Object[]> ownerUsersWithOpenHouses = openHouseRepository.findAllOpenHousesWithOwners();
+
+        Map<User, List<OpenHouse>> ownerUserOpenHousesMap = new HashMap<>();
+
+        for (Object[] result : ownerUsersWithOpenHouses) {
+            User ownerUser = (User) result[1];
+            OpenHouse openHouse = (OpenHouse) result[0];
+
+            if (!ownerUserOpenHousesMap.containsKey(ownerUser)) {
+                ownerUserOpenHousesMap.put(ownerUser, new ArrayList<>());
+            }
+
+            ownerUserOpenHousesMap.get(ownerUser).add(openHouse);
+        }
+
+        // Iterate through owner users and their open houses
+        for (Map.Entry<User, List<OpenHouse>> entry : ownerUserOpenHousesMap.entrySet()) {
+            User ownerUser = entry.getKey();
+            List<OpenHouse> openHousesForOwner = entry.getValue();
+
+            // Build the email content using ownerUser and openHousesForOwner
+            String emailContent = buildEmailContent(ownerUser, openHousesForOwner);
+
+            // Send the email to the owner
+            sendHtmlEmail(ownerUser.getEmail(), "Daily Open House Status", emailContent);
+        }
+
+    }
+
+    private void sendHtmlEmail(String email, String dailyOpenHouseStatus, String emailContent) {
+    }
+
+    private String buildEmailContent(User ownerUser, List<OpenHouse> openHousesForOwner){
+
+        StringBuilder emailContent = new StringBuilder();
+        emailContent.append("<html>");
+        emailContent.append("<body>");
+        emailContent.append("<h2>Owner: ").append(ownerUser.getFirstName()).append(" ").append(ownerUser.getLastName()).append("</h2>");
+
+        emailContent.append("<table border='1'>");
+
+        // Add table headers
+        emailContent.append("<tr>");
+        emailContent.append("<th>Property Name</th>");
+        emailContent.append("<th>From Date</th>");
+        emailContent.append("<th>To Date</th>");
+        emailContent.append("<th>Max Participants</th>");
+//        emailContent.append("<th>Places Booked</th>");
+        emailContent.append("</tr>");
+
+        // Add table rows for each open house
+        for (OpenHouse openHouse : openHousesForOwner) {
+            emailContent.append("<tr>");
+            emailContent.append("<td>").append(openHouse.getProperty().getName()).append("</td>");
+            emailContent.append("<td>").append(openHouse.getFromTime()).append("</td>");
+            emailContent.append("<td>").append(openHouse.getToTime()).append("</td>");
+            emailContent.append("<td>").append(openHouse.getMaxParticipants()).append("</td>");
+//            emailContent.append("<td>").append(myOpenHouse.getSumPlacesBooked()).append("</td>");
+            emailContent.append("</tr>");
+        }
+        emailContent.append("</table>");
+        emailContent.append("</body>");
+        emailContent.append("</html>");
+        return emailContent.toString();
+
     }
 
 
