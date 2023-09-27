@@ -1,2 +1,18 @@
-<p>payment works!</p>
-<ngx-paypal [config]="payPalConfig"></ngx-paypal>
+<div class="container-fluid">
+  <div class="row m-2" style="display: flex; justify-content: center">
+    <div class="col-lg-6" style="width: fit-content">
+      <img src="assets/pfy_premium.png" alt="property-for-you" id="premium-img"/>
+    </div>
+
+    <div class="col-lg-4">
+        <h3><b>Premium status</b></h3>
+        <h5> €4.99</h5>
+        <ul>
+          <li>5 days early access to the newest properties</li>
+          <li>Many more to come!</li>
+        </ul>
+
+      <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+    </div>
+  </div>
+</div>

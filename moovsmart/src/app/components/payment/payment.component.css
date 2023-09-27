@@ -1,0 +1,12 @@
+#premium-img {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+@media (max-width: 600px) {
+  #premium-img {
+    width: 300px;
+  }
+}
