@@ -46,6 +46,8 @@ public class PropertyController {
         }
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<PropertyDetails> getPropertyDetails(@PathVariable("id") Long id,
                                                               @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String token) {

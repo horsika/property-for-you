@@ -24,4 +24,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("select p from Property p where p.listingStatus = 'ACTIVE' and p.activatedAt <= :pastDateTime order by p.activatedAt desc")
     List<Property> findAllActiveForFiveDaysOrMore(@Param("pastDateTime") LocalDateTime pastDateTime);
 
+    @Query("select p from Property p where p.listingStatus = 'ACTIVE' and p.activatedAt > :pastDateTime order by p.activatedAt desc")
+    List<Property> findAllActiveNew(@Param("pastDateTime") LocalDateTime pastDateTime);
+
 }
