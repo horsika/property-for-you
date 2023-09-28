@@ -176,6 +176,10 @@ export class MyPageComponent implements OnInit, OnDestroy {
 
   }
 
+  showMyChats() {
+    this.router.navigate(['/my-chats']);
+  }
+
   showMyOpenHouses() {
     this.activePage = 'MyOpenHouses';
     this.openHouseService.getMyOpenHouseList().subscribe(response => {

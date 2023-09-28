@@ -64,6 +64,13 @@
         </li>
         <li class="list-group-item p-2">
           <button class="btn"
+                  (click)="showMyChats()"
+                  (keyup.enter)="showMyChats()"
+          >My Chats
+          </button>
+        </li>
+        <li class="list-group-item p-2">
+          <button class="btn"
                   (click)="logOut()"
                   (keyup.enter)="logOut()"
           >Logout
