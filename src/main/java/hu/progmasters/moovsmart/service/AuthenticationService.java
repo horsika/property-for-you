@@ -60,7 +60,7 @@ public class AuthenticationService {
             throw new AuthenticationServiceException("User with given email already exists!");
         }
 
-        if (user.getProfilePicture().isBlank()) {
+        if (user.getProfilePicture() == null) {
             user.setProfilePicture("http://res.cloudinary.com/dai5h04h9/image/authenticated/s--psq7ZxMs--/v1694451032/profile_pic/nopic_rpcebm.jpg");
         }
 
